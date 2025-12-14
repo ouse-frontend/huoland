@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Grid</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+            transform: scale(1.2);
+            transform-origin: top left ;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+
+        
+            
+        }
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+            
+        }
+
+        .grid-container {
+            display: grid;
+            width:400vmax;
+            /* grid-template-rows: repeat(auto-fill, minmax(250px, 1fr)); */
+            grid-template-rows: repeat(7, 1fr);
+            grid-auto-flow: column;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            overflow-x: auto;
+            gap: 15px;
+            /* max-width: 1800px; */
+            margin: 0 auto;
+        }
+
+        .media-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px hwb(234 17% 9% / 0.802);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .media-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 20px rgba(0, 119, 255, 0.3), 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .media-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .media-link img,
+        .media-link video {
+            width: 100%;
+            height: 100%;
+            object-fit:cover;
+            transition: opacity 0.3s ease;
+        }
+        
+        .media-link:hover img,
+        .media-link:hover video {
+            opacity: 0.9;
+        }
+
+        .media-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 20px;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .media-item:hover .media-overlay {
+            opacity: 0;
+        }
+
+        .media-overlay h3 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .media-overlay p {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            opacity: 0.9;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 2.4em;
+            line-height: 1.2em;
+        }
+        
+        @supports (-webkit-line-clamp: 2) {
+            .media-overlay p {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+        }
+
+        .media-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .media-stats span {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .media-item:hover .media-overlay {
+            padding-bottom: 10px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
+
+        /* @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 10px;
+            }
+        } */
+
+        /* @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        } */
+    </style>
+</head>
+<body>
+    <h3 style="font-family: z003; font-size: 25px; margin: -10px 0 0 1px;">Capslank</h3>
+    <div class="grid-container" id="media-container">
+        <div class="loading">Loading media...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mediaContainer = document.getElementById('media-container');
+            
+            // Fetch media from JSON file
+            fetch('products.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear loading message
+                    mediaContainer.innerHTML = '';
+                    
+                    // Create media items
+                    data.products.forEach(item => {
+                        const mediaItem = document.createElement('div');
+                        mediaItem.className = 'media-item';
+                        
+                        // Determine media type (image or video)
+                        const isVideo = item.type === 'video';
+                        const mediaElement = isVideo 
+                            ? `
+                                <div class="video-container">
+                                    <video class="media-video" muted preload="auto" <!--poster="pp.jpg-->">
+                                        <source src="${item.source}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            `
+                            : `<img src="${item.source}" alt="${item.title}" class="media-image">`;
+                        
+                        mediaItem.innerHTML = `
+                            <a href="product.html?id=${item.id}" class="media-link">
+                                ${mediaElement}
+                                <div class="media-overlay">
+                                    <h3>${item.title}</h3>
+                                    ${item.description ? `<p>${item.description}</p>` : ''}
+                                    ${item.price ? `<div class="media-stats">
+                                        <span>$${item.price.toFixed(2)}</span>
+                                    </div>` : ''}
+                                </div>
+                            </a>
+                        `;
+                        
+                        mediaContainer.appendChild(mediaItem);
+                    });
+
+                    // Handle hover play/pause for videos
+                    const mediaItems = document.querySelectorAll(".media-item");
+
+                    mediaItems.forEach((item) => {
+                        const video = item.querySelector("video");
+                        if (!video) return; // Skip if no video in this item
+                        
+                        // Ensure video is visible and sized correctly
+                        video.style.width = '100%';
+                        video.style.height = '100%';
+                        video.style.objectFit = 'cover';
+                        
+                        // Mute and set volume to 0 to ensure no sound plays
+                        video.muted = true;
+                        video.volume = 0;
+                        video.playsInline = true;
+                        
+                        // Pause video initially
+                        video.pause();
+
+                        // Play on hover anywhere in the media item
+                        item.addEventListener("mouseenter", () => {
+                            video.currentTime = 0;
+                            video.play().catch((e) => {
+                                console.log("Video play failed:", e);
+                                video.controls = true; // Show controls if autoplay fails
+                            });
+                        });
+
+                        // Pause and reset when not hovering
+                        item.addEventListener("mouseleave", () => {
+                            video.pause();
+                            video.currentTime = 0;
+                        });
+                        
+                        // When video ends, reset to start
+                        video.addEventListener('ended', () => {
+                            video.currentTime = 0;
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading media:', error);
+                    mediaContainer.innerHTML = `
+                        <div class="error">
+                            Failed to load media. Please try again later.
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>

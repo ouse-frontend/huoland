@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .product-container {
+            /* max-width: 1200px; */
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 30px;
+        }
+        .media-container {
+            flex: 1;
+            max-width: 600px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .media-container img,
+        .media-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .product-details {
+            flex: 1;
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 2em;
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .product-price {
+            font-size: 1.8em;
+            color: #2c3e50;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .product-category {
+            display: inline-block;
+            background: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .product-description {
+            line-height: 1.6;
+            color: #555;
+            max-width: 1200px;
+            margin-bottom: 30px;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .back-button:hover {
+            background: #1a252f;
+        }
+        @media (max-width: 768px) {
+            .product-container {
+                flex-direction: column;
+            }
+            .media-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <div class="media-container" id="product-media">
+            <!-- Media will be inserted here by JavaScript -->
+        </div>
+        <div class="product-details">
+            <h1 class="product-title" id="product-title">Product Title</h1>
+            <span class="product-category" id="product-category">Category</span>
+            <div class="product-price" id="product-price">$0.00</div>
+            <div class="product-description" id="product-description">
+                Product description will be loaded here.
+            </div>
+            <a href="index.html" class="back-button">← Back to Products</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            if (!productId) {
+                // If no ID is provided, redirect to index
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Fetch product data
+            fetch('products.json')
+                .then(response => response.json())
+                .then(data => {
+                    const product = data.products.find(p => p.id === parseInt(productId));
+                    
+                    if (!product) {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+
+                    // Update page title
+                    document.title = `${product.title} | Product Details`;
+                    
+                    // Update product details
+                    document.getElementById('product-title').textContent = product.title;
+                    document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+                    document.getElementById('product-category').textContent = product.category || 'Uncategorized';
+                    document.getElementById('product-description').textContent = product.description || 'No description available.';
+
+                    // Create and insert media
+                    const mediaContainer = document.getElementById('product-media');
+                    if (product.type === 'video') {
+                        const video = document.createElement('video');
+                        video.src = product.source;
+                        video.controls = true;
+                        video.autoplay = true;
+                        video.muted = false;
+                        video.style.width = '100%';
+                        mediaContainer.appendChild(video);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = product.source;
+                        img.alt = product.title;
+                        mediaContainer.appendChild(img);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading product:', error);
+                    window.location.href = 'index.html';
+                });
+        });
+    </script>
+</body>
+</html>
