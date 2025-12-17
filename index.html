@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Grid</title>
+    <title>Media Grid - Virtual Horizontal Scroll</title>
     <style>
         body {
             margin: 0;
@@ -11,51 +11,66 @@
             min-height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            overflow: auto;
-            transform: scale(1.2);
-            transform-origin: top left ;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-
-        
-            
+            overflow: hidden; /* منع السكرول الرأسي */
         }
-        html::-webkit-scrollbar {
+
+        h3 {
+            font-family: z003;
+            font-size: 25px;
+            margin: -10px 0 20px 1px;
+        }
+
+        /* الحاوية الخارجية (اللي بتسكرول أفقيًا) */
+        #scroll-container {
+            width: 100vw;
+            height: 80vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        #scroll-container::-webkit-scrollbar {
             display: none;
-            width: 0;
-            height: 0;
-            
         }
 
-        .grid-container {
+        /* العنصر الافتراضي اللي بيحدد العرض الكلي الضخم */
+        #virtual-scroller {
+            position: relative;
+            height: 100%;
+            width: max-content; /* هيتحدد بالـ JS */
+        }
+
+        /* الـ Grid الحقيقي اللي بنرسم فيه العناصر الظاهرة فقط */
+        #grid {
             display: grid;
-            width:400vmax;
-            /* grid-template-rows: repeat(auto-fill, minmax(250px, 1fr)); */
-            grid-template-rows: repeat(7, 1fr);
+            grid-template-rows: repeat(7, 1fr); /* 7 صفوف زي الأصلي */
             grid-auto-flow: column;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            overflow-x: auto;
             gap: 15px;
-            /* max-width: 1800px; */
-            margin: 0 auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0 10px;
+            box-sizing: border-box;
         }
 
-        .media-item {
+        .media-item { /* نفس الستايل الأصلي مع تعديلات بسيطة */
             position: relative;
             width: 100%;
             aspect-ratio: 16/9;
             background-color: #333;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px hwb(234 17% 9% / 0.802);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
-        
+
         .media-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 20px rgba(0, 119, 255, 0.3), 0 5px 15px rgba(0,0,0,0.3);
         }
-        
+
         .media-link {
             display: block;
             width: 100%;
@@ -63,21 +78,15 @@
             text-decoration: none;
             color: inherit;
         }
-        
+
         .media-link img,
         .media-link video {
             width: 100%;
             height: 100%;
-            object-fit:cover;
-            transition: opacity 0.3s ease;
-        }
-        
-        .media-link:hover img,
-        .media-link:hover video {
-            opacity: 0.9;
+            object-fit: cover;
         }
 
-        .media-overlay {
+        .media-overlay { /* نفس الأوفرلاي الأصلي */
             position: absolute;
             bottom: 0;
             left: 0;
@@ -85,10 +94,9 @@
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
             padding: 20px;
             color: white;
-            opacity: 1;
             transition: opacity 0.3s ease;
         }
-        
+
         .media-item:hover .media-overlay {
             opacity: 0;
         }
@@ -107,17 +115,6 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 2.4em;
-            line-height: 1.2em;
-        }
-        
-        @supports (-webkit-line-clamp: 2) {
-            .media-overlay p {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
         }
 
         .media-stats {
@@ -127,152 +124,273 @@
             opacity: 0.8;
         }
 
-        .media-stats span {
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: #666;
+        }
+
+        /* مؤشر تشغيل الفيديو */
+        .video-play-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 3px;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
         }
 
-        .media-item:hover .media-overlay {
-            padding-bottom: 10px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+        .media-item.video-playing .video-play-indicator {
+            opacity: 1;
         }
 
-        .loading {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2rem;
-            color: #666;
-            grid-column: 1 / -1;
+        .media-item.video-playing:hover .media-overlay {
+            opacity: 0.5;
         }
-
-        .error {
-            color: #e74c3c;
-            text-align: center;
-            padding: 20px;
-            grid-column: 1 / -1;
-        }
-
-        /* @media (max-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 10px;
-            }
-        } */
-
-        /* @media (max-width: 480px) {
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-        } */
     </style>
 </head>
 <body>
-    <h3 style="font-family: z003; font-size: 25px; margin: -10px 0 0 1px;">Capslank</h3>
-    <div class="grid-container" id="media-container">
-        <div class="loading">Loading media...</div>
+    <h3>Capslank</h3>
+
+    <div id="scroll-container">
+        <div id="virtual-scroller">
+            <div id="grid"></div>
+        </div>
+        <div class="loading" id="loading">Loading media...</div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mediaContainer = document.getElementById('media-container');
-            
-            // Fetch media from JSON file
+            const scrollContainer = document.getElementById('scroll-container');
+            const virtualScroller = document.getElementById('virtual-scroller');
+            const grid = document.getElementById('grid');
+            const loading = document.getElementById('loading');
+
+            let products = [];
+
+            const COLUMN_WIDTH = 415; // تقريبي (400px + gap 15px) - غيره لو لاحظت فرق
+            const OVERSCAN_COLUMNS = 5; // عدد الأعمدة الإضافية يمين وشمال للسكرول السلس
+
+            let totalColumns = 0;
+            let startCol = 0;
+            let visibleColumns = 0;
+
+            // التحقق من نوع الجهاز
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+            // جلب البيانات
             fetch('products.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to load');
+                    return res.json();
                 })
                 .then(data => {
-                    // Clear loading message
-                    mediaContainer.innerHTML = '';
-                    
-                    // Create media items
-                    data.products.forEach(item => {
-                        const mediaItem = document.createElement('div');
-                        mediaItem.className = 'media-item';
-                        
-                        // Determine media type (image or video)
+                    products = data.products || data; // حسب هيكل الـ JSON
+                    totalColumns = Math.ceil(products.length / 7); // 7 صفوف → عدد الأعمدة
+
+                    // تحديد العرض الكلي الافتراضي
+                    virtualScroller.style.width = `${totalColumns * COLUMN_WIDTH}px`;
+
+                    // حساب عدد الأعمدة الظاهرة
+                    visibleColumns = Math.ceil(scrollContainer.clientWidth / COLUMN_WIDTH) + 2 * OVERSCAN_COLUMNS;
+
+                    renderVisibleColumns();
+                    loading.style.display = 'none';
+                })
+                .catch(err => {
+                    loading.textContent = 'Error loading media: ' + err.message;
+                    loading.style.color = '#e74c3c';
+                });
+
+            function renderVisibleColumns() {
+                const scrollLeft = scrollContainer.scrollLeft;
+                startCol = Math.max(0, Math.floor(scrollLeft / COLUMN_WIDTH) - OVERSCAN_COLUMNS);
+
+                const endCol = Math.min(totalColumns, startCol + visibleColumns);
+
+                // امسح القديم وارسم الجديد
+                grid.innerHTML = '';
+
+                for (let col = startCol; col < endCol; col++) {
+                    for (let row = 0; row < 7; row++) {
+                        const index = col * 7 + row;
+                        if (index >= products.length) break;
+
+                        const item = products[index];
+
                         const isVideo = item.type === 'video';
-                        const mediaElement = isVideo 
-                            ? `
-                                <div class="video-container">
-                                    <video class="media-video" muted preload="auto" <!--poster="pp.jpg-->">
-                                        <source src="${item.source}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                </div>
-                            `
-                            : `<img src="${item.source}" alt="${item.title}" class="media-image">`;
+
+                        const mediaElement = isVideo
+                            ? `<video muted playsinline preload="none" style="width:100%;height:100%;object-fit:cover;">
+                                 <source src="${item.source}" type="video/mp4">
+                               </video>`
+                            : `<img src="${item.source}" alt="${item.title}" loading="lazy">`;
+
+                        const div = document.createElement('div');
+                        div.className = 'media-item';
                         
-                        mediaItem.innerHTML = `
+                        // إضافة مؤشر تشغيل للفيديو
+                        const playIndicator = isVideo ? 
+                            `<div class="video-play-indicator">▶</div>` : '';
+                        
+                        div.innerHTML = `
                             <a href="product.html?id=${item.id}" class="media-link">
                                 ${mediaElement}
+                                ${playIndicator}
                                 <div class="media-overlay">
                                     <h3>${item.title}</h3>
                                     ${item.description ? `<p>${item.description}</p>` : ''}
-                                    ${item.price ? `<div class="media-stats">
-                                        <span>$${item.price.toFixed(2)}</span>
-                                    </div>` : ''}
+                                    ${item.price ? `<div class="media-stats"><span>$${item.price.toFixed(2)}</span></div>` : ''}
                                 </div>
                             </a>
                         `;
-                        
-                        mediaContainer.appendChild(mediaItem);
-                    });
+                        grid.appendChild(div);
 
-                    // Handle hover play/pause for videos
-                    const mediaItems = document.querySelectorAll(".media-item");
+                        // إضافة التحكم بالفيديو
+                        if (isVideo) {
+                            const video = div.querySelector('video');
+                            const mediaLink = div.querySelector('.media-link');
+                            
+                            // ضبط الخصائص الأساسية للفيديو
+                            video.setAttribute('playsinline', '');
+                            video.setAttribute('webkit-playsinline', '');
+                            
+                            // وظيفة للتحكم في التشغيل والإيقاف
+                            const toggleVideoPlayback = (e) => {
+                                // منع السلوك الافتراضي للروابط
+                                if (e) e.preventDefault();
+                                
+                                if (video.paused) {
+                                    video.play()
+                                        .then(() => {
+                                            div.classList.add('video-playing');
+                                        })
+                                        .catch(err => {
+                                            console.log('Playback failed:', err);
+                                            // إذا فشل التشغيل بسبب سياسات المتصفح، حاول مع الصوت المطفأ
+                                            video.muted = true;
+                                            video.play().catch(() => {});
+                                        });
+                                } else {
+                                    video.pause();
+                                    video.currentTime = 0;
+                                    div.classList.remove('video-playing');
+                                }
+                            };
 
-                    mediaItems.forEach((item) => {
-                        const video = item.querySelector("video");
-                        if (!video) return; // Skip if no video in this item
-                        
-                        // Ensure video is visible and sized correctly
-                        video.style.width = '100%';
-                        video.style.height = '100%';
-                        video.style.objectFit = 'cover';
-                        
-                        // Mute and set volume to 0 to ensure no sound plays
-                        video.muted = true;
-                        video.volume = 0;
-                        video.playsInline = true;
-                        
-                        // Pause video initially
-                        video.pause();
-
-                        // Play on hover anywhere in the media item
-                        item.addEventListener("mouseenter", () => {
-                            video.currentTime = 0;
-                            video.play().catch((e) => {
-                                console.log("Video play failed:", e);
-                                video.controls = true; // Show controls if autoplay fails
+                            // إذا كان جهاز لمس (موبايل/تابلت)
+                            if (isTouchDevice) {
+                                let tapTimer;
+                                let isLongPress = false;
+                                
+                                // النقر العادي للتشغيل/الإيقاف
+                                div.addEventListener('click', (e) => {
+                                    // تأخير بسيط للتمييز بين النقر العادي والضغطة الطويلة
+                                    setTimeout(() => {
+                                        if (!isLongPress) {
+                                            toggleVideoPlayback(e);
+                                        }
+                                        isLongPress = false;
+                                    }, 200);
+                                });
+                                
+                                // الضغطة الطويلة للانتقال إلى صفحة المنتج
+                                div.addEventListener('touchstart', (e) => {
+                                    isLongPress = false;
+                                    tapTimer = setTimeout(() => {
+                                        isLongPress = true;
+                                        // هنا يمكنك إضافة أي إجراء للضغطة الطويلة إذا أردت
+                                    }, 500);
+                                });
+                                
+                                div.addEventListener('touchend', () => {
+                                    clearTimeout(tapTimer);
+                                });
+                                
+                                // إيقاف الفيديو عند التمرير بعيدًا
+                                const observer = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => {
+                                        if (!entry.isIntersecting) {
+                                            video.pause();
+                                            video.currentTime = 0;
+                                            div.classList.remove('video-playing');
+                                        }
+                                    });
+                                }, { threshold: 0.5 });
+                                
+                                observer.observe(div);
+                            } 
+                            // إذا كان جهاز مكتبي
+                            else {
+                                // التشغيل عند hover
+                                div.addEventListener('mouseenter', () => {
+                                    video.currentTime = 0;
+                                    video.play()
+                                        .then(() => {
+                                            div.classList.add('video-playing');
+                                        })
+                                        .catch(err => {
+                                            console.log('Playback failed:', err);
+                                        });
+                                });
+                                
+                                // الإيقاف عند مغادرة العنصر
+                                div.addEventListener('mouseleave', () => {
+                                    video.pause();
+                                    video.currentTime = 0;
+                                    div.classList.remove('video-playing');
+                                });
+                                
+                                // النقر للإيقاف المؤقت
+                                div.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    toggleVideoPlayback(e);
+                                });
+                            }
+                            
+                            // إضافة حدث عند انتهاء الفيديو
+                            video.addEventListener('ended', () => {
+                                video.currentTime = 0;
+                                div.classList.remove('video-playing');
                             });
-                        });
+                            
+                            // إضافة حدث عند فشل تحميل الفيديو
+                            video.addEventListener('error', () => {
+                                console.error('Failed to load video:', item.source);
+                                div.classList.remove('video-playing');
+                            });
+                        }
+                    }
+                }
 
-                        // Pause and reset when not hovering
-                        item.addEventListener("mouseleave", () => {
-                            video.pause();
-                            video.currentTime = 0;
-                        });
-                        
-                        // When video ends, reset to start
-                        video.addEventListener('ended', () => {
-                            video.currentTime = 0;
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading media:', error);
-                    mediaContainer.innerHTML = `
-                        <div class="error">
-                            Failed to load media. Please try again later.
-                            <p>${error.message}</p>
-                        </div>
-                    `;
-                });
+                // تحديث موقع الـ grid (للتوافق مع السكرول)
+                grid.style.transform = `translateX(${startCol * COLUMN_WIDTH}px)`;
+            }
+
+            // تحديث عند السكرول
+            scrollContainer.addEventListener('scroll', () => {
+                requestAnimationFrame(renderVisibleColumns);
+            });
+
+            // عند تغيير حجم الشاشة
+            window.addEventListener('resize', () => {
+                visibleColumns = Math.ceil(scrollContainer.clientWidth / COLUMN_WIDTH) + 2 * OVERSCAN_COLUMNS;
+                renderVisibleColumns();
+            });
         });
     </script>
 </body>
