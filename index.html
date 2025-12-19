@@ -8,45 +8,47 @@
         body {
             margin: 0;
             padding: 20px;
+            max-height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            overflow: auto;
             transform: scale(1.2);
-            transform-origin: top left;
+            transform-origin: top left ;
             scrollbar-width: none;
             -ms-overflow-style: none;
+
+        
+            
         }
-
-        body::-webkit-scrollbar { display: none; }
-
         h1 {
             color: #2154ef;
             display: none;
         }
+        span sup{
+            color:hsl(240, 74%, 57%); 
+            text-shadow:1px 1px 1px hsl(127, 67%, 91%) ;
+            
+        }
 
-        span sup {
-            color: hsl(240, 74%, 57%);
-            text-shadow: 1px 1px 1px hsl(127, 67%, 91%);
+        html::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+            
         }
 
         .grid-container {
-            height: 100vh;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            padding: 10px 0;
-            box-sizing: border-box;
-        }
-
-        .virtual-row {
             display: grid;
+            width:100000vmax;
+            height:100% ;
             grid-template-rows: repeat(5, 1fr);
             grid-auto-flow: column;
-            grid-auto-columns: minmax(300px, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            overflow-x: auto;
+            
             gap: 10px;
-            padding-left: 10px;
-            padding-right: 100vw; /* عشان الـ scroll يوصل للآخر */
-            height: 100%;
+            /* max-width: 1800px; */
+            margin: 0 auto;
         }
 
         .media-item {
@@ -56,15 +58,15 @@
             background-color: #333;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 8px hwb(234 17% 9% / 0.802);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        
         .media-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 20px rgba(0, 119, 255, 0.3), 0 5px 15px rgba(0,0,0,0.3);
         }
-
+        
         .media-link {
             display: block;
             width: 100%;
@@ -72,17 +74,19 @@
             text-decoration: none;
             color: inherit;
         }
-
+        
         .media-link img,
         .media-link video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit:cover;
             transition: opacity 0.3s ease;
         }
-
+        
         .media-link:hover img,
-        .media-link:hover video { opacity: 0.9; }
+        .media-link:hover video {
+            opacity: 0.9;
+        }
 
         .media-overlay {
             position: absolute;
@@ -92,10 +96,13 @@
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
             padding: 20px;
             color: white;
+            opacity: 1;
             transition: opacity 0.3s ease;
         }
-
-        .media-item:hover .media-overlay { opacity: 0; }
+        
+        .media-item:hover .media-overlay {
+            opacity: 0;
+        }
 
         .media-overlay h3 {
             margin: 0 0 5px 0;
@@ -111,14 +118,24 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 2.4em;
             line-height: 1.2em;
+        }
+        
+        @supports (-webkit-line-clamp: 2) {
+            .media-overlay p {
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
         }
 
         .media-stats {
             display: flex;
             gap: 12px;
             font-size: 14px;
-            opacity: 0.8;
+            opacity: 0.8; 
         }
 
         .media-stats span {
@@ -127,173 +144,133 @@
             gap: 3px;
         }
 
-        .loading, .error {
-            text-align: center;
-            padding: 40px;
-            font-size: 1.2rem;
-            grid-column: 1 / -1;
-            white-space: normal;
+        .media-item:hover .media-overlay {
+            padding-bottom: 10px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
         }
 
-        .error { color: #e74c3c; }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 20px;
+            grid-column: 1 / -1;
+        }
     </style>
 </head>
 <body>
-    <h1 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 25px; margin: -10px 0 0 1px;">Capslank</h1>
+    <h1 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 25px; margin: -10px 0 0 1px;">Capslank</h3>
     <div class="grid-container" id="media-container">
         <div class="loading">Loading media...</div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const container = document.getElementById('media-container');
-            let products = [];
-
-            try {
-                const response = await fetch('products.json');
-                if (!response.ok) throw new Error('Network error');
-                const data = await response.json();
-                products = data.products;
-            } catch (err) {
-                container.innerHTML = `<div class="error">Failed to load products: ${err.message}</div>`;
-                console.error(err);
-                return;
-            }
-
-            if (products.length === 0) {
-                container.innerHTML = '<div class="error">No products found.</div>';
-                return;
-            }
-
-            // إعدادات الـ Virtual Scrolling
-            const ITEM_WIDTH = 310; // تقريبي (300px + gap 10px)
-            const ROWS = 5;
-            const VISIBLE_COLUMNS = Math.ceil(window.innerWidth / ITEM_WIDTH) + 2; // +2 buffer
-            const POOL_SIZE = VISIBLE_COLUMNS * ROWS * 2; // عدد العناصر اللي هنعمل recycle ليها (كفاية كبيرة)
-
-            // إنشاء pool من العناصر مرة واحدة
-            const pool = [];
-            const virtualRow = document.createElement('div');
-            virtualRow.className = 'virtual-row';
-            container.innerHTML = '';
-            container.appendChild(virtualRow);
-
-            for (let i = 0; i < POOL_SIZE; i++) {
-                const item = document.createElement('div');
-                item.className = 'media-item';
-                item.innerHTML = `
-                    <a href="#" class="media-link">
-                        <img src="" alt="" loading="lazy" style="display:none;">
-                        <video muted playsinline preload="none" style="display:none;"></video>
-                        <div class="media-overlay">
-                            <h3></h3>
-                            <p></p>
-                            <div class="media-stats"><span><sup>ج.م</sup>0</span></div>
-                        </div>
-                    </a>
-                `;
-                virtualRow.appendChild(item);
-                pool.push(item);
-            }
-
-            let startIndex = 0;
-
-            const render = () => {
-                const scrollLeft = container.scrollLeft;
-                const newStartCol = Math.floor(scrollLeft / ITEM_WIDTH);
-                startIndex = newStartCol * ROWS;
-
-                pool.forEach((item, i) => {
-                    const dataIndex = startIndex + i;
-                    if (dataIndex < products.length) {
-                        const product = products[dataIndex];
-                        const link = item.querySelector('.media-link');
-                        const img = item.querySelector('img');
-                        const video = item.querySelector('video');
-                        const overlay = item.querySelector('.media-overlay');
-                        const h3 = overlay.querySelector('h3');
-                        const p = overlay.querySelector('p');
-                        const priceSpan = overlay.querySelector('.media-stats span');
-
-                        // تحديث الرابط
-                        link.href = `product.html?id=${product.id}`;
-
-                        // إما صورة أو فيديو
-                        if (product.type === 'video') {
-                            img.style.display = 'none';
-                            video.style.display = 'block';
-                            video.querySelector('source')?.remove();
-                            const source = document.createElement('source');
-                            source.src = product.source;
-                            source.type = 'video/mp4';
-                            video.appendChild(source);
-                            video.load();
-                        } else {
-                            video.style.display = 'none';
-                            img.style.display = 'block';
-                            img.src = product.source;
-                            img.alt = product.title;
-                        }
-
-                        // تحديث النصوص
-                        h3.textContent = product.title;
-                        p.textContent = product.description ? product.description.replace(/<[^>]*>?/gm, '').substring(0, 100) + (product.description.length > 100 ? '...' : '') : '';
-                        p.style.display = p.textContent ? 'block' : 'none';
-                        if (product.price) {
-                            priceSpan.innerHTML = `<sup>ج.م</sup>${product.price.toFixed(0)}`;
-                            priceSpan.parentElement.style.display = 'flex';
-                        } else {
-                            priceSpan.parentElement.style.display = 'none';
-                        }
-
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', () => {
+            const mediaContainer = document.getElementById('media-container');
+            
+            // Fetch media from JSON file
+            fetch('products.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
-                });
-
-                // تحديث عرض الـ virtual row عشان الـ scrollbar يبقى صح
-                virtualRow.style.width = `${Math.ceil(products.length / ROWS) * ITEM_WIDTH}px`;
-            };
-
-            // Hover play/pause للفيديوهات
-            virtualRow.addEventListener('mouseenter', (e) => {
-                const item = e.target.closest('.media-item');
-                if (!item) return;
-                const video = item.querySelector('video');
-                if (video && video.style.display !== 'none') {
-                    video.currentTime = 0;
-                    video.play().catch(() => {});
-                }
-            }, true);
-
-            virtualRow.addEventListener('mouseleave', (e) => {
-                const item = e.target.closest('.media-item');
-                if (!item) return;
-                const video = item.querySelector('video');
-                if (video) {
-                    video.pause();
-                    video.currentTime = 0;
-                }
-            }, true);
-
-            // Scroll event مع debounce بسيط
-            let ticking = false;
-            container.addEventListener('scroll', () => {
-                if (!ticking) {
-                    requestAnimationFrame(() => {
-                        render();
-                        ticking = false;
+                    return response.json();
+                })
+                .then(data => {
+                    // Clear loading message
+                    mediaContainer.innerHTML = '';
+                    
+                    // Create media items
+                    data.products.forEach(item => {
+                        const mediaItem = document.createElement('div');
+                        mediaItem.className = 'media-item';
+                        
+                        // Determine media type (image or video)
+                        const isVideo = item.type === 'video';
+                        const mediaElement = isVideo 
+                            ? `
+                                <div class="video-container">
+                                    <video class="media-video" muted preload="none" loading="lazy" <!--poster="pp.jpg-->">
+                                        <source src="${item.source}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            `
+                            : `<img src="${item.source}" alt="${item.title}" class="media-image" loading="lazy" >`;
+                        
+                        mediaItem.innerHTML = `
+                            <a href="product.html?id=${item.id}" class="media-link">
+                                ${mediaElement}
+                                <div class="media-overlay">
+                                    <h3>${item.title}</h3>
+                                    ${item.description ? `<p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 100)}${item.description.length > 100 ? '...' : ''}</p>` : ''}
+                                    ${item.price ? `<div class="media-stats">
+                                        <span><sup>ج.م</sup>${item.price.toFixed(0)}</span>
+                                    </div>` : ''}
+                                </div>
+                            </a>
+                        `;
+                        
+                        mediaContainer.appendChild(mediaItem);
                     });
-                    ticking = true;
-                }
-            });
 
-            // Resize support
-            window.addEventListener('resize', render);
+                    // Handle hover play/pause for videos
+                    const mediaItems = document.querySelectorAll(".media-item");
 
-            // أول render
-            render();
+                    mediaItems.forEach((item) => {
+                        const video = item.querySelector("video");
+                        if (!video) return; // Skip if no video in this item
+                        
+                        // Ensure video is visible and sized correctly
+                        video.style.width = '100%';
+                        video.style.height = '100%';
+                        video.style.objectFit = 'cover';
+                        
+                        // Mute and set volume to 0 to ensure no sound plays
+                        video.muted = true;
+                        video.volume = 0;
+                        video.playsInline = true;
+                        
+                        // Pause video initially
+                        video.pause();
+
+                        // Play on hover anywhere in the media item
+                        item.addEventListener("mouseenter", () => {
+                            video.currentTime = 0;
+                            video.play().catch((e) => {
+                                console.log("Video play failed:", e);
+                                video.controls = true; // Show controls if autoplay fails
+                            });
+                        });
+
+                        // Pause and reset when not hovering
+                        item.addEventListener("mouseleave", () => {
+                            video.pause();
+                            video.currentTime = 0;
+                        });
+                        
+                        // When video ends, reset to start
+                        video.addEventListener('ended', () => {
+                            video.currentTime = 0;
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading media:', error);
+                    mediaContainer.innerHTML = `
+                        <div class="error">
+                            Failed to load media. Please try again later.
+                            <p>${error.message}</p>
+                        </div>
+                    `;
+                });
         });
     </script>
 </body>
