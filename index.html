@@ -72,7 +72,7 @@
             width: 100%;
             height: 100%;
             text-decoration: none;
-            color: inherit;
+             
         }
         
         .media-link img,
@@ -196,8 +196,8 @@
                         const isVideo = item.type === 'video';
                         const mediaElement = isVideo 
                             ? `
-                                <div class="video-container">
-                                    <video class="media-video" muted preload="none" loading="lazy" <!--poster="pp.jpg-->">
+                                <div class="video-container media-link">
+                                    <video class="media-video" muted preload="metadata" loading="lazy" <!--poster="pp.jpg-->">
                                         <source src="${item.source}" type="video/mp4">
                                         Your browser does not support the video tag.
                                     </video>
@@ -223,6 +223,7 @@
 
                     // Handle hover play/pause for videos
                     const mediaItems = document.querySelectorAll(".media-item");
+                    
 
                     mediaItems.forEach((item) => {
                         const video = item.querySelector("video");
@@ -246,7 +247,7 @@
                             video.currentTime = 0;
                             video.play().catch((e) => {
                                 console.log("Video play failed:", e);
-                                video.controls = true; // Show controls if autoplay fails
+                                video.controls = false; // Show controls if autoplay fails
                             });
                         });
 
