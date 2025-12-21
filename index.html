@@ -1,212 +1,188 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capslank - Premium Grid</title>
+    <title>Media Grid - Optimized SPA</title>
     <style>
-        :root {
-            --primary: #2154ef;
-            --dark: #0f172a;
-            --glass: rgba(255, 255, 255, 0.1);
-            --card-w: 350px;
-        }
-
+        /* --- نفس تصميمك الأصلي تماماً --- */
         body {
-            margin: 0;
-            padding: 0;
-            background-color: #000; /* خلفية داكنة لإبراز الميديا */
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            overflow: hidden;
-            color: white;
+            margin: 0; padding: 10px; background-color: #f0f0f0; font-family: Arial, sans-serif;
+            scrollbar-width: none; -ms-overflow-style: none; overflow-y: hidden;
+        }
+        h1 { color: #2154ef; display: none; }
+        span sup{ color:hsl(240, 74%, 57%); text-shadow:1px 1px 1px hsl(127, 67%, 91%) ; }
+        html::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+        /* إضافة شريط البحث بتصميم بسيط لا يفسد الواجهة */
+        .search-wrapper {
+            position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+            z-index: 2000; width: 300px;
+        }
+        #search-input {
+            width: 100%; padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); outline: none; font-size: 14px;
         }
 
-        /* حاوية العرض الرئيسية */
-        #main-viewport {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            padding: 20px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
-            z-index: 100;
-        }
-
-        .logo { font-size: 28px; font-weight: bold; color: var(--primary); letter-spacing: 1px; }
-
-        /* حاوية السكرول العرضي */
         .grid-container {
-            flex: 1;
-            display: grid;
-            grid-template-rows: repeat(5, 1fr);
-            grid-auto-flow: column;
-            overflow-x: auto;
-            overflow-y: hidden;
-            gap: 15px;
-            padding: 20px;
-            scrollbar-width: none;
-            position: relative;
+            display: block; /* تغيير من grid إلى block لدعم الحسابات الديناميكية */
+            width: 2000vmax; height: calc(100vh - 40px);
+            overflow-x: auto; position: relative; margin: 0 auto;
         }
 
-        .grid-container::-webkit-scrollbar { display: none; }
-
-        /* تصميم كارت المنتج */
         .media-item {
             position: absolute; /* ضروري للـ Virtual Scroll */
-            width: var(--card-w);
-            aspect-ratio: 16/9;
-            background: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-            cursor: pointer;
-            contain: strict;
+            width: 350px; aspect-ratio: 16/9; background-color: #333;
+            border-radius: 8px; overflow: hidden;
+            box-shadow: 0 2px 8px hwb(234 17% 9% / 0.802);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .media-item:hover {
-            transform: scale(1.05) translateY(-5px);
-            z-index: 50;
-            box-shadow: 0 10px 30px rgba(33, 84, 239, 0.4);
-        }
-
-        .media-link img, .media-link video {
-            width: 100%; height: 100%; object-fit: cover;
-        }
+        
+        .media-item:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0, 119, 255, 0.3), 0 5px 15px rgba(0,0,0,0.3); }
+        .media-link { display: block; width: 100%; height: 100%; text-decoration: none; }
+        .media-link img, .media-link video { width: 100%; height: 100%; object-fit:cover; transition: opacity 0.3s ease; }
+        .media-link:hover img, .media-link:hover video { opacity: 0.9; }
 
         .media-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-            padding: 15px;
-            transition: 0.3s;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            padding: 20px; color: white; opacity: 1; transition: opacity 0.3s ease;
         }
-
+        
         .media-item:hover .media-overlay { opacity: 0; }
 
-        /* صفحة تفاصيل المنتج (المخفية) */
-        #product-view {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark);
-            z-index: 2000;
-            display: none; /* مخفي افتراضياً */
-            padding: 40px;
-            box-sizing: border-box;
-            overflow-y: auto;
-        }
-
-        .back-btn {
-            background: var(--primary); color: white; border: none;
-            padding: 10px 25px; border-radius: 30px; cursor: pointer;
-            margin-bottom: 30px; font-weight: bold;
-        }
-
-        .product-layout {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-        }
-
-        .product-img-container img, .product-img-container video {
-            width: 100%; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
         @media (max-width: 768px) {
-            .product-layout { grid-template-columns: 1fr; }
-            :root { --card-w: 280px; }
+            .grid-container{ width: 2000vmax; height:100vh; scroll-behavior: smooth; }
+            .media-item { height: calc(100vh/5 - 15px); width: 300px; }
+            body{ padding: 5px; }
         }
+
+        .media-overlay h3 { margin: 0 0 5px 0; font-size: 10px; font-weight: 600; }
+        .media-overlay p {
+            margin: 0 0 8px 0; font-size: 8px; opacity: 0.9;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden; text-overflow: ellipsis; line-height: 1.2em;
+        }
+
+        .media-stats { display: flex; gap: 12px; font-size: 14px; opacity: 0.8; }
+        .media-stats span { display: flex; align-items: center; gap: 3px; }
+
+        /* الأزرار العائمة */
+        .add {position: fixed;bottom: 20px; left: 20px; z-index: 1000;}
+        .floating-contact {position: fixed;bottom: 20px; right: 20px; z-index: 1000;}
+        .contact-button img, .add img {width: 60px; height: 60px; border-radius: 50%; box-shadow: 2px 2px 10px rgba(0,0,0,0.3); transition: transform 0.3s ease; animation: pulse 2s infinite;}
+        .contact-button img:hover, .add img:hover {transform: scale(1.1);}
+        @keyframes pulse {0% {box-shadow:0 0 0 0 rgba(37,211,102,0.5);} 70%{box-shadow:0 0 0 15px rgba(37,211,102,0);} 100%{box-shadow:0 0 0 0 rgba(37,211,102,0);}}
     </style>
 </head>
 <body>
-
-    <div id="main-viewport">
-        <header>
-            <div class="logo">CAPSLANK</div>
-        </header>
-
-        <div class="grid-container" id="media-container">
-            <div style="color: var(--primary); padding: 50px;">جاري تحميل المحتوى...</div>
-        </div>
+    <div class="search-wrapper">
+        <input type="text" id="search-input" placeholder="Search products...">
     </div>
 
-    <div id="product-view">
-        <button class="back-btn" onclick="closeProduct()">← عودة للمجموعة</button>
-        <div id="product-content"></div>
+    <h1 id="logo" style="display: block; font-family:'Franklin Gothic Medium', Arial, sans-serif; font-size: 25px; margin: 0 0 10px 1px;">Capslank</h1>
+    
+    <div class="grid-container" id="media-container">
+        <div style="padding: 20px;">Loading assets...</div>
+    </div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/2001551839053" target="_blank" class="contact-button">
+            <img src="a6c948cc6e551b08e70453d97bec0bc9.png" alt="WA" />
+        </a>
+    </div>
+    <div class="add">
+        <a href="#" target="_blank" class="contact-button">
+            <img src="add-button.png" alt="Add" />
+        </a>
     </div>
 
     <script>
-        let allProducts = [];
-        const container = document.getElementById('media-container');
-        const productView = document.getElementById('product-view');
+        const mediaContainer = document.getElementById('media-container');
+        const searchInput = document.getElementById('search-input');
         
-        const COL_GAP = 15;
-        const COL_WIDTH = 350 + COL_GAP;
-        const ROWS = 5;
+        let allProducts = [];
+        let filteredProducts = [];
+        
+        // إعدادات القياسات (نفس التي في CSS الخاص بك)
+        const COL_WIDTH = 360; // 350px + 10px gap
+        const ROWS_COUNT = 5;
 
         // 1. جلب البيانات
         fetch('products.json')
             .then(res => res.json())
             .then(data => {
                 allProducts = data.products;
+                filteredProducts = allProducts;
                 initApp();
-            })
-            .catch(() => {
-                container.innerHTML = "خطأ في تحميل البيانات. تأكد من وجود ملف products.json";
             });
 
         function initApp() {
-            renderGrid();
-            container.addEventListener('scroll', renderGrid);
-            window.addEventListener('resize', renderGrid);
+            render();
+            mediaContainer.addEventListener('scroll', render);
+            
+            // ميزة البحث الفوري
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                filteredProducts = allProducts.filter(p => 
+                    p.title.toLowerCase().includes(term) || 
+                    (p.description && p.description.toLowerCase().includes(term))
+                );
+                mediaContainer.scrollLeft = 0; // إعادة السكرول للبداية عند البحث
+                render();
+            });
         }
 
-        // 2. محرك الـ Virtual Scroll العرضي
-        function renderGrid() {
-            const scrollLeft = Math.abs(container.scrollLeft); // دعم الـ RTL
-            const viewportWidth = container.offsetWidth;
-            
-            const totalCols = Math.ceil(allProducts.length / ROWS);
+        function render() {
+            const scrollX = mediaContainer.scrollLeft;
+            const viewWidth = mediaContainer.offsetWidth;
+
+            // حساب الأعمدة المطلوبة للعرض فقط
+            const startCol = Math.floor(scrollX / COL_WIDTH);
+            const endCol = startCol + Math.ceil(viewWidth / COL_WIDTH) + 1;
+
+            const startIndex = startCol * ROWS_COUNT;
+            const endIndex = endCol * ROWS_COUNT;
+
+            // تحديث عرض الحاوية الكلي بناءً على نتائج البحث
+            const totalCols = Math.ceil(filteredProducts.length / ROWS_COUNT);
             const totalWidth = totalCols * COL_WIDTH;
 
-            const startCol = Math.floor(scrollLeft / COL_WIDTH);
-            const endCol = startCol + Math.ceil(viewportWidth / COL_WIDTH) + 1;
+            const visibleItems = filteredProducts.slice(startIndex, endIndex);
 
-            const startIndex = startCol * ROWS;
-            const endIndex = endCol * ROWS;
+            // بناء الـ HTML (Virtual Scroll)
+            // نستخدم div فارغ لتأمين مساحة السكرول
+            let html = `<div style="width: ${totalWidth}px; height: 1px; pointer-events: none;"></div>`;
 
-            const visibleItems = allProducts.slice(startIndex, endIndex);
+            visibleItems.forEach((item, index) => {
+                const globalIdx = startIndex + index;
+                const colIdx = Math.floor(globalIdx / ROWS_COUNT);
+                const rowIdx = globalIdx % ROWS_COUNT;
 
-            container.innerHTML = `
-                <div style="width: ${totalWidth}px; height: 1px;"></div>
-                ${visibleItems.map((item, i) => {
-                    const absIdx = startIndex + i;
-                    const col = Math.floor(absIdx / ROWS);
-                    const row = absIdx % ROWS;
-                    
-                    return `
-                        <div class="media-item" 
-                             style="left: ${col * COL_WIDTH}px; top: ${(row * 20)}%;"
-                             onclick="openProduct(${item.id})">
-                            <div class="media-link">
-                                ${item.type === 'video' 
-                                    ? `<video src="${item.source}" muted loop playsinline></video>`
-                                    : `<img src="${item.source}" loading="lazy">`
-                                }
-                                <div class="media-overlay">
-                                    <h3>${item.title}</h3>
-                                    <span>${item.price} ج.م</span>
-                                </div>
+                const isVideo = item.type === 'video';
+                const mediaHtml = isVideo 
+                    ? `<video class="media-video" muted loop playsinline poster="pp.jpg"><source src="${item.source}" type="video/mp4"></video>`
+                    : `<img src="${item.source}" alt="${item.title}" loading="lazy">`;
+
+                html += `
+                    <div class="media-item" style="left: ${colIdx * COL_WIDTH}px; top: ${rowIdx * 20}%;">
+                        <a href="product.html?id=${item.id}" class="media-link">
+                            ${mediaHtml}
+                            <div class="media-overlay">
+                                <h3>${item.title}</h3>
+                                ${item.description ? `<p>${item.description.substring(0, 60)}...</p>` : ''}
+                                ${item.price ? `<div class="media-stats"><span><sup>ج.م</sup>${item.price}</span></div>` : ''}
                             </div>
-                        </div>
-                    `;
-                }).join('')}
-            `;
-            
-            handleVideos();
+                        </a>
+                    </div>
+                `;
+            });
+
+            mediaContainer.innerHTML = html;
+            setupVideoHover();
         }
 
-        // 3. التحكم في الفيديوهات عند الحوم (Hover)
-        function handleVideos() {
+        function setupVideoHover() {
             document.querySelectorAll('.media-item').forEach(card => {
                 const v = card.querySelector('video');
                 if(!v) return;
@@ -214,46 +190,6 @@
                 card.onmouseleave = () => { v.pause(); v.currentTime = 0; };
             });
         }
-
-        // 4. نظام الـ SPA للانتقال لصفحة المنتج
-        window.openProduct = function(id) {
-            const product = allProducts.find(p => p.id == id);
-            if(!product) return;
-
-            const content = document.getElementById('product-content');
-            content.innerHTML = `
-                <div class="product-layout">
-                    <div class="product-img-container">
-                        ${product.type === 'video' 
-                            ? `<video src="${product.source}" controls autoplay></video>`
-                            : `<img src="${product.source}">`
-                        }
-                    </div>
-                    <div class="product-info">
-                        <h1 style="font-size: 3rem; margin: 0;">${product.title}</h1>
-                        <p style="font-size: 1.5rem; color: var(--primary); font-weight: bold;">${product.price} ج.م</p>
-                        <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
-                        <p style="line-height: 1.8; color: #ccc;">${product.description || 'لا يوجد وصف متاح لهذا المنتج حالياً.'}</p>
-                        <button class="back-btn" style="width: 100%; margin-top: 20px;">شراء الآن</button>
-                    </div>
-                </div>
-            `;
-
-            productView.style.display = 'block';
-            history.pushState({view: 'product', id: id}, "", `/product/${id}`);
-        };
-
-        window.closeProduct = function() {
-            productView.style.display = 'none';
-            history.pushState({view: 'home'}, "", "/");
-        };
-
-        // دعم زر "الخلف" في المتصفح
-        window.onpopstate = (e) => {
-            if (e.state && e.state.view === 'product') openProduct(e.state.id);
-            else closeProduct();
-        };
-
     </script>
 </body>
 </html>
