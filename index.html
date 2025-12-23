@@ -3,41 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Grid - Professional</title>
+    <title>Media Grid - Masonry Mobile</title>
     <style>
-        /* الأساسيات للشاشات الكبيرة (تظل كما هي) */
+        /* --- التصميم الأساسي للكمبيوتر (بدون تغيير) --- */
         body {
             margin: 0; padding: 10px;
-            background-color: #f0f0f0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            scrollbar-width: none;
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-y: hidden;
         }
-        h1 { color: #2154ef; margin: -10px 0 10px 1px; font-size: 25px; }
+        h1 { color: #2154ef; margin: 0 0 15px 5px; font-size: 28px; font-weight: 800; }
         
         .grid-container {
             display: grid;
-            width: 2000vmax; /* العرض الضخم للكمبيوتر */
-            height: 100vh;
+            width: 2000vmax;
+            height: 90vh;
             grid-template-rows: repeat(5, 1fr);
             grid-auto-flow: column;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
             overflow-x: auto;
             gap: 15px;
-            margin: 0 auto;
         }
 
         .media-item {
             position: relative;
-            aspect-ratio: 16/9;
-            background-color: #333;
+            background-color: #fff;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
         }
 
-        .media-link { display: block; width: 100%; height: 100%; text-decoration: none; }
+        .media-link { display: block; width: 100%; height: 100%; text-decoration: none; position: relative; }
         .media-link img, .media-link video { width: 100%; height: 100%; object-fit: cover; }
 
         .media-overlay {
@@ -45,124 +42,100 @@
             background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
             padding: 15px; color: white;
         }
-        
-        /* --- تصميم الهاتف (Responsive & Modern) --- */
+
+        /* --- تصميم الهاتف التحفة (Masonry Grid & Autoplay) --- */
         @media (max-width: 768px) {
-            body { 
-                overflow-y: auto !important; 
-                background-color: #ffffff; /* خلفية نظيفة للهاتف */
-            }
+            body { overflow-y: auto !important; padding: 10px; }
+            h1 { text-align: center; margin-bottom: 20px; }
+
             .grid-container {
-                width: 100% !important; /* إلغاء العرض الضخم */
-                display: flex;
-                flex-direction: column;
+                display: block; /* نغير الـ grid لـ block لدعم الـ columns */
+                column-count: 2; /* عمودين بجانب بعض */
+                column-gap: 12px;
+                width: 100% !important;
                 height: auto;
-                gap: 20px;
-                padding-bottom: 80px;
             }
+
             .media-item {
-                aspect-ratio: 4/5; /* شكل طولي احترافي للهاتف */
-                margin: 0 10px;
-                border-radius: 20px; /* زوايا دائرية أكثر */
-                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+                display: inline-block; /* ضروري لعمل الـ masonry */
+                width: 100%;
+                margin-bottom: 12px; /* المسافة الرأسية بين العناصر */
+                height: auto; 
+                aspect-ratio: unset; /* نترك الطول يتحدد حسب المحتوى */
+                border-radius: 16px;
             }
-            .media-overlay {
-                padding: 20px;
-                background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+
+            /* جعل واحد أطول من الثاني بشكل عشوائي/تتابعي */
+            .media-item:nth-child(odd) .media-link {
+                aspect-ratio: 2/3; /* طويل */
             }
-            .media-overlay h3 { font-size: 18px !important; margin-bottom: 8px; }
-            .media-overlay p { font-size: 13px !important; opacity: 0.8; }
-            
-            /* تحسين شكل السعر */
-            .media-stats span {
-                background: rgba(33, 84, 239, 0.9);
-                padding: 5px 12px;
-                border-radius: 50px;
-                font-weight: bold;
-                font-size: 14px;
+            .media-item:nth-child(even) .media-link {
+                aspect-ratio: 1/1; /* مربع أو أقصر */
             }
+
+            .media-overlay h3 { font-size: 14px; margin: 0; }
+            .media-overlay p { display: none; } /* إخفاء الوصف الطويل في الهاتف لجمال الشكل */
+            .media-stats span { font-size: 12px; background: #2154ef; padding: 2px 8px; border-radius: 10px; }
         }
 
-        /* تنسيقات الأزرار العائمة */
+        /* الأزرار العائمة */
         .add, .floating-contact { position: fixed; bottom: 20px; z-index: 1000; }
         .add { left: 20px; }
         .floating-contact { right: 20px; }
-        .contact-button img, .add img {
-            width: 55px; height: 55px; border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(33, 84, 239, 0.4); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(33, 84, 239, 0); }
-            100% { transform: scale(1); }
-        }
+        .contact-button img, .add img { width: 50px; height: 50px; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
 </head>
 <body>
     <h1>Capslank</h1>
     <div class="grid-container" id="media-container">
-        <div class="loading">Loading Amazing Content...</div>
-    </div>
+        </div>
 
-    <div class="add">
-        <a href="#"><img src="add-button.png" alt="Add"></a>
-    </div>
-    <div class="floating-contact">
-        <a href="https://wa.me/2001551839053"><img src="a6c948cc6e551b08e70453d97bec0bc9.png" alt="WhatsApp"></a>
-    </div>
+    <div class="add"><a href="#"><img src="add-button.png"></a></div>
+    <div class="floating-contact"><a href="https://wa.me/2001551839053"><img src="a6c948cc6e551b08e70453d97bec0bc9.png"></a></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mediaContainer = document.getElementById('media-container');
-            
-            // محاكاة تحميل البيانات (استبدلها بـ fetch 'products.json')
+            const container = document.getElementById('media-container');
+
             fetch('products.json')
                 .then(res => res.json())
                 .then(data => {
-                    renderMedia(data.products);
-                    setupIntersectionObserver(); // Virtual Scroll Logic
+                    container.innerHTML = data.products.map(item => `
+                        <div class="media-item">
+                            <a href="product.html?id=${item.id}" class="media-link">
+                                ${item.type === 'video' 
+                                    ? `<video class="mobile-video" muted playsinline loop poster="pp.jpg">
+                                         <source src="${item.source}" type="video/mp4">
+                                       </video>` 
+                                    : `<img src="${item.source}" loading="lazy">`
+                                }
+                                <div class="media-overlay">
+                                    <h3>${item.title}</h3>
+                                    <div class="media-stats"><span>${item.price} ج.م</span></div>
+                                </div>
+                            </a>
+                        </div>
+                    `).join('');
+
+                    setupAutoplay();
                 });
 
-            function renderMedia(products) {
-                mediaContainer.innerHTML = products.map(item => `
-                    <div class="media-item" data-id="${item.id}">
-                        <a href="product.html?id=${item.id}" class="media-link">
-                            ${item.type === 'video' 
-                                ? `<video class="lazy-video" muted playsinline loop poster="pp.jpg">
-                                     <source src="${item.source}" type="video/mp4">
-                                   </video>` 
-                                : `<img src="${item.source}" loading="lazy">`
-                            }
-                            <div class="media-overlay">
-                                <h3>${item.title}</h3>
-                                <p>${item.description || ''}</p>
-                                <div class="media-stats">
-                                    <span>${item.price} ج.م</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                `).join('');
-            }
+            function setupAutoplay() {
+                const observerOptions = { threshold: 0.7 }; // يشتغل لما يظهر 70% من الفيديو
 
-            // Virtual Scroll / Performance Logic
-            function setupIntersectionObserver() {
-                const options = { threshold: 0.6 }; // تشغيل الفيديو عند ظهور 60% منه
-                
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         const video = entry.target.querySelector('video');
-                        if (!video) return;
-
-                        if (entry.isIntersecting) {
-                            video.play().catch(() => {}); // تشغيل تلقائي في الهاتف عند المرور
-                        } else {
-                            video.pause();
-                            video.currentTime = 0;
+                        if (video) {
+                            if (entry.isIntersecting) {
+                                video.play();
+                            } else {
+                                video.pause();
+                            }
                         }
                     });
-                }, options);
+                }, observerOptions);
 
                 document.querySelectorAll('.media-item').forEach(item => observer.observe(item));
             }
