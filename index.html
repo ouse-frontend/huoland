@@ -3,326 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Grid</title>
+    <title>Media Grid - Professional</title>
     <style>
+        /* الأساسيات للشاشات الكبيرة (تظل كما هي) */
         body {
-            margin: 0;
-height:100vh;
-            padding: 10px;
+            margin: 0; padding: 10px;
             background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            /* overflow: auto; */
-            /* transform: scale(1.2);
-            transform-origin: top left ; */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             scrollbar-width: none;
-            -ms-overflow-style: none;
             overflow-y: hidden;
-
+        }
+        h1 { color: #2154ef; margin: -10px 0 10px 1px; font-size: 25px; }
         
-            
-        }
-        h1 {
-            color: #2154ef;
-            display: block;
-        }
-        span sup{
-            color:hsl(240, 74%, 57%); 
-            text-shadow:1px 1px 1px hsl(127, 67%, 91%) ;
-            
-        }
-
-        html::-webkit-scrollbar {
-            display: none;
-            width: 0;
-            height: 0;
-            
-        }
-
         .grid-container {
             display: grid;
-            width:2000vmax;
-            height:100% ;
+            width: 2000vmax; /* العرض الضخم للكمبيوتر */
+            height: 100vh;
             grid-template-rows: repeat(5, 1fr);
             grid-auto-flow: column;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
             overflow-x: auto;
-            
-            gap: 10px;
-            /* max-width: 1800px; */
+            gap: 15px;
             margin: 0 auto;
         }
 
         .media-item {
             position: relative;
-            width: 100%;
             aspect-ratio: 16/9;
             background-color: #333;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px hwb(234 17% 9% / 0.802);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
-        
-        .media-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 20px rgba(0, 119, 255, 0.3), 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .media-link {
-            display: block;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-             
-        }
-        
-        .media-link img,
-        .media-link video {
-            width: 100%;
-            height: 100%;
-            object-fit:cover;
-            transition: opacity 0.3s ease;
-        }
-        
-        .media-link:hover img,
-        .media-link:hover video {
-            opacity: 0.9;
-        }
+
+        .media-link { display: block; width: 100%; height: 100%; text-decoration: none; }
+        .media-link img, .media-link video { width: 100%; height: 100%; object-fit: cover; }
 
         .media-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-            padding: 20px;
-            color: white;
-            opacity: 1;
-            transition: opacity 0.3s ease;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 15px; color: white;
         }
         
-        .media-item:hover .media-overlay {
-            opacity: 0;
-        }
+        /* --- تصميم الهاتف (Responsive & Modern) --- */
         @media (max-width: 768px) {
-            body{ overflow-y:auto; }
-            .grid-container{
-                width: 100%;
-                gap:10px;
-                height:100vh;
-                scroll-behavior: smooth;
-               /* grid-template-rows: repeat(5, 1fr);*/
-            grid-auto-flow: column;
-            grid-template-columns: repeat(3, 1fr);
+            body { 
+                overflow-y: auto !important; 
+                background-color: #ffffff; /* خلفية نظيفة للهاتف */
+            }
+            .grid-container {
+                width: 100% !important; /* إلغاء العرض الضخم */
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                gap: 20px;
+                padding-bottom: 80px;
             }
             .media-item {
-               
-                aspect-ratio: 10/7;
+                aspect-ratio: 4/5; /* شكل طولي احترافي للهاتف */
+                margin: 0 10px;
+                border-radius: 20px; /* زوايا دائرية أكثر */
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             }
-            html{
-                padding: 0;
-                overflow-y: hidden;
+            .media-overlay {
+                padding: 20px;
+                background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
             }
-            body{
-                padding: 5px;
-            }
+            .media-overlay h3 { font-size: 18px !important; margin-bottom: 8px; }
+            .media-overlay p { font-size: 13px !important; opacity: 0.8; }
             
-        }
-
-        .media-overlay h3 {
-            margin: 0 0 5px 0;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .media-overlay p {
-            margin: 0 0 8px 0;
-            font-size: 8px;
-            opacity: 0.9;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-height: 2.4em;
-            line-height: 1.2em;
-        }
-        
-        @supports (-webkit-line-clamp: 2) {
-            .media-overlay p {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
+            /* تحسين شكل السعر */
+            .media-stats span {
+                background: rgba(33, 84, 239, 0.9);
+                padding: 5px 12px;
+                border-radius: 50px;
+                font-weight: bold;
+                font-size: 14px;
             }
         }
 
-        .media-stats {
-            display: flex;
-            gap: 12px;
-            font-size: 14px;
-            opacity: 0.8; 
+        /* تنسيقات الأزرار العائمة */
+        .add, .floating-contact { position: fixed; bottom: 20px; z-index: 1000; }
+        .add { left: 20px; }
+        .floating-contact { right: 20px; }
+        .contact-button img, .add img {
+            width: 55px; height: 55px; border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
         }
-
-        .media-stats span {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .media-item:hover .media-overlay {
-            padding-bottom: 10px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            font-size: 1.2rem;
-            color: #666;
-            grid-column: 1 / -1;
-        }
-
-        .error {
-            color: #e74c3c;
-            text-align: center;
-            padding: 20px;
-            grid-column: 1 / -1;
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(33, 84, 239, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(33, 84, 239, 0); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
-    <h1 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 25px; margin: -10px 0 0 1px;">Capslank</h3>
+    <h1>Capslank</h1>
     <div class="grid-container" id="media-container">
-        <div class="loading">Loading media...</div>
+        <div class="loading">Loading Amazing Content...</div>
     </div>
 
-
-
-       <!-- i added it in 21 december 2025 -->
+    <div class="add">
+        <a href="#"><img src="add-button.png" alt="Add"></a>
+    </div>
     <div class="floating-contact">
-      <a href="https://wa.me/2001551839053" target="_blank" class="contact-button">
-        <img src="a6c948cc6e551b08e70453d97bec0bc9.png" alt="Contact Us" />
-      </a>
+        <a href="https://wa.me/2001551839053"><img src="a6c948cc6e551b08e70453d97bec0bc9.png" alt="WhatsApp"></a>
     </div>
-
-     <div class="add">
-      <a href="https://gemini.google.com/app/e0156cd04a971687?is_sa=1&is_sa=1&android-min-version=301356232&ios-min-version=322.0&campaign_id=bkws&utm_source=sem&utm_source=google&utm_medium=paid-media&utm_medium=cpc&utm_campaign=bkws&utm_campaign=2024arEG_gemfeb&pt=9008&mt=8&ct=p-growth-sem-bkws&gclsrc=aw.ds&gad_source=1&gad_campaignid=20437330728&gbraid=0AAAAApk5BhluBB6VXVSZKHzpYme3rStpt&gclid=Cj0KCQiA0p7KBhCkARIsAE6XlalQ94TqqcuGQuyUqO8bJAx3zFMLEdCscv9F3_-Rzj7q46bn9yddGzUaAkiJEALw_wcB" target="_blank" class="contact-button">
-        <img src="add-button.png" alt="Contact Us" />
-      </a>
-    </div>
-
-    <style>
-        .add {position: fixed;bottom: 20px; /* المسافة من الأسفل */left: 20px; /* المسافة من اليمين */z-index: 1000; /* لضمان ظهوره فوق بقية العناصر */}
-      .floating-contact {position: fixed;bottom: 20px; /* المسافة من الأسفل */right: 20px; /* المسافة من اليمين */z-index: 1000; /* لضمان ظهوره فوق بقية العناصر */}
-      .contact-button img , .add img {width: 60px; /* حجم الزر */height: 60px;border-radius: 50%; /* لجعله دائرياً */box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3); /* إضافة ظل */transition: transform 0.3s ease; /* حركة ناعمة عند التفاعل */}
-      /* تأثير عند تمرير الماوس فوق الزر */
-      .contact-button img:hover , .add img:hover {transform: scale(1.1); /* تكبير الزر قليلاً */}
-      @keyframes pulse {0% {box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);}70% {box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);}100% {box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);}}
-      .contact-button img , .add img {animation: pulse 2s infinite; /* تشغيل حركة النبض باستمرار */}
-     </style>
-    
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mediaContainer = document.getElementById('media-container');
             
-            // Fetch media from JSON file
+            // محاكاة تحميل البيانات (استبدلها بـ fetch 'products.json')
             fetch('products.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+                .then(res => res.json())
                 .then(data => {
-                    // Clear loading message
-                    mediaContainer.innerHTML = '';
-                    
-                    // Create media items
-                    data.products.forEach(item => {
-                        const mediaItem = document.createElement('div');
-                        mediaItem.className = 'media-item';
-                        
-                        // Determine media type (image or video)
-                        const isVideo = item.type === 'video';
-                        const mediaElement = isVideo 
-                            ? `
-                                <div class="video-container media-link">
-                                    <video class="media-video" muted preload="none" loading="lazy" poster="pp.jpg">
-                                        <source src="${item.source}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                    renderMedia(data.products);
+                    setupIntersectionObserver(); // Virtual Scroll Logic
+                });
+
+            function renderMedia(products) {
+                mediaContainer.innerHTML = products.map(item => `
+                    <div class="media-item" data-id="${item.id}">
+                        <a href="product.html?id=${item.id}" class="media-link">
+                            ${item.type === 'video' 
+                                ? `<video class="lazy-video" muted playsinline loop poster="pp.jpg">
+                                     <source src="${item.source}" type="video/mp4">
+                                   </video>` 
+                                : `<img src="${item.source}" loading="lazy">`
+                            }
+                            <div class="media-overlay">
+                                <h3>${item.title}</h3>
+                                <p>${item.description || ''}</p>
+                                <div class="media-stats">
+                                    <span>${item.price} ج.م</span>
                                 </div>
-                            `
-                            : `<img src="${item.source}" alt="${item.title}" class="media-image" loading="lazy" >`;
-                        
-                        mediaItem.innerHTML = `
-                            <a href="product.html?id=${item.id}" class="media-link">
-                                ${mediaElement}
-                                <div class="media-overlay">
-                                    <h3>${item.title}</h3>
-                                    ${item.description ? `<p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 100)}${item.description.length > 100 ? '...' : ''}</p>` : ''}
-                                    ${item.price ? `<div class="media-stats">
-                                        <span><sup>ج.م</sup>${item.price.toFixed(0)}</span>
-                                    </div>` : ''}
-                                </div>
-                            </a>
-                        `;
-                        
-                        mediaContainer.appendChild(mediaItem);
-                    });
+                            </div>
+                        </a>
+                    </div>
+                `).join('');
+            }
 
-                    // Handle hover play/pause for videos
-                    const mediaItems = document.querySelectorAll(".media-item");
-                    
+            // Virtual Scroll / Performance Logic
+            function setupIntersectionObserver() {
+                const options = { threshold: 0.6 }; // تشغيل الفيديو عند ظهور 60% منه
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const video = entry.target.querySelector('video');
+                        if (!video) return;
 
-                    mediaItems.forEach((item) => {
-                        const video = item.querySelector("video");
-                        if (!video) return; // Skip if no video in this item
-                        
-                        // Ensure video is visible and sized correctly
-                        video.style.width = '100%';
-                        video.style.height = '100%';
-                        video.style.objectFit = 'cover';
-                        
-                        // Mute and set volume to 0 to ensure no sound plays
-                        video.muted = true;
-                        video.volume = 0;
-                        video.playsInline = true;
-                        
-                        // Pause video initially
-                        video.pause();
-
-                        // Play on hover anywhere in the media item
-                        item.addEventListener("mouseenter", () => {
-                            video.currentTime = 0;
-                            video.play().catch((e) => {
-                                console.log("Video play failed:", e);
-                                video.controls = false; // Show controls if autoplay fails
-                            });
-                        });
-
-                        // Pause and reset when not hovering
-                        item.addEventListener("mouseleave", () => {
+                        if (entry.isIntersecting) {
+                            video.play().catch(() => {}); // تشغيل تلقائي في الهاتف عند المرور
+                        } else {
                             video.pause();
                             video.currentTime = 0;
-                        });
-                        
-                        // When video ends, reset to start
-                        video.addEventListener('ended', () => {
-                            video.currentTime = 0;
-                        });
+                        }
                     });
-                })
-                .catch(error => {
-                    console.error('Error loading media:', error);
-                    mediaContainer.innerHTML = `
-                        <div class="error">
-                            Failed to load media. Please try again later.
-                            <p>${error.message}</p>
-                        </div>
-                    `;
-                });
+                }, options);
+
+                document.querySelectorAll('.media-item').forEach(item => observer.observe(item));
+            }
         });
     </script>
 </body>
