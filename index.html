@@ -1,144 +1,575 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Grid - Masonry Mobile</title>
+    <title>موقع صفحة واحدة مع صفحات فرعية</title>
     <style>
-        /* --- التصميم الأساسي للكمبيوتر (بدون تغيير) --- */
-        body {
-            margin: 0; padding: 10px;
-            background-color: #f8f9fa;
+        /* التصميم العام */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-y: hidden;
         }
-        h1 { color: #2154ef; margin: 0 0 15px 5px; font-size: 28px; font-weight: 800; }
         
-        .grid-container {
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* رأس الموقع */
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: #4db8ff;
+        }
+        
+        /* شريط التنقل */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-right: 25px;
+        }
+        
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #4db8ff;
+        }
+        
+        /* المحتوى الرئيسي */
+        main {
+            min-height: calc(100vh - 160px);
+            padding: 40px 0;
+        }
+        
+        #content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تصميم الصفحات */
+        .page-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 32px;
+        }
+        
+        .page-content {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .page-content p {
+            margin-bottom: 20px;
+        }
+        
+        /* تصميم البطاقات */
+        .card-container {
             display: grid;
-            width: 2000vmax;
-            height: 90vh;
-            grid-template-rows: repeat(5, 1fr);
-            grid-auto-flow: column;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
-            overflow-x: auto;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
-
-        .media-item {
-            position: relative;
-            background-color: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+        
+        .card {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .media-link { display: block; width: 100%; height: 100%; text-decoration: none; position: relative; }
-        .media-link img, .media-link video { width: 100%; height: 100%; object-fit: cover; }
-
-        .media-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-            padding: 15px; color: white;
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
-
-        /* --- تصميم الهاتف التحفة (Masonry Grid & Autoplay) --- */
+        
+        .card-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .card-text {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* النموذج */
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            border-color: #4db8ff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.1);
+        }
+        
+        .btn {
+            background-color: #4db8ff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2c9ce5;
+        }
+        
+        /* التذييل */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+        }
+        
+        /* التجاوب مع الشاشات المختلفة */
         @media (max-width: 768px) {
-            body { overflow-y: auto !important; padding: 10px; }
-            h1 { text-align: center; margin-bottom: 20px; }
-
-            .grid-container {
-                display: block; /* نغير الـ grid لـ block لدعم الـ columns */
-                column-count: 2; /* عمودين بجانب بعض */
-                column-gap: 12px;
-                width: 100% !important;
-                height: auto;
+            .header-content {
+                flex-direction: column;
+                text-align: center;
             }
-
-            .media-item {
-                display: inline-block; /* ضروري لعمل الـ masonry */
-                width: 100%;
-                margin-bottom: 12px; /* المسافة الرأسية بين العناصر */
-                height: auto; 
-                aspect-ratio: unset; /* نترك الطول يتحدد حسب المحتوى */
-                border-radius: 16px;
+            
+            nav ul {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
-
-            /* جعل واحد أطول من الثاني بشكل عشوائي/تتابعي */
-            .media-item:nth-child(odd) .media-link {
-                aspect-ratio: 2/3; /* طويل */
+            
+            nav ul li {
+                margin: 5px 10px;
             }
-            .media-item:nth-child(even) .media-link {
-                aspect-ratio: 1/1; /* مربع أو أقصر */
+            
+            .page-title {
+                font-size: 26px;
             }
-
-            .media-overlay h3 { font-size: 14px; margin: 0; }
-            .media-overlay p { display: none; } /* إخفاء الوصف الطويل في الهاتف لجمال الشكل */
-            .media-stats span { font-size: 12px; background: #2154ef; padding: 2px 8px; border-radius: 10px; }
         }
-
-        /* الأزرار العائمة */
-        .add, .floating-contact { position: fixed; bottom: 20px; z-index: 1000; }
-        .add { left: 20px; }
-        .floating-contact { right: 20px; }
-        .contact-button img, .add img { width: 50px; height: 50px; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        
+        /* مؤشر التحميل */
+        .loader {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #4db8ff;
+        }
+        
+        .loader::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4db8ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <h1>Capslank</h1>
-    <div class="grid-container" id="media-container">
+    <!-- رأس الموقع -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo" data-page="home">موقع<span>نا</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">الرئيسية</a></li>
+                    <li><a href="#" class="nav-link" data-page="about">من نحن</a></li>
+                    <li><a href="#" class="nav-link" data-page="services">خدماتنا</a></li>
+                    <li><a href="#" class="nav-link" data-page="contact">اتصل بنا</a></li>
+                    <li><a href="#" class="nav-link" data-page="products">منتجاتنا</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-    <div class="add"><a href="#"><img src="add-button.png"></a></div>
-    <div class="floating-contact"><a href="https://wa.me/2001551839053"><img src="a6c948cc6e551b08e70453d97bec0bc9.png"></a></div>
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <div id="content">
+            <!-- سيتم تحميل المحتوى هنا ديناميكياً -->
+        </div>
+    </main>
+
+    <!-- تذييل الموقع -->
+    <footer>
+        <div class="container">
+            <p>جميع الحقوق محفوظة &copy; 2023 موقعنا. تم التطوير باستخدام DOM Manipulation</p>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const container = document.getElementById('media-container');
-
-            fetch('products.json')
-                .then(res => res.json())
-                .then(data => {
-                    container.innerHTML = data.products.map(item => `
-                        <div class="media-item">
-                            <a href="product.html?id=${item.id}" class="media-link">
-                                ${item.type === 'video' 
-                                    ? `<video class="mobile-video" muted playsinline loop poster="pp.jpg">
-                                         <source src="${item.source}" type="video/mp4">
-                                       </video>` 
-                                    : `<img src="${item.source}" loading="lazy">`
-                                }
-                                <div class="media-overlay">
-                                    <h3>${item.title}</h3>
-                                    <div class="media-stats"><span>${item.price} ج.م</span></div>
-                                </div>
-                            </a>
+        // بيانات الصفحات المختلفة
+        const pages = {
+            home: {
+                title: "مرحباً بكم في موقعنا",
+                content: `
+                    <h1 class="page-title">مرحباً بكم في موقعنا</h1>
+                    <div class="page-content">
+                        <p>هذا الموقع عبارة عن نموذج لموقع من صفحة واحدة (Single Page Application) يعتمد على DOM Manipulation لتحميل المحتوى ديناميكياً دون إعادة تحميل الصفحة الرئيسية.</p>
+                        
+                        <p>المزايا:</p>
+                        <ul>
+                            <li>سرعة تحميل عالية للصفحات الفرعية</li>
+                            <li>تجربة مستخدم سلسة دون إعادة تحميل كامل الصفحة</li>
+                            <li>إمكانية إعادة تحميل الصفحات الفرعية باستخدام History API</li>
+                            <li>تصميم متجاوب يعمل على جميع الأجهزة</li>
+                        </ul>
+                        
+                        <p>استخدم القائمة أعلاه للتنقل بين الصفحات المختلفة.</p>
+                        
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="card-title">عنوان بطاقة 1</h3>
+                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">عنوان بطاقة 2</h3>
+                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">عنوان بطاقة 3</h3>
+                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                            </div>
                         </div>
-                    `).join('');
-
-                    setupAutoplay();
-                });
-
-            function setupAutoplay() {
-                const observerOptions = { threshold: 0.7 }; // يشتغل لما يظهر 70% من الفيديو
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const video = entry.target.querySelector('video');
-                        if (video) {
-                            if (entry.isIntersecting) {
-                                video.play();
-                            } else {
-                                video.pause();
-                            }
-                        }
-                    });
-                }, observerOptions);
-
-                document.querySelectorAll('.media-item').forEach(item => observer.observe(item));
+                    </div>
+                `
+            },
+            about: {
+                title: "من نحن",
+                content: `
+                    <h1 class="page-title">من نحن</h1>
+                    <div class="page-content">
+                        <p>نحن شركة رائدة في مجال تطوير الويب وتقديم الحلول التقنية المبتكرة. تأسست شركتنا في عام 2010 ولدينا خبرة واسعة في بناء تطبيقات الويب المتقدمة.</p>
+                        
+                        <p>فريقنا مكون من مجموعة من المطورين والمصممين ذوي الخبرة والكفاءة العالية، والذين يعملون باستمرار على تطوير مهاراتهم ومواكبة أحدث التقنيات في مجال تطوير الويب.</p>
+                        
+                        <h3 style="margin: 25px 0 15px; color: #2c3e50;">رؤيتنا</h3>
+                        <p>نسعى لأن نكون الخيار الأول للشركات والمنظمات التي تبحث عن حلول ويب مبتكرة وعالية الجودة.</p>
+                        
+                        <h3 style="margin: 25px 0 15px; color: #2c3e50;">رسالتنا</h3>
+                        <p>تقديم حلول تقنية متميزة تساهم في تحسين أعمال عملائنا وتقدم تجربة مستخدم استثنائية.</p>
+                        
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="card-title">سنوات الخبرة</h3>
+                                <p class="card-text">أكثر من 10 سنوات في مجال تطوير الويب وتقديم الحلول التقنية.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">مشاريع منجزة</h3>
+                                <p class="card-text">أكثر من 500 مشروع ناجح لشركات ومؤسسات متنوعة.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">عملاء سعداء</h3>
+                                <p class="card-text">أكثر من 200 عميل راضٍ عن خدماتنا وجودة عملنا.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            services: {
+                title: "خدماتنا",
+                content: `
+                    <h1 class="page-title">خدماتنا</h1>
+                    <div class="page-content">
+                        <p>نقدم مجموعة واسعة من خدمات تطوير الويب والتقنية المصممة خصيصاً لتلبية احتياجات عملائنا.</p>
+                        
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="card-title">تطوير مواقع الويب</h3>
+                                <p class="card-text">نقوم بتطوير مواقع ويب احترافية متجاوبة مع جميع الأجهزة، باستخدام أحدث التقنيات مثل HTML5، CSS3، JavaScript.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">تطبيقات الصفحة الواحدة (SPA)</h3>
+                                <p class="card-text">نطور تطبيقات صفحة واحدة باستخدام تقنيات مثل React، Vue.js، أو Angular لتقديم تجربة مستخدم سلسة.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">تطبيقات الهواتف</h3>
+                                <p class="card-text">نقوم بتحويل موقعك إلى تطبيق للهواتف الذكية باستخدام تقنيات الهجينة مثل React Native.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">تصميم واجهة المستخدم</h3>
+                                <p class="card-text">نصمم واجهات مستخدم جذابة وسهلة الاستخدام تعكس هوية علامتك التجارية.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">استضافة الويب</h3>
+                                <p class="card-text">نوفر خدمات استضافة موثوقة وسريعة مع دعم فني متواصل على مدار الساعة.</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">تحسين محركات البحث</h3>
+                                <p class="card-text">نساعدك في تحسين ترتيب موقعك في محركات البحث وزيادة ظهوره لمستخدمي الإنترنت.</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            contact: {
+                title: "اتصل بنا",
+                content: `
+                    <h1 class="page-title">اتصل بنا</h1>
+                    <div class="page-content">
+                        <p>نحن هنا لمساعدتك! يمكنك التواصل معنا عبر المعلومات التالية أو باستخدام النموذج المرفق:</p>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 30px; margin: 30px 0;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3 style="color: #2c3e50; margin-bottom: 15px;">معلومات التواصل</h3>
+                                <p><strong>العنوان:</strong> مدينة الرياض، المملكة العربية السعودية</p>
+                                <p><strong>الهاتف:</strong> +966 11 123 4567</p>
+                                <p><strong>البريد الإلكتروني:</strong> info@example.com</p>
+                                <p><strong>ساعات العمل:</strong> الأحد - الخميس، 8 صباحاً - 5 مساءً</p>
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 250px;">
+                                <h3 style="color: #2c3e50; margin-bottom: 15px;">أرسل رسالة</h3>
+                                <form id="contact-form">
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">الاسم الكامل</label>
+                                        <input type="text" id="name" class="form-input" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">البريد الإلكتروني</label>
+                                        <input type="email" id="email" class="form-input" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="message">الرسالة</label>
+                                        <textarea id="message" class="form-input" rows="5" required></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn">إرسال الرسالة</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            products: {
+                title: "منتجاتنا",
+                content: `
+                    <h1 class="page-title">منتجاتنا</h1>
+                    <div class="page-content">
+                        <p>نقدم مجموعة متنوعة من المنتجات التقنية المصممة لمساعدة الشركات والأفراد في تحقيق أهدافهم الرقمية.</p>
+                        
+                        <div class="card-container">
+                            <div class="card">
+                                <h3 class="card-title">نظام إدارة المحتوى</h3>
+                                <p class="card-text">نظام متكامل لإدارة محتوى موقعك بسهولة وبدون الحاجة إلى معرفة تقنية متقدمة.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 2,500 ر.س</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">متجر إلكتروني</h3>
+                                <p class="card-text">منصة متكاملة لإنشاء وإدارة متجرك الإلكتروني مع دفع آمن وشحن متكامل.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 5,000 ر.س</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">نظام حجوزات</h3>
+                                <p class="card-text">نظام متكامل لإدارة الحجوزات والمواعيد للمراكز والمؤسسات الخدمية.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 3,500 ر.س</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">تطبيق موبايل</h3>
+                                <p class="card-text">تطبيق جوال مخصص لعملك يعمل على نظامي iOS و Android مع لوحة تحكم ويب.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 8,000 ر.س</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">موقع شركة</h3>
+                                <p class="card-text">موقع احترافي لشركتك يعرض خدماتك ومنتجاتك مع لوحة تحكم سهلة الاستخدام.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 4,000 ر.س</p>
+                            </div>
+                            <div class="card">
+                                <h3 class="card-title">نظام داخلي</h3>
+                                <p class="card-text">نظام داخلي مخصص لإدارة عمليات مؤسستك وموظفيك وعملائك.</p>
+                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">بدءاً من: 10,000 ر.س</p>
+                            </div>
+                        </div>
+                    </div>
+                `
             }
+        };
+
+        // العناصر الرئيسية في DOM
+        const contentElement = document.getElementById('content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const logoLink = document.querySelector('.logo');
+
+        // دالة لتحميل الصفحة
+        function loadPage(pageId) {
+            // إظهار مؤشر تحميل
+            contentElement.innerHTML = '<div class="loader">جاري تحميل المحتوى...</div>';
+            
+            // محاكاة تأخير لرؤية تأثير التحميل (في التطبيق الحقيقي يمكن إزالته)
+            setTimeout(() => {
+                // التحقق من وجود الصفحة المطلوبة
+                if (pages[pageId]) {
+                    // تحديث المحتوى
+                    contentElement.innerHTML = pages[pageId].content;
+                    
+                    // تحديث عنوان الصفحة في شريط العنوان
+                    document.title = `${pages[pageId].title} - موقعنا`;
+                    
+                    // تحديث رابط التاريخ للسماح بإعادة التحميل
+                    history.pushState({page: pageId}, pages[pageId].title, `?page=${pageId}`);
+                    
+                    // تحديث حالة الروابط النشطة
+                    updateActiveLink(pageId);
+                    
+                    // إضافة مستمعي الأحداث للنماذج إذا كانت موجودة
+                    setupFormListeners();
+                } else {
+                    // إذا لم توجد الصفحة، تحميل الصفحة الرئيسية
+                    contentElement.innerHTML = '<h1 class="page-title">الصفحة غير موجودة</h1><div class="page-content"><p>عذراً، الصفحة التي تبحث عنها غير موجودة. <a href="#" data-page="home">العودة إلى الرئيسية</a></p></div>';
+                }
+            }, 300);
+        }
+
+        // دالة لتحديث الرابط النشط في القائمة
+        function updateActiveLink(pageId) {
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // دالة لإعداد مستمعي الأحداث للنماذج
+        function setupFormListeners() {
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // في التطبيق الحقيقي هنا يتم إرسال البيانات إلى الخادم
+                    alert('شكراً لك على رسالتك! سنقوم بالرد عليك في أقرب وقت ممكن.');
+                    
+                    // إعادة تعيين النموذج
+                    contactForm.reset();
+                });
+            }
+        }
+
+        // دالة لتحميل الصفحة بناءً على معاملات الرابط
+        function loadPageFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pageParam = urlParams.get('page');
+            
+            if (pageParam && pages[pageParam]) {
+                loadPage(pageParam);
+            } else {
+                loadPage('home');
+            }
+        }
+
+        // إعداد مستمعي الأحداث للروابط
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                loadPage(pageId);
+            });
+        });
+
+        // إعداد مستمع الأحداث للشعار
+        logoLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loadPage('home');
+        });
+
+        // إعداد مستمع الأحداث لأزرار الرجوع والتقدم في المتصفح
+        window.addEventListener('popstate', function(e) {
+            if (e.state && e.state.page) {
+                loadPage(e.state.page);
+            } else {
+                loadPageFromURL();
+            }
+        });
+
+        // تحميل الصفحة المناسبة عند تحميل الموقع لأول مرة
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPageFromURL();
         });
     </script>
 </body>
