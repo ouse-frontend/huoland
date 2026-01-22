@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>موقع صفحة واحدة مع صفحات فرعية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* التصميم العام */
+        /* التصميم العام باستخدام خط مشابه لموقع Kenneth Reitz */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         
         body {
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            font-weight: 400;
+            letter-spacing: -0.01em;
         }
         
         .container {
@@ -27,10 +30,13 @@
         
         /* رأس الموقع */
         header {
-            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            color: #333;
+            padding: 24px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .header-content {
@@ -42,12 +48,14 @@
         .logo {
             font-size: 28px;
             font-weight: 700;
-            color: #fff;
+            color: #333;
             text-decoration: none;
+            letter-spacing: -0.03em;
         }
         
         .logo span {
-            color: #4db8ff;
+            color: #007acc;
+            font-weight: 800;
         }
         
         /* شريط التنقل */
@@ -57,95 +65,135 @@
         }
         
         nav ul li {
-            margin-right: 25px;
+            margin-left: 25px;
         }
         
-        nav ul li:last-child {
-            margin-right: 0;
+        nav ul li:first-child {
+            margin-left: 0;
         }
         
         .nav-link {
-            color: white;
+            color: #555;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 18px;
+            font-weight: 500;
+            font-size: 16px;
             padding: 8px 16px;
             border-radius: 4px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .nav-link:hover, .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #4db8ff;
+            background-color: #f0f7ff;
+            color: #007acc;
         }
         
         /* المحتوى الرئيسي */
         main {
             min-height: calc(100vh - 160px);
-            padding: 40px 0;
+            padding: 60px 0 40px;
         }
         
         #content {
             background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
             animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
         /* تصميم الصفحات */
         .page-title {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            font-size: 32px;
+            color: #222;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
         }
         
         .page-content {
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 1.7;
+            color: #444;
         }
         
         .page-content p {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         /* تصميم البطاقات */
         .card-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
         
         .card {
-            background-color: #f8fafc;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #f0f0f0;
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
         
         .card-title {
-            color: #2c3e50;
-            margin-bottom: 15px;
+            color: #222;
+            margin-bottom: 16px;
             font-size: 22px;
+            font-weight: 600;
         }
         
         .card-text {
             color: #555;
             line-height: 1.6;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        /* تصميم الصور */
+        .content-image {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .image-caption {
+            text-align: center;
+            color: #777;
+            font-size: 15px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin: 30px 0;
         }
         
         /* النموذج */
@@ -155,49 +203,70 @@
         
         .form-label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #333;
         }
         
         .form-input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 14px 16px;
             border: 1px solid #ddd;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
             transition: border-color 0.3s;
+            background: #fafafa;
         }
         
         .form-input:focus {
-            border-color: #4db8ff;
+            border-color: #007acc;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
+            background: #fff;
         }
         
         .btn {
-            background-color: #4db8ff;
+            background-color: #007acc;
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
+            padding: 14px 32px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s;
+            letter-spacing: -0.01em;
         }
         
         .btn:hover {
-            background-color: #2c9ce5;
+            background-color: #005d99;
         }
         
         /* التذييل */
         footer {
-            background-color: #2c3e50;
-            color: white;
+            background-color: #fff;
+            color: #666;
             text-align: center;
-            padding: 25px 0;
-            margin-top: 40px;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: #777;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: #007acc;
         }
         
         /* التجاوب مع الشاشات المختلفة */
@@ -218,26 +287,34 @@
             }
             
             .page-title {
-                font-size: 26px;
+                font-size: 28px;
+            }
+            
+            #content {
+                padding: 25px;
+            }
+            
+            .card-container {
+                grid-template-columns: 1fr;
             }
         }
         
         /* مؤشر التحميل */
         .loader {
             text-align: center;
-            padding: 40px;
+            padding: 60px;
             font-size: 18px;
-            color: #4db8ff;
+            color: #007acc;
         }
         
         .loader::after {
             content: '';
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             margin-right: 10px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #4db8ff;
+            border: 3px solid #f0f0f0;
+            border-top: 3px solid #007acc;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -245,6 +322,52 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* تصميم قائمة */
+        .page-content ul {
+            padding-right: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .page-content li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .page-content li:before {
+            content: "•";
+            color: #007acc;
+            font-weight: bold;
+            position: absolute;
+            right: -15px;
+        }
+        
+        /* تصميم العروض */
+        .price-tag {
+            display: inline-block;
+            background-color: #f0f7ff;
+            color: #007acc;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        /* تحسينات عامة */
+        .highlight {
+            background-color: #f9f9f9;
+            border-right: 4px solid #007acc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .section-title {
+            color: #222;
+            margin: 40px 0 20px;
+            font-size: 24px;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -276,57 +399,64 @@
     <footer>
         <div class="container">
             <p>جميع الحقوق محفوظة &copy; 2023 موقعنا. تم التطوير باستخدام DOM Manipulation</p>
+            <div class="footer-links">
+                <a href="#" data-page="home">الرئيسية</a>
+                <a href="#" data-page="about">من نحن</a>
+                <a href="#" data-page="services">خدماتنا</a>
+                <a href="#" data-page="contact">اتصل بنا</a>
+                <a href="#" data-page="products">منتجاتنا</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        // بيانات الصفحات المختلفة
+        // بيانات الصفحات المختلفة مع إضافة الصور
         const pages = {
             home: {
                 title: "مرحباً بكم في موقعنا",
                 content: `
                     <h1 class="page-title">مرحباً بكم في موقعنا</h1>
                     <div class="page-content">
+                        <img src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="صورة رئيسية للموقع" class="hero-image">
                         <p>هذا الموقع عبارة عن نموذج لموقع من صفحة واحدة (Single Page Application) يعتمد على DOM Manipulation لتحميل المحتوى ديناميكياً دون إعادة تحميل الصفحة الرئيسية.</p>
                         
-                        <p>المزايا:</p>
+                        <div class="highlight">
+                            <p>المزايا الرئيسية لموقعنا:</p>
+                        </div>
+                        
                         <ul>
                             <li>سرعة تحميل عالية للصفحات الفرعية</li>
                             <li>تجربة مستخدم سلسة دون إعادة تحميل كامل الصفحة</li>
                             <li>إمكانية إعادة تحميل الصفحات الفرعية باستخدام History API</li>
                             <li>تصميم متجاوب يعمل على جميع الأجهزة</li>
+                            <li>واجهة مستخدم حديثة وجذابة</li>
                         </ul>
                         
                         <p>استخدم القائمة أعلاه للتنقل بين الصفحات المختلفة.</p>
                         
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="تقنية الويب الحديثة" class="content-image">
+                        <p class="image-caption">نستخدم أحدث التقنيات في تطوير الويب</p>
+                        
+                        <h3 class="section-title">ماذا نقدم؟</h3>
+                        
                         <div class="card-container">
                             <div class="card">
-                                <h3 class="card-title">عنوان بطاقة 1</h3>
-                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تحليلات البيانات" class="card-image">
+                                <h3 class="card-title">تحليلات متقدمة</h3>
+                                <p class="card-text">نوفر حلول تحليل بيانات متقدمة تساعدك على فهم جمهورك واتخاذ قرارات استراتيجية مدروسة.</p>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">عنوان بطاقة 2</h3>
-                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w-800&q=80" alt="تصميم تجربة المستخدم" class="card-image">
+                                <h3 class="card-title">تصميم UX/UI</h3>
+                                <p class="card-text">نصمم واجهات مستخدم جذابة وسهلة الاستخدام تعزز تفاعل المستخدمين مع تطبيقاتك.</p>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">عنوان بطاقة 3</h3>
-                                <p class="card-text">هذا مثال لمحتوى بطاقة. يمكنك وضع أي محتوى هنا ليعرض معلومات مهمة للزوار.</p>
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطوير البرمجيات" class="card-image">
+                                <h3 class="card-title">تطوير برمجيات مخصصة</h3>
+                                <p class="card-text">نطور حلول برمجية مخصصة تلبي احتياجات أعمالك الفريدة وتنمو مع نمو شركتك.</p>
                             </div>
                         </div>
                     </div>
-<p>Paragraphs
-What this handout is about
-This handout will help you understand how paragraphs are formed, how to develop stronger paragraphs, and how to completely and clearly express your ideas.
-
-What is a paragraph?
-Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality, though, the unity and coherence of ideas among sentences is what constitutes a paragraph. A paragraph is defined as “a group of sentences or a single sentence that forms a unit” (Lunsford and Connors 116). Length and appearance do not determine whether a section in a paper is a paragraph. For instance, in some styles of writing, particularly journalistic styles, a paragraph can be just one sentence long. Ultimately, a paragraph is a sentence or group of sentences that support one main idea. In this handout, we will refer to this as the “controlling idea,” because it controls what happens in the rest of the paragraph.
-
-How do I decide what to put in a paragraph?
-Before you can begin to determine what the composition of a particular paragraph will be, you must first decide on an argument and a working thesis statement for your paper. What is the most important idea that you are trying to convey to your reader? The information in each paragraph must be related to that idea. In other words, your paragraphs should remind your reader that there is a recurrent relationship between your thesis and the information in each paragraph. A working thesis functions like a seed from which your paper, and your ideas, will grow. The whole process is an organic one—a natural progression from a seed to a full-blown paper where there are direct, familial relationships between all of the ideas in the paper.
-
-The decision about what to put into your paragraphs begins with the germination of a seed of ideas; this “germination process” is better known as brainstorming. There are many techniques for brainstorming; whichever one you choose, this stage of paragraph development cannot be skipped. Building paragraphs can be like building a skyscraper: there must be a well-planned foundation that supports what you are building. Any cracks, inconsistencies, or other corruptions of the foundation can cause your whole paper to crumble.
-
-So, let’s suppose that you have done some brainstorming to develop your thesis. What else should you keep in mind as you begin to create paragraphs? Every paragraph in a paper should be:</p>
                 `
             },
             about: {
@@ -334,26 +464,37 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
                 content: `
                     <h1 class="page-title">من نحن</h1>
                     <div class="page-content">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="فريق العمل" class="hero-image">
                         <p>نحن شركة رائدة في مجال تطوير الويب وتقديم الحلول التقنية المبتكرة. تأسست شركتنا في عام 2010 ولدينا خبرة واسعة في بناء تطبيقات الويب المتقدمة.</p>
                         
                         <p>فريقنا مكون من مجموعة من المطورين والمصممين ذوي الخبرة والكفاءة العالية، والذين يعملون باستمرار على تطوير مهاراتهم ومواكبة أحدث التقنيات في مجال تطوير الويب.</p>
                         
-                        <h3 style="margin: 25px 0 15px; color: #2c3e50;">رؤيتنا</h3>
-                        <p>نسعى لأن نكون الخيار الأول للشركات والمنظمات التي تبحث عن حلول ويب مبتكرة وعالية الجودة.</p>
+                        <h3 class="section-title">رؤيتنا</h3>
+                        <div class="highlight">
+                            <p>نسعى لأن نكون الخيار الأول للشركات والمنظمات التي تبحث عن حلول ويب مبتكرة وعالية الجودة.</p>
+                        </div>
                         
-                        <h3 style="margin: 25px 0 15px; color: #2c3e50;">رسالتنا</h3>
-                        <p>تقديم حلول تقنية متميزة تساهم في تحسين أعمال عملائنا وتقدم تجربة مستخدم استثنائية.</p>
+                        <h3 class="section-title">رسالتنا</h3>
+                        <div class="highlight">
+                            <p>تقديم حلول تقنية متميزة تساهم في تحسين أعمال عملائنا وتقدم تجربة مستخدم استثنائية.</p>
+                        </div>
+                        
+                        <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="مكتبنا" class="content-image">
+                        <p class="image-caption">مكتبنا المصمم ليكون بيئة إبداعية ملهمة</p>
                         
                         <div class="card-container">
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="سنوات الخبرة" class="card-image">
                                 <h3 class="card-title">سنوات الخبرة</h3>
                                 <p class="card-text">أكثر من 10 سنوات في مجال تطوير الويب وتقديم الحلول التقنية.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="المشاريع المنجزة" class="card-image">
                                 <h3 class="card-title">مشاريع منجزة</h3>
                                 <p class="card-text">أكثر من 500 مشروع ناجح لشركات ومؤسسات متنوعة.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1551836026-d5c2c7e4c2c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="العملاء" class="card-image">
                                 <h3 class="card-title">عملاء سعداء</h3>
                                 <p class="card-text">أكثر من 200 عميل راضٍ عن خدماتنا وجودة عملنا.</p>
                             </div>
@@ -366,30 +507,37 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
                 content: `
                     <h1 class="page-title">خدماتنا</h1>
                     <div class="page-content">
+                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="خدماتنا التقنية" class="hero-image">
                         <p>نقدم مجموعة واسعة من خدمات تطوير الويب والتقنية المصممة خصيصاً لتلبية احتياجات عملائنا.</p>
                         
                         <div class="card-container">
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطوير مواقع الويب" class="card-image">
                                 <h3 class="card-title">تطوير مواقع الويب</h3>
                                 <p class="card-text">نقوم بتطوير مواقع ويب احترافية متجاوبة مع جميع الأجهزة، باستخدام أحدث التقنيات مثل HTML5، CSS3، JavaScript.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيقات الصفحة الواحدة" class="card-image">
                                 <h3 class="card-title">تطبيقات الصفحة الواحدة (SPA)</h3>
                                 <p class="card-text">نطور تطبيقات صفحة واحدة باستخدام تقنيات مثل React، Vue.js، أو Angular لتقديم تجربة مستخدم سلسة.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيقات الهواتف" class="card-image">
                                 <h3 class="card-title">تطبيقات الهواتف</h3>
                                 <p class="card-text">نقوم بتحويل موقعك إلى تطبيق للهواتف الذكية باستخدام تقنيات الهجينة مثل React Native.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تصميم واجهة المستخدم" class="card-image">
                                 <h3 class="card-title">تصميم واجهة المستخدم</h3>
                                 <p class="card-text">نصمم واجهات مستخدم جذابة وسهلة الاستخدام تعكس هوية علامتك التجارية.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="استضافة الويب" class="card-image">
                                 <h3 class="card-title">استضافة الويب</h3>
                                 <p class="card-text">نوفر خدمات استضافة موثوقة وسريعة مع دعم فني متواصل على مدار الساعة.</p>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تحسين محركات البحث" class="card-image">
                                 <h3 class="card-title">تحسين محركات البحث</h3>
                                 <p class="card-text">نساعدك في تحسين ترتيب موقعك في محركات البحث وزيادة ظهوره لمستخدمي الإنترنت.</p>
                             </div>
@@ -402,19 +550,22 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
                 content: `
                     <h1 class="page-title">اتصل بنا</h1>
                     <div class="page-content">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="اتصل بنا" class="hero-image">
                         <p>نحن هنا لمساعدتك! يمكنك التواصل معنا عبر المعلومات التالية أو باستخدام النموذج المرفق:</p>
                         
-                        <div style="display: flex; flex-wrap: wrap; gap: 30px; margin: 30px 0;">
-                            <div style="flex: 1; min-width: 250px;">
-                                <h3 style="color: #2c3e50; margin-bottom: 15px;">معلومات التواصل</h3>
-                                <p><strong>العنوان:</strong> مدينة الرياض، المملكة العربية السعودية</p>
-                                <p><strong>الهاتف:</strong> +966 11 123 4567</p>
-                                <p><strong>البريد الإلكتروني:</strong> info@example.com</p>
-                                <p><strong>ساعات العمل:</strong> الأحد - الخميس، 8 صباحاً - 5 مساءً</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 40px; margin: 40px 0;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <h3 style="color: #222; margin-bottom: 20px; font-size: 22px; font-weight: 600;">معلومات التواصل</h3>
+                                <p style="margin-bottom: 15px;"><strong style="color: #333;">العنوان:</strong> مدينة الرياض، المملكة العربية السعودية</p>
+                                <p style="margin-bottom: 15px;"><strong style="color: #333;">الهاتف:</strong> +966 11 123 4567</p>
+                                <p style="margin-bottom: 15px;"><strong style="color: #333;">البريد الإلكتروني:</strong> info@example.com</p>
+                                <p style="margin-bottom: 15px;"><strong style="color: #333;">ساعات العمل:</strong> الأحد - الخميس، 8 صباحاً - 5 مساءً</p>
+                                
+                                <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="خريطة الموقع" style="width: 100%; border-radius: 8px; margin-top: 20px;">
                             </div>
                             
-                            <div style="flex: 1; min-width: 250px;">
-                                <h3 style="color: #2c3e50; margin-bottom: 15px;">أرسل رسالة</h3>
+                            <div style="flex: 1; min-width: 300px;">
+                                <h3 style="color: #222; margin-bottom: 20px; font-size: 22px; font-weight: 600;">أرسل رسالة</h3>
                                 <form id="contact-form">
                                     <div class="form-group">
                                         <label class="form-label" for="name">الاسم الكامل</label>
@@ -424,6 +575,11 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
                                     <div class="form-group">
                                         <label class="form-label" for="email">البريد الإلكتروني</label>
                                         <input type="email" id="email" class="form-input" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="phone">رقم الهاتف</label>
+                                        <input type="tel" id="phone" class="form-input">
                                     </div>
                                     
                                     <div class="form-group">
@@ -443,38 +599,45 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
                 content: `
                     <h1 class="page-title">منتجاتنا</h1>
                     <div class="page-content">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="منتجاتنا" class="hero-image">
                         <p>نقدم مجموعة متنوعة من المنتجات التقنية المصممة لمساعدة الشركات والأفراد في تحقيق أهدافهم الرقمية.</p>
                         
                         <div class="card-container">
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="نظام إدارة المحتوى" class="card-image">
                                 <h3 class="card-title">نظام إدارة المحتوى</h3>
                                 <p class="card-text">نظام متكامل لإدارة محتوى موقعك بسهولة وبدون الحاجة إلى معرفة تقنية متقدمة.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 2,500 ر.س</p>
+                                <div class="price-tag">2,500 ر.س</div>
                             </div>
                             <div class="card">
+                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="متجر إلكتروني" class="card-image">
                                 <h3 class="card-title">متجر إلكتروني</h3>
                                 <p class="card-text">منصة متكاملة لإنشاء وإدارة متجرك الإلكتروني مع دفع آمن وشحن متكامل.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 5,000 ر.س</p>
+                                <div class="price-tag">5,000 ر.س</div>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">نظام حجوزات</h3>
-                                <p class="card-text">نظام متكامل لإدارة الحجوزات والمواعيد للمراكز والمؤسسات الخدمية.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 3,500 ر.س</p>
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="منصة التدريب الإلكتروني" class="card-image">
+                                <h3 class="card-title">منصة التدريب الإلكتروني</h3>
+                                <p class="card-text">منصة متكاملة لإنشاء وتقديم الدورات التدريبية عبر الإنترنت.</p>
+                                <div class="price-tag">7,500 ر.س</div>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">تطبيق موبايل</h3>
-                                <p class="card-text">تطبيق جوال مخصص لعملك يعمل على نظامي iOS و Android مع لوحة تحكم ويب.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 8,000 ر.س</p>
+                                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="نظام حجز مواعيد" class="card-image">
+                                <h3 class="card-title">نظام حجز مواعيد</h3>
+                                <p class="card-text">نظام متكامل لإدارة المواعيد والحجوزات للمؤسسات الصحية والخدمية.</p>
+                                <div class="price-tag">3,500 ر.س</div>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">موقع شركة</h3>
-                                <p class="card-text">موقع احترافي لشركتك يعرض خدماتك ومنتجاتك مع لوحة تحكم سهلة الاستخدام.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">السعر: 4,000 ر.س</p>
+                                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيق جوال للموارد البشرية" class="card-image">
+                                <h3 class="card-title">تطبيق جوال للموارد البشرية</h3>
+                                <p class="card-text">تطبيق لإدارة الموارد البشرية يتيح للموظفين تقديم طلبات الإجازة والمزيد.</p>
+                                <div class="price-tag">6,000 ر.س</div>
                             </div>
                             <div class="card">
-                                <h3 class="card-title">نظام داخلي</h3>
-                                <p class="card-text">نظام داخلي مخصص لإدارة عمليات مؤسستك وموظفيك وعملائك.</p>
-                                <p style="color: #4db8ff; font-weight: bold; margin-top: 10px;">بدءاً من: 10,000 ر.س</p>
+                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="لوحة تحليل البيانات" class="card-image">
+                                <h3 class="card-title">لوحة تحليل البيانات</h3>
+                                <p class="card-text">لوحة تحكم متقدمة تعرض تحليلات البيانات والمؤشرات الرئيسية لأعمالك.</p>
+                                <div class="price-tag">4,500 ر.س</div>
                             </div>
                         </div>
                     </div>
@@ -482,108 +645,126 @@ So, let’s suppose that you have done some brainstorming to develop your thesis
             }
         };
 
-        // العناصر الرئيسية في DOM
-        const contentElement = document.getElementById('content');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const logoLink = document.querySelector('.logo');
-
-        // دالة لتحميل الصفحة
-        function loadPage(pageId) {
-            // إظهار مؤشر تحميل
-            contentElement.innerHTML = '<div class="loader">جاري تحميل المحتوى...</div>';
+        // تحميل الصفحة الأولى عند فتح الموقع
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPage('home');
             
-            // محاكاة تأخير لرؤية تأثير التحميل (في التطبيق الحقيقي يمكن إزالته)
-            setTimeout(() => {
-                // التحقق من وجود الصفحة المطلوبة
-                if (pages[pageId]) {
-                    // تحديث المحتوى
-                    contentElement.innerHTML = pages[pageId].content;
+            // إضافة حدث النقر لروابط التنقل
+            document.querySelectorAll('.nav-link, .logo, .footer-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    if (page) {
+                        loadPage(page);
+                        
+                        // تحديث الرابط النشط في شريط التنقل
+                        document.querySelectorAll('.nav-link').forEach(navLink => {
+                            navLink.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // تحديث تاريخ المتصفح
+                        history.pushState({ page: page }, '', `#${page}`);
+                    }
+                });
+            });
+            
+            // التعامل مع زر الرجوع في المتصفح
+            window.addEventListener('popstate', function(e) {
+                if (e.state && e.state.page) {
+                    loadPage(e.state.page);
                     
-                    // تحديث عنوان الصفحة في شريط العنوان
-                    document.title = `${pages[pageId].title} - موقعنا`;
-                    
-                    // تحديث رابط التاريخ للسماح بإعادة التحميل
-                    history.pushState({page: pageId}, pages[pageId].title, `?page=${pageId}`);
-                    
-                    // تحديث حالة الروابط النشطة
-                    updateActiveLink(pageId);
-                    
-                    // إضافة مستمعي الأحداث للنماذج إذا كانت موجودة
-                    setupFormListeners();
-                } else {
-                    // إذا لم توجد الصفحة، تحميل الصفحة الرئيسية
-                    contentElement.innerHTML = '<h1 class="page-title">الصفحة غير موجودة</h1><div class="page-content"><p>عذراً، الصفحة التي تبحث عنها غير موجودة. <a href="#" data-page="home">العودة إلى الرئيسية</a></p></div>';
-                }
-            }, 300);
-        }
-
-        // دالة لتحديث الرابط النشط في القائمة
-        function updateActiveLink(pageId) {
-            navLinks.forEach(link => {
-                if (link.getAttribute('data-page') === pageId) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
+                    // تحديث الرابط النشط
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-page') === e.state.page) {
+                            link.classList.add('active');
+                        }
+                    });
                 }
             });
-        }
-
-        // دالة لإعداد مستمعي الأحداث للنماذج
-        function setupFormListeners() {
-            const contactForm = document.getElementById('contact-form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
+            
+            // التعامل مع إرسال نموذج الاتصال
+            document.addEventListener('submit', function(e) {
+                if (e.target && e.target.id === 'contact-form') {
                     e.preventDefault();
                     
-                    // في التطبيق الحقيقي هنا يتم إرسال البيانات إلى الخادم
-                    alert('شكراً لك على رسالتك! سنقوم بالرد عليك في أقرب وقت ممكن.');
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
                     
-                    // إعادة تعيين النموذج
-                    contactForm.reset();
+                    if (name && email && message) {
+                        alert(`شكراً ${name} على رسالتك! سنرد عليك على ${email} في أقرب وقت.`);
+                        e.target.reset();
+                    } else {
+                        alert('يرجى ملء جميع الحقول المطلوبة.');
+                    }
+                }
+            });
+            
+            // تحميل الصفحة من الرابط إذا كان موجوداً
+            const hash = window.location.hash.substring(1);
+            if (hash && pages[hash]) {
+                loadPage(hash);
+                
+                // تحديث الرابط النشط
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-page') === hash) {
+                        link.classList.add('active');
+                    }
                 });
             }
-        }
+        });
 
-        // دالة لتحميل الصفحة بناءً على معاملات الرابط
-        function loadPageFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const pageParam = urlParams.get('page');
+        // وظيفة تحميل الصفحة
+        function loadPage(page) {
+            const contentDiv = document.getElementById('content');
             
-            if (pageParam && pages[pageParam]) {
-                loadPage(pageParam);
-            } else {
-                loadPage('home');
-            }
+            // عرض مؤشر التحميل
+            contentDiv.innerHTML = '<div class="loader">جاري تحميل المحتوى...</div>';
+            
+            // محاكاة وقت التحميل
+            setTimeout(() => {
+                if (pages[page]) {
+                    contentDiv.innerHTML = pages[page].content;
+                    document.title = `${pages[page].title} - موقعنا`;
+                    
+                    // التمرين إلى أعلى الصفحة بعد التحميل
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    contentDiv.innerHTML = `
+                        <h1 class="page-title">الصفحة غير موجودة</h1>
+                        <div class="page-content">
+                            <p>عذراً، الصفحة التي تبحث عنها غير موجودة.</p>
+                            <p><a href="#" data-page="home" style="color: #007acc; text-decoration: none;">← العودة إلى الصفحة الرئيسية</a></p>
+                        </div>
+                    `;
+                }
+                
+                // إضافة أحداث النقر للروابط الجديدة
+                contentDiv.querySelectorAll('a[data-page]').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const page = this.getAttribute('data-page');
+                        if (page) {
+                            loadPage(page);
+                            
+                            // تحديث الرابط النشط في شريط التنقل
+                            document.querySelectorAll('.nav-link').forEach(navLink => {
+                                navLink.classList.remove('active');
+                                if (navLink.getAttribute('data-page') === page) {
+                                    navLink.classList.add('active');
+                                }
+                            });
+                            
+                            // تحديث تاريخ المتصفح
+                            history.pushState({ page: page }, '', `#${page}`);
+                        }
+                    });
+                });
+            }, 300); // تأخير قصير لمحاكاة التحميل
         }
-
-        // إعداد مستمعي الأحداث للروابط
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const pageId = this.getAttribute('data-page');
-                loadPage(pageId);
-            });
-        });
-
-        // إعداد مستمع الأحداث للشعار
-        logoLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            loadPage('home');
-        });
-
-        // إعداد مستمع الأحداث لأزرار الرجوع والتقدم في المتصفح
-        window.addEventListener('popstate', function(e) {
-            if (e.state && e.state.page) {
-                loadPage(e.state.page);
-            } else {
-                loadPageFromURL();
-            }
-        });
-
-        // تحميل الصفحة المناسبة عند تحميل الموقع لأول مرة
-        document.addEventListener('DOMContentLoaded', function() {
-            loadPageFromURL();
-        });
     </script>
 </body>
 </html>
