@@ -18,7 +18,7 @@
             min-height: 100vh;
         }
         
-        /* معرض الصور فقط - بدون هيدر */
+        /* معرض الصور فقط */
         .gallery-container {
             padding: 10px;
             max-width: 1400px;
@@ -135,6 +135,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.3s;
+            text-decoration: none;
         }
         
         .back-button:hover {
@@ -296,6 +297,25 @@
             border-radius: 20px;
             font-size: 14px;
         }
+        
+        /* رابط المشاركة */
+        .share-link {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .share-link a {
+            color: #4dabf7;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .share-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -316,6 +336,7 @@
         const images = [
             {
                 id: 1,
+                slug: "منظر-طبيعي-خلاب",
                 title: "منظر طبيعي خلاب",
                 author: "أحمد المصور",
                 image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
@@ -336,6 +357,7 @@
             },
             {
                 id: 2,
+                slug: "عمارة-حديثة",
                 title: "عمارة حديثة",
                 author: "ليلى المعماري",
                 image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
@@ -355,6 +377,7 @@
             },
             {
                 id: 3,
+                slug: "وجبة-شهية",
                 title: "وجبة شهية",
                 author: "طارق الشيف",
                 image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
@@ -372,71 +395,47 @@
                     { author: "هناء", date: "2023-04-12", text: "الإضاءة مثالية لإظهار تفاصيل الطعام." },
                     { author: "عمر", date: "2023-04-10", text: "الألوان طبيعية جدًا، لا توجد مبالغة في المعالجة." }
                 ]
-            },
-            {
-                id: 4,
-                title: "شارع مضاء بالليل",
-                author: "زياد الليلي",
-                image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                likes: 2890,
-                downloads: 1340,
-                views: 19800,
-                description: "شارع مدينة مضاء بأنوار متلألئة مع انعكاسات رائعة على الرصيف المبتل. تظهر الصورة الحياة الليلية للمدينة مع الأضواء الدافئة للمحلات والسيارات المارة. الجو الرطب بعد المطر يضيف لمسة سحرية مع انعكاسات الأضواء على الأرض.",
-                details: "التصوير الليلي طويل التعريض. الإعدادات: f/16، سرعة الغالق 30 ثانية، ISO 100. تم استخدام حامل ثلاثي القوائم ثقيل ومنظف للعدسات لتجنب البقع من رذاذ المطر.",
-                location: "طوكيو، اليابان",
-                date: "5 فبراير 2023",
-                equipment: "Fujifilm X-T4، عدسة 23mm f/1.4، حامل ثلاثي قوائم، مرشح ND",
-                tags: ["ليل", "مدينة", "أضواء", "مطر", "انعكاسات"],
-                comments: [
-                    { author: "ريم", date: "2023-03-20", text: "الألوان والانعكاسات خلابة، تشعرك بأنك هناك." },
-                    { author: "علي", date: "2023-03-18", text: "التعريض الطويل أعطى نتائج رائعة مع حركة السيارات." }
-                ]
-            },
-            {
-                id: 5,
-                title: "وجه تعبيري",
-                author: "سلمى البشري",
-                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                likes: 4120,
-                downloads: 2100,
-                views: 28700,
-                description: "صورة شخصية تظهر تعابير الوجه الدقيقة والإضاءة الدرامية. تبرز الصورة العيون كمركز للاهتمام مع إضاءة جانبية تنحت ملامح الوجه. الخلفية البسيطة تركز الانتباه على الشخص دون مشتتات.",
-                details: "إضاءة Rembrandt باستخدام مصباح واحد من الجانب الأيمن مع عاكس فضي من الجانب الأيسر. الكاميرا: Sony A7R IV مع عدسة 85mm. الإعدادات: f/2.8، سرعة الغالق 1/200 ثانية، ISO 400.",
-                location: "استوديو تصوير في القاهرة",
-                date: "18 يناير 2023",
-                equipment: "Sony A7R IV، عدسة 85mm f/1.8، إضاءة استوديو، عاكسات",
-                tags: ["بورتريه", "وجه", "تعبير", "إضاءة", "فن"],
-                comments: [
-                    { author: "حسن", date: "2023-02-25", text: "التعابير في العيون تحكي قصة بدون كلمات." },
-                    { author: "مريم", date: "2023-02-22", text: "الإضاءة محترفة جدًا، تبرز تفاصيل الوجه بشكل مثالي." }
-                ]
-            },
-            {
-                id: 6,
-                title: "مكتبة قديمة",
-                author: "عمر القارئ",
-                image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-                likes: 1760,
-                downloads: 780,
-                views: 13200,
-                description: "مكتبة تاريخية تحتوي على آلاف الكتب المرتبة على رفوف خشبية عالية. تظهر الصورة تفاصيل الكتب القديمة والأجواء الدافئة للمكان. الإضاءة الخافتة تضفي جواً من الغموض والهدوء الذي يميز هذه الأماكن.",
-                details: "التصوير في إضاءة منخفضة باستخدام حامل ثلاثي القوائم. الإعدادات: f/4، سرعة الغالق 1/30 ثانية، ISO 1600. تم تصحيح الألوان لإضفاء جو دافئ يناسب طبيعة المكان.",
-                location: "مكتبة قديمة في فيينا",
-                date: "3 ديسمبر 2022",
-                equipment: "Canon EOS 6D Mark II، عدسة 35mm f/1.4، حامل ثلاثي قوائم",
-                tags: ["كتب", "مكتبة", "تاريخ", "خشب", "هدوء"],
-                comments: [
-                    { author: "لينا", date: "2023-01-15", text: "أتمنى أن يكون لدي مكتبة مثل هذه في منزلي." },
-                    { author: "باسل", date: "2023-01-10", text: "الأجواء دافئة ومريحة، تشعرك برغبة في القراءة." }
-                ]
             }
         ];
+
+        // إعداد نظام التوجيه (Routing)
+        function initRouter() {
+            // قراءة الرابط الحالي
+            const path = window.location.hash.substring(1);
+            
+            if (path.startsWith('image/')) {
+                // استخراج معرف الصورة من الرابط
+                const slug = path.replace('image/', '');
+                const image = images.find(img => img.slug === slug);
+                
+                if (image) {
+                    // عرض صفحة الصورة مباشرة
+                    openProductPage(image.id);
+                } else {
+                    // إذا لم يتم العثور على الصورة، العودة إلى المعرض
+                    window.location.hash = '';
+                }
+            } else {
+                // عرض المعرض إذا لم يكن هناك رابط صورة
+                closeProductPage();
+            }
+        }
+
+        // تحديث الرابط عند فتح صفحة صورة
+        function updateUrlForImage(imageSlug) {
+            window.location.hash = `image/${imageSlug}`;
+        }
+
+        // العودة إلى الرابط الرئيسي
+        function resetUrl() {
+            window.location.hash = '';
+        }
 
         // توليد معرض الصور عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
             const gallery = document.getElementById('gallery');
             
-            // إنشاء بطاقات الصور
+            // إنشاء بطاقات الصور مع روابط
             images.forEach(image => {
                 const card = document.createElement('div');
                 card.className = 'image-card';
@@ -450,13 +449,20 @@
                     </div>
                 `;
                 
-                // إضافة حدث النقر لفتح صفحة المنتج
+                // إضافة حدث النقر لفتح صفحة المنتج مع تحديث الرابط
                 card.addEventListener('click', function() {
                     openProductPage(image.id);
+                    updateUrlForImage(image.slug);
                 });
                 
                 gallery.appendChild(card);
             });
+            
+            // تهيئة نظام التوجيه
+            initRouter();
+            
+            // الاستماع لتغييرات الرابط
+            window.addEventListener('hashchange', initRouter);
         });
 
         // فتح صفحة المنتج
@@ -471,15 +477,23 @@
             productPage.innerHTML = `
                 <div class="product-content">
                     <div class="product-header">
-                        <button class="back-button" id="backButton">
+                        <a href="#" class="back-button" id="backButton">
                             <span>←</span> العودة للمعرض
-                        </button>
+                        </a>
                         <h1 class="product-title">${image.title}</h1>
                     </div>
                     
                     <div class="product-body">
                         <div class="product-image-container">
                             <img src="${image.image}" alt="${image.title}" class="product-image">
+                            <div class="share-link">
+                                <strong>رابط هذه الصورة:</strong><br>
+                                <a href="${window.location.origin}${window.location.pathname}#image/${image.slug}" id="pageLink">
+                                    ${window.location.origin}${window.location.pathname}#image/${image.slug}
+                                </a>
+                                <br><br>
+                                <small>يمكنك نسخ هذا الرابط ومشاركته مع الآخرين</small>
+                            </div>
                             <div class="tags" style="margin-top: 20px;">
                                 ${image.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
@@ -545,13 +559,18 @@
             document.body.style.overflow = 'hidden';
             
             // إضافة حدث إغلاق صفحة المنتج
-            document.getElementById('backButton').addEventListener('click', closeProductPage);
+            document.getElementById('backButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                closeProductPage();
+                resetUrl();
+            });
             
-            // إغلاق صفحة المنتج عند النقر خارج المحتوى (اختياري)
-            productPage.addEventListener('click', function(e) {
-                if (e.target === productPage) {
-                    closeProductPage();
-                }
+            // إضافة زر نسخ الرابط
+            const pageLink = document.getElementById('pageLink');
+            pageLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                copyToClipboard(this.href);
+                alert('تم نسخ الرابط إلى الحافظة!');
             });
         }
 
@@ -560,6 +579,16 @@
             const productPage = document.getElementById('productPage');
             productPage.style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        // دالة مساعدة لنسخ النص إلى الحافظة
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
         }
     </script>
 </body>
