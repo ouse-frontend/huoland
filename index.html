@@ -3,767 +3,563 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع صفحة واحدة مع صفحات فرعية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>معرض صور ديناميكي</title>
     <style>
-        /* التصميم العام باستخدام خط مشابه لموقع Kenneth Reitz */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
         
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
-            font-weight: 400;
-            letter-spacing: -0.01em;
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
         }
         
-        .container {
-            max-width: 1200px;
+        /* معرض الصور فقط - بدون هيدر */
+        .gallery-container {
+            padding: 10px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
         }
         
-        /* رأس الموقع */
-        header {
-            background: #ffffff;
-            color: #333;
-            padding: 24px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        .gallery {
+            columns: 2;
+            column-gap: 15px;
         }
         
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        @media (min-width: 768px) {
+            .gallery {
+                columns: 3;
+            }
         }
         
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: #333;
-            text-decoration: none;
-            letter-spacing: -0.03em;
+        @media (min-width: 1200px) {
+            .gallery {
+                columns: 4;
+            }
         }
         
-        .logo span {
-            color: #007acc;
-            font-weight: 800;
-        }
-        
-        /* شريط التنقل */
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 25px;
-        }
-        
-        nav ul li:first-child {
-            margin-left: 0;
-        }
-        
-        .nav-link {
-            color: #555;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            background-color: #f0f7ff;
-            color: #007acc;
-        }
-        
-        /* المحتوى الرئيسي */
-        main {
-            min-height: calc(100vh - 160px);
-            padding: 60px 0 40px;
-        }
-        
-        #content {
-            background-color: white;
+        .image-card {
+            break-inside: avoid;
+            margin-bottom: 15px;
             border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* تصميم الصفحات */
-        .page-title {
-            color: #222;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-        }
-        
-        .page-content {
-            font-size: 18px;
-            line-height: 1.7;
-            color: #444;
-        }
-        
-        .page-content p {
-            margin-bottom: 24px;
-        }
-        
-        /* تصميم البطاقات */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .card {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #f0f0f0;
-        }
-        
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-        }
-        
-        .card-title {
-            color: #222;
-            margin-bottom: 16px;
-            font-size: 22px;
-            font-weight: 600;
-        }
-        
-        .card-text {
-            color: #555;
-            line-height: 1.6;
-        }
-        
-        .card-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-        
-        /* تصميم الصور */
-        .content-image {
-            width: 100%;
-            max-width: 800px;
-            border-radius: 12px;
-            margin: 30px auto;
-            display: block;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        .image-caption {
-            text-align: center;
-            color: #777;
-            font-size: 15px;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-        
-        .hero-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin: 30px 0;
-        }
-        
-        /* النموذج */
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            background: #fafafa;
-        }
-        
-        .form-input:focus {
-            border-color: #007acc;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
-            background: #fff;
-        }
-        
-        .btn {
-            background-color: #007acc;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            overflow: hidden;
+            background-color: #222;
             cursor: pointer;
-            transition: background-color 0.3s;
-            letter-spacing: -0.01em;
-        }
-        
-        .btn:hover {
-            background-color: #005d99;
-        }
-        
-        /* التذييل */
-        footer {
-            background-color: #fff;
-            color: #666;
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 60px;
-            border-top: 1px solid #eee;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            gap: 20px;
-        }
-        
-        .footer-links a {
-            color: #777;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        
-        .footer-links a:hover {
-            color: #007acc;
-        }
-        
-        /* التجاوب مع الشاشات المختلفة */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 5px 10px;
-            }
-            
-            .page-title {
-                font-size: 28px;
-            }
-            
-            #content {
-                padding: 25px;
-            }
-            
-            .card-container {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* مؤشر التحميل */
-        .loader {
-            text-align: center;
-            padding: 60px;
-            font-size: 18px;
-            color: #007acc;
-        }
-        
-        .loader::after {
-            content: '';
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            border: 3px solid #f0f0f0;
-            border-top: 3px solid #007acc;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* تصميم قائمة */
-        .page-content ul {
-            padding-right: 20px;
-            margin-bottom: 25px;
-        }
-        
-        .page-content li {
-            margin-bottom: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
         }
         
-        .page-content li:before {
-            content: "•";
-            color: #007acc;
-            font-weight: bold;
+        .image-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.3s;
+        }
+        
+        .image-card:hover img {
+            opacity: 0.9;
+        }
+        
+        .image-overlay {
             position: absolute;
-            right: -15px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         
-        /* تصميم العروض */
-        .price-tag {
-            display: inline-block;
-            background-color: #f0f7ff;
-            color: #007acc;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            margin-top: 15px;
+        .image-card:hover .image-overlay {
+            opacity: 1;
         }
         
-        /* تحسينات عامة */
-        .highlight {
-            background-color: #f9f9f9;
-            border-right: 4px solid #007acc;
+        .image-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .image-author {
+            font-size: 12px;
+            color: #ccc;
+        }
+        
+        /* صفحة المنتج */
+        .product-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #111;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .product-content {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
         }
         
-        .section-title {
-            color: #222;
-            margin: 40px 0 20px;
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .back-button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: #444;
+        }
+        
+        .product-title {
             font-size: 24px;
-            font-weight: 600;
+            font-weight: bold;
+        }
+        
+        .product-body {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        @media (min-width: 992px) {
+            .product-body {
+                flex-direction: row;
+            }
+        }
+        
+        .product-image-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .product-details {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .meta-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .meta-label {
+            font-size: 14px;
+            color: #aaa;
+            margin-top: 5px;
+        }
+        
+        .product-description {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        
+        .product-info {
+            background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .info-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .info-content {
+            font-size: 15px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .info-list {
+            list-style-type: none;
+        }
+        
+        .info-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .comments-section {
+            background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        
+        .comment {
+            padding: 15px 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+        }
+        
+        .comment-date {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .comment-text {
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .tag {
+            background-color: #333;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <!-- رأس الموقع -->
-    <header>
-        <div class="container header-content">
-            <a href="#" class="logo" data-page="home">موقع<span>نا</span></a>
-            <nav>
-                <ul>
-                    <li><a href="#" class="nav-link active" data-page="home">الرئيسية</a></li>
-                    <li><a href="#" class="nav-link" data-page="about">من نحن</a></li>
-                    <li><a href="#" class="nav-link" data-page="services">خدماتنا</a></li>
-                    <li><a href="#" class="nav-link" data-page="contact">اتصل بنا</a></li>
-                    <li><a href="#" class="nav-link" data-page="products">منتجاتنا</a></li>
-                </ul>
-            </nav>
+    <!-- معرض الصور فقط -->
+    <div class="gallery-container">
+        <div class="gallery" id="gallery">
+            <!-- سيتم إضافة الصور ديناميكياً -->
         </div>
-    </header>
-
-    <!-- المحتوى الرئيسي -->
-    <main class="container">
-        <div id="content">
-            <!-- سيتم تحميل المحتوى هنا ديناميكياً -->
-        </div>
-    </main>
-
-    <!-- تذييل الموقع -->
-    <footer>
-        <div class="container">
-            <p>جميع الحقوق محفوظة &copy; 2023 موقعنا. تم التطوير باستخدام DOM Manipulation</p>
-            <div class="footer-links">
-                <a href="#" data-page="home">الرئيسية</a>
-                <a href="#" data-page="about">من نحن</a>
-                <a href="#" data-page="services">خدماتنا</a>
-                <a href="#" data-page="contact">اتصل بنا</a>
-                <a href="#" data-page="products">منتجاتنا</a>
-            </div>
-        </div>
-    </footer>
+    </div>
+    
+    <!-- صفحة المنتج (ستظهر عند النقر على صورة) -->
+    <div class="product-page" id="productPage">
+        <!-- سيتم بناؤها ديناميكياً بالكامل -->
+    </div>
 
     <script>
-        // بيانات الصفحات المختلفة مع إضافة الصور
-        const pages = {
-            home: {
-                title: "مرحباً بكم في موقعنا",
-                content: `
-                    <h1 class="page-title">مرحباً بكم في موقعنا</h1>
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="صورة رئيسية للموقع" class="hero-image">
-                        <p>هذا الموقع عبارة عن نموذج لموقع من صفحة واحدة (Single Page Application) يعتمد على DOM Manipulation لتحميل المحتوى ديناميكياً دون إعادة تحميل الصفحة الرئيسية.</p>
-                        
-                        <div class="highlight">
-                            <p>المزايا الرئيسية لموقعنا:</p>
-                        </div>
-                        
-                        <ul>
-                            <li>سرعة تحميل عالية للصفحات الفرعية</li>
-                            <li>تجربة مستخدم سلسة دون إعادة تحميل كامل الصفحة</li>
-                            <li>إمكانية إعادة تحميل الصفحات الفرعية باستخدام History API</li>
-                            <li>تصميم متجاوب يعمل على جميع الأجهزة</li>
-                            <li>واجهة مستخدم حديثة وجذابة</li>
-                        </ul>
-                        
-                        <p>استخدم القائمة أعلاه للتنقل بين الصفحات المختلفة.</p>
-                        
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="تقنية الويب الحديثة" class="content-image">
-                        <p class="image-caption">نستخدم أحدث التقنيات في تطوير الويب</p>
-                        
-                        <h3 class="section-title">ماذا نقدم؟</h3>
-                        
-                        <div class="card-container">
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تحليلات البيانات" class="card-image">
-                                <h3 class="card-title">تحليلات متقدمة</h3>
-                                <p class="card-text">نوفر حلول تحليل بيانات متقدمة تساعدك على فهم جمهورك واتخاذ قرارات استراتيجية مدروسة.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w-800&q=80" alt="تصميم تجربة المستخدم" class="card-image">
-                                <h3 class="card-title">تصميم UX/UI</h3>
-                                <p class="card-text">نصمم واجهات مستخدم جذابة وسهلة الاستخدام تعزز تفاعل المستخدمين مع تطبيقاتك.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطوير البرمجيات" class="card-image">
-                                <h3 class="card-title">تطوير برمجيات مخصصة</h3>
-                                <p class="card-text">نطور حلول برمجية مخصصة تلبي احتياجات أعمالك الفريدة وتنمو مع نمو شركتك.</p>
-                            </div>
-                        </div>
-                    </div>
-                `
+        // بيانات الصور والمنتجات
+        const images = [
+            {
+                id: 1,
+                title: "منظر طبيعي خلاب",
+                author: "أحمد المصور",
+                image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 2450,
+                downloads: 1200,
+                views: 18900,
+                description: "منظر طبيعي خلاب يظهر جمال الطبيعة في أوج تألقها. تم التقاط هذه الصورة في ساعات الشروق الأولى حيث تتلألأ أشعة الشمس على قمم الجبال. تكشف الصورة عن تفاصيل دقيقة للأشجار والصخور والمياه الجارية، مما يخلق مشهداً هادئاً ومريحاً للنفس.",
+                details: "تم التقاط هذه الصورة بكاميرا احترافية من نوع Nikon D850 مع عدسة 24-70mm. الإعدادات: f/8، سرعة الغالق 1/125 ثانية، ISO 100. التصوير تم في إضاءة طبيعية دون استخدام فلاش.",
+                location: "جبال الألب السويسرية",
+                date: "15 مايو 2023",
+                equipment: "Nikon D850، عدسة 24-70mm f/2.8، حامل ثلاثي القوائم",
+                tags: ["طبيعة", "جبال", "شروق", "مناظر طبيعية", "هدوء"],
+                comments: [
+                    { author: "سارة", date: "2023-06-10", text: "كم هي رائعة هذه الصورة! الألوان تخلق جوًا ساحرًا." },
+                    { author: "خالد", date: "2023-06-08", text: "التفاصيل مذهلة، يمكنني رؤية كل ورقة شجرة تقريبًا." },
+                    { author: "نورة", date: "2023-06-05", text: "أحببت توزيع الضوء في هذه الصورة، محترف حقًا." }
+                ]
             },
-            about: {
-                title: "من نحن",
-                content: `
-                    <h1 class="page-title">من نحن</h1>
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="فريق العمل" class="hero-image">
-                        <p>نحن شركة رائدة في مجال تطوير الويب وتقديم الحلول التقنية المبتكرة. تأسست شركتنا في عام 2010 ولدينا خبرة واسعة في بناء تطبيقات الويب المتقدمة.</p>
-                        
-                        <p>فريقنا مكون من مجموعة من المطورين والمصممين ذوي الخبرة والكفاءة العالية، والذين يعملون باستمرار على تطوير مهاراتهم ومواكبة أحدث التقنيات في مجال تطوير الويب.</p>
-                        
-                        <h3 class="section-title">رؤيتنا</h3>
-                        <div class="highlight">
-                            <p>نسعى لأن نكون الخيار الأول للشركات والمنظمات التي تبحث عن حلول ويب مبتكرة وعالية الجودة.</p>
-                        </div>
-                        
-                        <h3 class="section-title">رسالتنا</h3>
-                        <div class="highlight">
-                            <p>تقديم حلول تقنية متميزة تساهم في تحسين أعمال عملائنا وتقدم تجربة مستخدم استثنائية.</p>
-                        </div>
-                        
-                        <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="مكتبنا" class="content-image">
-                        <p class="image-caption">مكتبنا المصمم ليكون بيئة إبداعية ملهمة</p>
-                        
-                        <div class="card-container">
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="سنوات الخبرة" class="card-image">
-                                <h3 class="card-title">سنوات الخبرة</h3>
-                                <p class="card-text">أكثر من 10 سنوات في مجال تطوير الويب وتقديم الحلول التقنية.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="المشاريع المنجزة" class="card-image">
-                                <h3 class="card-title">مشاريع منجزة</h3>
-                                <p class="card-text">أكثر من 500 مشروع ناجح لشركات ومؤسسات متنوعة.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1551836026-d5c2c7e4c2c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="العملاء" class="card-image">
-                                <h3 class="card-title">عملاء سعداء</h3>
-                                <p class="card-text">أكثر من 200 عميل راضٍ عن خدماتنا وجودة عملنا.</p>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                id: 2,
+                title: "عمارة حديثة",
+                author: "ليلى المعماري",
+                image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 1870,
+                downloads: 890,
+                views: 15400,
+                description: "تصميم معماري حديث يجمع بين الخطوط المستقيمة والمنحنيات اللطيفة. يظهر المبنى بتصميم فريد يعكس الذوق المعماري المعاصر مع الحفاظ على الوظائف العملية. الزجاج والمعادن تشكل العناصر الرئيسية في هذا التصميم الذي يبرز تحت سماء زرقاء صافية.",
+                details: "التصوير تم بعدسة واسعة الزاوية 16-35mm على كاميرا Sony A7III. الإعدادات: f/11، سرعة الغالق 1/200 ثانية، ISO 200. تم معالجة الصورة لتعزيز التباين والألوان.",
+                location: "دبي، الإمارات العربية المتحدة",
+                date: "22 أبريل 2023",
+                equipment: "Sony A7III، عدسة 16-35mm f/4، فلتر استقطاب",
+                tags: ["عمارة", "حديث", "تصميم", "مدينة", "زجاج"],
+                comments: [
+                    { author: "محمد", date: "2023-05-30", text: "التصميم المعماري مذهل، الخطوط نظيفة جدًا." },
+                    { author: "فاطمة", date: "2023-05-28", text: "أحببت تناسق الألوان في هذه الصورة." }
+                ]
             },
-            services: {
-                title: "خدماتنا",
-                content: `
-                    <h1 class="page-title">خدماتنا</h1>
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="خدماتنا التقنية" class="hero-image">
-                        <p>نقدم مجموعة واسعة من خدمات تطوير الويب والتقنية المصممة خصيصاً لتلبية احتياجات عملائنا.</p>
-                        
-                        <div class="card-container">
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطوير مواقع الويب" class="card-image">
-                                <h3 class="card-title">تطوير مواقع الويب</h3>
-                                <p class="card-text">نقوم بتطوير مواقع ويب احترافية متجاوبة مع جميع الأجهزة، باستخدام أحدث التقنيات مثل HTML5، CSS3، JavaScript.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيقات الصفحة الواحدة" class="card-image">
-                                <h3 class="card-title">تطبيقات الصفحة الواحدة (SPA)</h3>
-                                <p class="card-text">نطور تطبيقات صفحة واحدة باستخدام تقنيات مثل React، Vue.js، أو Angular لتقديم تجربة مستخدم سلسة.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيقات الهواتف" class="card-image">
-                                <h3 class="card-title">تطبيقات الهواتف</h3>
-                                <p class="card-text">نقوم بتحويل موقعك إلى تطبيق للهواتف الذكية باستخدام تقنيات الهجينة مثل React Native.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تصميم واجهة المستخدم" class="card-image">
-                                <h3 class="card-title">تصميم واجهة المستخدم</h3>
-                                <p class="card-text">نصمم واجهات مستخدم جذابة وسهلة الاستخدام تعكس هوية علامتك التجارية.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="استضافة الويب" class="card-image">
-                                <h3 class="card-title">استضافة الويب</h3>
-                                <p class="card-text">نوفر خدمات استضافة موثوقة وسريعة مع دعم فني متواصل على مدار الساعة.</p>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تحسين محركات البحث" class="card-image">
-                                <h3 class="card-title">تحسين محركات البحث</h3>
-                                <p class="card-text">نساعدك في تحسين ترتيب موقعك في محركات البحث وزيادة ظهوره لمستخدمي الإنترنت.</p>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                id: 3,
+                title: "وجبة شهية",
+                author: "طارق الشيف",
+                image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 3210,
+                downloads: 1560,
+                views: 23400,
+                description: "وجبة طعام شهية تظهر تفاصيل الألوان والمكونات بدقة عالية. تبرز الصورة نضارة المكونات وتناسق الألوان الذي يجعل الوجبة جذابة للغاية. الإضاءة الطبيعية تسلط الضوء على تفاصيل الطعام وتبرز قوام المكونات المختلفة.",
+                details: "تم إعداد الإضاءة باستخدام softbox كبير من الجانب الأيسر مع عاكس من الجانب الأيمن. الكاميرا: Canon EOS R5 مع عدسة 100mm ماكرو. الإعدادات: f/5.6، سرعة الغالق 1/160 ثانية، ISO 400.",
+                location: "مطعم فاخر في إسطنبول",
+                date: "10 مارس 2023",
+                equipment: "Canon EOS R5، عدسة 100mm f/2.8L ماكرو، إضاءة صناعية",
+                tags: ["طعام", "وجبة", "صحة", "طازج", "ألوان"],
+                comments: [
+                    { author: "يوسف", date: "2023-04-15", text: "الصورة تجعلني أشعر بالجوع رغم أنني أكلت للتو!" },
+                    { author: "هناء", date: "2023-04-12", text: "الإضاءة مثالية لإظهار تفاصيل الطعام." },
+                    { author: "عمر", date: "2023-04-10", text: "الألوان طبيعية جدًا، لا توجد مبالغة في المعالجة." }
+                ]
             },
-            contact: {
-                title: "اتصل بنا",
-                content: `
-                    <h1 class="page-title">اتصل بنا</h1>
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="اتصل بنا" class="hero-image">
-                        <p>نحن هنا لمساعدتك! يمكنك التواصل معنا عبر المعلومات التالية أو باستخدام النموذج المرفق:</p>
-                        
-                        <div style="display: flex; flex-wrap: wrap; gap: 40px; margin: 40px 0;">
-                            <div style="flex: 1; min-width: 300px;">
-                                <h3 style="color: #222; margin-bottom: 20px; font-size: 22px; font-weight: 600;">معلومات التواصل</h3>
-                                <p style="margin-bottom: 15px;"><strong style="color: #333;">العنوان:</strong> مدينة الرياض، المملكة العربية السعودية</p>
-                                <p style="margin-bottom: 15px;"><strong style="color: #333;">الهاتف:</strong> +966 11 123 4567</p>
-                                <p style="margin-bottom: 15px;"><strong style="color: #333;">البريد الإلكتروني:</strong> info@example.com</p>
-                                <p style="margin-bottom: 15px;"><strong style="color: #333;">ساعات العمل:</strong> الأحد - الخميس، 8 صباحاً - 5 مساءً</p>
-                                
-                                <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="خريطة الموقع" style="width: 100%; border-radius: 8px; margin-top: 20px;">
-                            </div>
-                            
-                            <div style="flex: 1; min-width: 300px;">
-                                <h3 style="color: #222; margin-bottom: 20px; font-size: 22px; font-weight: 600;">أرسل رسالة</h3>
-                                <form id="contact-form">
-                                    <div class="form-group">
-                                        <label class="form-label" for="name">الاسم الكامل</label>
-                                        <input type="text" id="name" class="form-input" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label" for="email">البريد الإلكتروني</label>
-                                        <input type="email" id="email" class="form-input" required>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label" for="phone">رقم الهاتف</label>
-                                        <input type="tel" id="phone" class="form-input">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label class="form-label" for="message">الرسالة</label>
-                                        <textarea id="message" class="form-input" rows="5" required></textarea>
-                                    </div>
-                                    
-                                    <button type="submit" class="btn">إرسال الرسالة</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                id: 4,
+                title: "شارع مضاء بالليل",
+                author: "زياد الليلي",
+                image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 2890,
+                downloads: 1340,
+                views: 19800,
+                description: "شارع مدينة مضاء بأنوار متلألئة مع انعكاسات رائعة على الرصيف المبتل. تظهر الصورة الحياة الليلية للمدينة مع الأضواء الدافئة للمحلات والسيارات المارة. الجو الرطب بعد المطر يضيف لمسة سحرية مع انعكاسات الأضواء على الأرض.",
+                details: "التصوير الليلي طويل التعريض. الإعدادات: f/16، سرعة الغالق 30 ثانية، ISO 100. تم استخدام حامل ثلاثي القوائم ثقيل ومنظف للعدسات لتجنب البقع من رذاذ المطر.",
+                location: "طوكيو، اليابان",
+                date: "5 فبراير 2023",
+                equipment: "Fujifilm X-T4، عدسة 23mm f/1.4، حامل ثلاثي قوائم، مرشح ND",
+                tags: ["ليل", "مدينة", "أضواء", "مطر", "انعكاسات"],
+                comments: [
+                    { author: "ريم", date: "2023-03-20", text: "الألوان والانعكاسات خلابة، تشعرك بأنك هناك." },
+                    { author: "علي", date: "2023-03-18", text: "التعريض الطويل أعطى نتائج رائعة مع حركة السيارات." }
+                ]
             },
-            products: {
-                title: "منتجاتنا",
-                content: `
-                    <h1 class="page-title">منتجاتنا</h1>
-                    <div class="page-content">
-                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="منتجاتنا" class="hero-image">
-                        <p>نقدم مجموعة متنوعة من المنتجات التقنية المصممة لمساعدة الشركات والأفراد في تحقيق أهدافهم الرقمية.</p>
-                        
-                        <div class="card-container">
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="نظام إدارة المحتوى" class="card-image">
-                                <h3 class="card-title">نظام إدارة المحتوى</h3>
-                                <p class="card-text">نظام متكامل لإدارة محتوى موقعك بسهولة وبدون الحاجة إلى معرفة تقنية متقدمة.</p>
-                                <div class="price-tag">2,500 ر.س</div>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="متجر إلكتروني" class="card-image">
-                                <h3 class="card-title">متجر إلكتروني</h3>
-                                <p class="card-text">منصة متكاملة لإنشاء وإدارة متجرك الإلكتروني مع دفع آمن وشحن متكامل.</p>
-                                <div class="price-tag">5,000 ر.س</div>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="منصة التدريب الإلكتروني" class="card-image">
-                                <h3 class="card-title">منصة التدريب الإلكتروني</h3>
-                                <p class="card-text">منصة متكاملة لإنشاء وتقديم الدورات التدريبية عبر الإنترنت.</p>
-                                <div class="price-tag">7,500 ر.س</div>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="نظام حجز مواعيد" class="card-image">
-                                <h3 class="card-title">نظام حجز مواعيد</h3>
-                                <p class="card-text">نظام متكامل لإدارة المواعيد والحجوزات للمؤسسات الصحية والخدمية.</p>
-                                <div class="price-tag">3,500 ر.س</div>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="تطبيق جوال للموارد البشرية" class="card-image">
-                                <h3 class="card-title">تطبيق جوال للموارد البشرية</h3>
-                                <p class="card-text">تطبيق لإدارة الموارد البشرية يتيح للموظفين تقديم طلبات الإجازة والمزيد.</p>
-                                <div class="price-tag">6,000 ر.س</div>
-                            </div>
-                            <div class="card">
-                                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="لوحة تحليل البيانات" class="card-image">
-                                <h3 class="card-title">لوحة تحليل البيانات</h3>
-                                <p class="card-text">لوحة تحكم متقدمة تعرض تحليلات البيانات والمؤشرات الرئيسية لأعمالك.</p>
-                                <div class="price-tag">4,500 ر.س</div>
-                            </div>
-                        </div>
-                    </div>
-                `
+            {
+                id: 5,
+                title: "وجه تعبيري",
+                author: "سلمى البشري",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 4120,
+                downloads: 2100,
+                views: 28700,
+                description: "صورة شخصية تظهر تعابير الوجه الدقيقة والإضاءة الدرامية. تبرز الصورة العيون كمركز للاهتمام مع إضاءة جانبية تنحت ملامح الوجه. الخلفية البسيطة تركز الانتباه على الشخص دون مشتتات.",
+                details: "إضاءة Rembrandt باستخدام مصباح واحد من الجانب الأيمن مع عاكس فضي من الجانب الأيسر. الكاميرا: Sony A7R IV مع عدسة 85mm. الإعدادات: f/2.8، سرعة الغالق 1/200 ثانية، ISO 400.",
+                location: "استوديو تصوير في القاهرة",
+                date: "18 يناير 2023",
+                equipment: "Sony A7R IV، عدسة 85mm f/1.8، إضاءة استوديو، عاكسات",
+                tags: ["بورتريه", "وجه", "تعبير", "إضاءة", "فن"],
+                comments: [
+                    { author: "حسن", date: "2023-02-25", text: "التعابير في العيون تحكي قصة بدون كلمات." },
+                    { author: "مريم", date: "2023-02-22", text: "الإضاءة محترفة جدًا، تبرز تفاصيل الوجه بشكل مثالي." }
+                ]
+            },
+            {
+                id: 6,
+                title: "مكتبة قديمة",
+                author: "عمر القارئ",
+                image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+                likes: 1760,
+                downloads: 780,
+                views: 13200,
+                description: "مكتبة تاريخية تحتوي على آلاف الكتب المرتبة على رفوف خشبية عالية. تظهر الصورة تفاصيل الكتب القديمة والأجواء الدافئة للمكان. الإضاءة الخافتة تضفي جواً من الغموض والهدوء الذي يميز هذه الأماكن.",
+                details: "التصوير في إضاءة منخفضة باستخدام حامل ثلاثي القوائم. الإعدادات: f/4، سرعة الغالق 1/30 ثانية، ISO 1600. تم تصحيح الألوان لإضفاء جو دافئ يناسب طبيعة المكان.",
+                location: "مكتبة قديمة في فيينا",
+                date: "3 ديسمبر 2022",
+                equipment: "Canon EOS 6D Mark II، عدسة 35mm f/1.4، حامل ثلاثي قوائم",
+                tags: ["كتب", "مكتبة", "تاريخ", "خشب", "هدوء"],
+                comments: [
+                    { author: "لينا", date: "2023-01-15", text: "أتمنى أن يكون لدي مكتبة مثل هذه في منزلي." },
+                    { author: "باسل", date: "2023-01-10", text: "الأجواء دافئة ومريحة، تشعرك برغبة في القراءة." }
+                ]
             }
-        };
+        ];
 
-        // تحميل الصفحة الأولى عند فتح الموقع
+        // توليد معرض الصور عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function() {
-            loadPage('home');
+            const gallery = document.getElementById('gallery');
             
-            // إضافة حدث النقر لروابط التنقل
-            document.querySelectorAll('.nav-link, .logo, .footer-links a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = this.getAttribute('data-page');
-                    if (page) {
-                        loadPage(page);
-                        
-                        // تحديث الرابط النشط في شريط التنقل
-                        document.querySelectorAll('.nav-link').forEach(navLink => {
-                            navLink.classList.remove('active');
-                        });
-                        this.classList.add('active');
-                        
-                        // تحديث تاريخ المتصفح
-                        history.pushState({ page: page }, '', `#${page}`);
-                    }
-                });
-            });
-            
-            // التعامل مع زر الرجوع في المتصفح
-            window.addEventListener('popstate', function(e) {
-                if (e.state && e.state.page) {
-                    loadPage(e.state.page);
-                    
-                    // تحديث الرابط النشط
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('data-page') === e.state.page) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-            
-            // التعامل مع إرسال نموذج الاتصال
-            document.addEventListener('submit', function(e) {
-                if (e.target && e.target.id === 'contact-form') {
-                    e.preventDefault();
-                    
-                    const name = document.getElementById('name').value;
-                    const email = document.getElementById('email').value;
-                    const message = document.getElementById('message').value;
-                    
-                    if (name && email && message) {
-                        alert(`شكراً ${name} على رسالتك! سنرد عليك على ${email} في أقرب وقت.`);
-                        e.target.reset();
-                    } else {
-                        alert('يرجى ملء جميع الحقول المطلوبة.');
-                    }
-                }
-            });
-            
-            // تحميل الصفحة من الرابط إذا كان موجوداً
-            const hash = window.location.hash.substring(1);
-            if (hash && pages[hash]) {
-                loadPage(hash);
+            // إنشاء بطاقات الصور
+            images.forEach(image => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.dataset.id = image.id;
                 
-                // تحديث الرابط النشط
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('data-page') === hash) {
-                        link.classList.add('active');
-                    }
+                card.innerHTML = `
+                    <img src="${image.image}" alt="${image.title}" loading="lazy">
+                    <div class="image-overlay">
+                        <div class="image-title">${image.title}</div>
+                        <div class="image-author">${image.author}</div>
+                    </div>
+                `;
+                
+                // إضافة حدث النقر لفتح صفحة المنتج
+                card.addEventListener('click', function() {
+                    openProductPage(image.id);
                 });
-            }
+                
+                gallery.appendChild(card);
+            });
         });
 
-        // وظيفة تحميل الصفحة
-        function loadPage(page) {
-            const contentDiv = document.getElementById('content');
+        // فتح صفحة المنتج
+        function openProductPage(imageId) {
+            const image = images.find(img => img.id === imageId);
+            if (!image) return;
             
-            // عرض مؤشر التحميل
-            contentDiv.innerHTML = '<div class="loader">جاري تحميل المحتوى...</div>';
+            // إنشاء عناصر صفحة المنتج
+            const productPage = document.getElementById('productPage');
             
-            // محاكاة وقت التحميل
-            setTimeout(() => {
-                if (pages[page]) {
-                    contentDiv.innerHTML = pages[page].content;
-                    document.title = `${pages[page].title} - موقعنا`;
+            // إنشاء محتوى صفحة المنتج كاملة
+            productPage.innerHTML = `
+                <div class="product-content">
+                    <div class="product-header">
+                        <button class="back-button" id="backButton">
+                            <span>←</span> العودة للمعرض
+                        </button>
+                        <h1 class="product-title">${image.title}</h1>
+                    </div>
                     
-                    // التمرين إلى أعلى الصفحة بعد التحميل
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    contentDiv.innerHTML = `
-                        <h1 class="page-title">الصفحة غير موجودة</h1>
-                        <div class="page-content">
-                            <p>عذراً، الصفحة التي تبحث عنها غير موجودة.</p>
-                            <p><a href="#" data-page="home" style="color: #007acc; text-decoration: none;">← العودة إلى الصفحة الرئيسية</a></p>
+                    <div class="product-body">
+                        <div class="product-image-container">
+                            <img src="${image.image}" alt="${image.title}" class="product-image">
+                            <div class="tags" style="margin-top: 20px;">
+                                ${image.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
                         </div>
-                    `;
+                        
+                        <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="comments-section">
+                                <h3 class="info-title">التعليقات (${image.comments.length})</h3>
+                                ${image.comments.map(comment => `
+                                    <div class="comment">
+                                        <div class="comment-header">
+                                            <span class="comment-author">${comment.author}</span>
+                                            <span class="comment-date">${comment.date}</span>
+                                        </div>
+                                        <p class="comment-text">${comment.text}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // عرض صفحة المنتج
+            productPage.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // إضافة حدث إغلاق صفحة المنتج
+            document.getElementById('backButton').addEventListener('click', closeProductPage);
+            
+            // إغلاق صفحة المنتج عند النقر خارج المحتوى (اختياري)
+            productPage.addEventListener('click', function(e) {
+                if (e.target === productPage) {
+                    closeProductPage();
                 }
-                
-                // إضافة أحداث النقر للروابط الجديدة
-                contentDiv.querySelectorAll('a[data-page]').forEach(link => {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const page = this.getAttribute('data-page');
-                        if (page) {
-                            loadPage(page);
-                            
-                            // تحديث الرابط النشط في شريط التنقل
-                            document.querySelectorAll('.nav-link').forEach(navLink => {
-                                navLink.classList.remove('active');
-                                if (navLink.getAttribute('data-page') === page) {
-                                    navLink.classList.add('active');
-                                }
-                            });
-                            
-                            // تحديث تاريخ المتصفح
-                            history.pushState({ page: page }, '', `#${page}`);
-                        }
-                    });
-                });
-            }, 300); // تأخير قصير لمحاكاة التحميل
+            });
+        }
+
+        // إغلاق صفحة المنتج
+        function closeProductPage() {
+            const productPage = document.getElementById('productPage');
+            productPage.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
