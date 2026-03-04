@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معرض صور ديناميكي - 30 صورة</title>
-    <style>
+      <style>
         * {
             margin: 0;
             padding: 0;
@@ -16,6 +16,11 @@
             color: #fff;
             font-family: Arial, sans-serif;
             min-height: 100vh;
+            /* 1. إضافة تكبير 67% بشكل افتراضي (ما يعادل zoom: 67%) */
+            transform: scale(0.67);
+            transform-origin: top center; /* لجعل التصغير يبدأ من أعلى المنتصف */
+            width: 149.25%; /* تعويض العرض للحفاظ على المحاذاة (100/0.67 ≈ 149.25%) */
+            max-width: 149.25%;
         }
         
         /* معرض الصور فقط - بدون هيدر */
@@ -85,13 +90,15 @@
         }
         
         .image-title {
-            font-size: 14px;
+            /* 2. تصغير حجم الخط */
+            font-size: 11px;
             font-weight: bold;
             margin-bottom: 5px;
         }
         
         .image-author {
-            font-size: 12px;
+            /* 2. تصغير حجم الخط */
+            font-size: 10px;
             color: #ccc;
         }
         
@@ -130,7 +137,8 @@
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            /* 2. تصغير حجم الخط */
+            font-size: 13px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -142,7 +150,8 @@
         }
         
         .product-title {
-            font-size: 24px;
+            /* 2. تصغير حجم الخط */
+            font-size: 20px;
             font-weight: bold;
         }
         
@@ -190,19 +199,22 @@
         }
         
         .meta-value {
-            font-size: 20px;
+            /* 2. تصغير حجم الخط */
+            font-size: 16px;
             font-weight: bold;
         }
         
         .meta-label {
-            font-size: 14px;
+            /* 2. تصغير حجم الخط */
+            font-size: 11px;
             color: #aaa;
             margin-top: 5px;
         }
         
         .product-description {
             line-height: 1.8;
-            font-size: 16px;
+            /* 2. تصغير حجم الخط */
+            font-size: 13px;
             color: #ccc;
             margin-bottom: 30px;
         }
@@ -223,14 +235,16 @@
         }
         
         .info-title {
-            font-size: 18px;
+            /* 2. تصغير حجم الخط */
+            font-size: 15px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #fff;
         }
         
         .info-content {
-            font-size: 15px;
+            /* 2. تصغير حجم الخط */
+            font-size: 12px;
             color: #ccc;
             line-height: 1.6;
         }
@@ -271,16 +285,21 @@
         
         .comment-author {
             font-weight: bold;
+            /* 2. تصغير حجم الخط */
+            font-size: 13px;
         }
         
         .comment-date {
             color: #aaa;
-            font-size: 14px;
+            /* 2. تصغير حجم الخط */
+            font-size: 11px;
         }
         
         .comment-text {
             color: #ccc;
             line-height: 1.5;
+            /* 2. تصغير حجم الخط */
+            font-size: 12px;
         }
         
         .tags {
@@ -294,7 +313,8 @@
             background-color: #333;
             padding: 5px 12px;
             border-radius: 20px;
-            font-size: 14px;
+            /* 2. تصغير حجم الخط */
+            font-size: 11px;
         }
     </style>
 </head>
