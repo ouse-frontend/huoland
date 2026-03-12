@@ -137,6 +137,23 @@
             align-items: center;
             gap: 8px;
             transition: background 0.3s;
+
+  background: rgba(30, 30, 40, 0.25);       /* شفافية خفيفة داكنة */
+  color: #e0e0ff;                           /* لون نص فاتح يناسب الدارك */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;                      /* زوايا ناعمة */
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  backdrop-filter: blur(12px);              /* التأثير الزجاجي الأساسي */
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: none;                         /* بدون أي انتقال أو تغيير */
+  user-select: none;
+
         }
         
         .back-button:hover {
