@@ -1,0 +1,1644 @@
+// بيانات الصور والمنتجات - 70 صورة
+const images = [
+    // الطبيعة والمناظر الطبيعية
+    {
+        id: 1,
+        title: "منظر طبيعي خلاب",
+        author: "أحمد المصور",
+        image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2450,
+        downloads: 1200,
+        views: 18900,
+        description: "منظر طبيعي خلاب يظهر جمال الطبيعة في أوج تألقها. تم التقاط هذه الصورة في ساعات الشروق الأولى حيث تتلألأ أشعة الشمس على قمم الجبال.",
+        details: "تم التقاط هذه الصورة بكاميرا Nikon D850 مع عدسة 24-70mm. الإعدادات: f/8، سرعة الغالق 1/125 ثانية، ISO 100.",
+        location: "جبال الألب السويسرية",
+        date: "15 مايو 2023",
+        equipment: "Nikon D850، عدسة 24-70mm f/2.8، حامل ثلاثي القوائم",
+        tags: ["طبيعة", "جبال", "شروق", "مناظر طبيعية", "هدوء"],
+        comments: [
+            { author: "سارة", date: "2023-06-10", text: "كم هي رائعة هذه الصورة!" },
+            { author: "خالد", date: "2023-06-08", text: "التفاصيل مذهلة." }
+        ]
+    },
+    {
+        id: 2,
+        title: "غابة خضراء",
+        author: "نور الغابة",
+        image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3120,
+        downloads: 1540,
+        views: 22300,
+        description: "غابة كثيفة بأشجارها العالية وخضرتها اليانعة. أشعة الشمس تتسلل بين أوراق الشجر لتخلق لعبة ساحرة من الضوء والظل.",
+        details: "تصوير في وضح النهار باستخدام عدسة واسعة. الإعدادات: f/11، 1/200 ثانية، ISO 200.",
+        location: "غابة الأمازون",
+        date: "22 يونيو 2023",
+        equipment: "Canon EOS R5، عدسة 16-35mm",
+        tags: ["غابة", "طبيعة", "خضرة", "أشجار", "ضوء"],
+        comments: [
+            { author: "أحمد", date: "2023-07-01", text: "الخضرة تريح الأعصاب." }
+        ]
+    },
+    {
+        id: 3,
+        title: "شروق الشمس على المحيط",
+        author: "ريم البحر",
+        image: "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2890,
+        downloads: 1320,
+        views: 19700,
+        description: "شروق الشمس على المحيط الهادئ، مع انعكاسات ذهبية على سطح الماء الهادئ. منظر يبعث على السكينة والهدوء.",
+        details: "تصوير فجراً مع تعريض مناسب لالتقاط ألوان السماء. ISO 100، f/8، 1/60 ثانية.",
+        location: "مالديف",
+        date: "10 يوليو 2023",
+        equipment: "Sony A7III، عدسة 24-105mm",
+        tags: ["بحر", "شروق", "شمس", "محيط", "هدوء"],
+        comments: [
+            { author: "محمد", date: "2023-07-15", text: "الألوان رائعة جداً." }
+        ]
+    },
+    {
+        id: 4,
+        title: "شلال جبلي",
+        author: "سامي الجبال",
+        image: "https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2760,
+        downloads: 1180,
+        views: 16500,
+        description: "شلال يتدفق بين الصخور في منطقة جبلية وعرة. الماء الأبيض يتناقض مع الصخور الداكنة والخضرة المحيطة.",
+        details: "تعريض طويل لالتقاط حركة الماء. f/22، 2 ثانية، ISO 100 مع حامل ثلاثي.",
+        location: "آيسلندا",
+        date: "5 أغسطس 2023",
+        equipment: "Nikon Z7، عدسة 70-200mm",
+        tags: ["شلال", "ماء", "جبال", "طبيعة", "صخور"],
+        comments: []
+    },
+    {
+        id: 5,
+        title: "صحراء عند الغروب",
+        author: "خالد الرمال",
+        image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3340,
+        downloads: 1760,
+        views: 25400,
+        description: "كثبان رملية في الصحراء تحت أشعة الشمس الغاربة. الألوان البرتقالية والحمراء تخلق منظراً ساحراً.",
+        details: "تصوير في الساعة الذهبية. f/11، 1/125 ثانية، ISO 200.",
+        location: "صحراء الربع الخالي",
+        date: "18 مايو 2023",
+        equipment: "Fujifilm X-T4، عدسة 50-140mm",
+        tags: ["صحراء", "غروب", "رمال", "طبيعة", "ألوان"],
+        comments: [
+            { author: "نورة", date: "2023-05-25", text: "الصحراء لها سحر خاص عند الغروب." }
+        ]
+    },
+
+    // العمارة والمدن
+    {
+        id: 6,
+        title: "عمارة حديثة",
+        author: "ليلى المعماري",
+        image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1870,
+        downloads: 890,
+        views: 15400,
+        description: "تصميم معماري حديث يجمع بين الخطوط المستقيمة والمنحنيات اللطيفة. يظهر المبنى بتصميم فريد يعكس الذوق المعماري المعاصر.",
+        details: "التصوير بعدسة واسعة الزاوية 16-35mm على كاميرا Sony A7III.",
+        location: "دبي، الإمارات العربية المتحدة",
+        date: "22 أبريل 2023",
+        equipment: "Sony A7III، عدسة 16-35mm f/4",
+        tags: ["عمارة", "حديث", "تصميم", "مدينة", "زجاج"],
+        comments: [
+            { author: "محمد", date: "2023-05-30", text: "التصميم المعماري مذهل." }
+        ]
+    },
+    {
+        id: 7,
+        title: "مدينة نيويورك ليلاً",
+        author: "كريم الليل",
+        image: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 4560,
+        downloads: 2340,
+        views: 38900,
+        description: "منظر بانورامي لمدينة نيويورك مع أضوائها المتلألئة ليلاً. ناطحات السحاب تزين السماء والأنوار تعكس حياة المدينة.",
+        details: "تصوير ليلي مع تعريض طويل. f/16، 30 ثانية، ISO 100.",
+        location: "نيويورك، الولايات المتحدة",
+        date: "12 مارس 2023",
+        equipment: "Canon 5D Mark IV، عدسة 24-70mm",
+        tags: ["مدينة", "ليل", "أضواء", "نيويورك", "ناطحات سحاب"],
+        comments: [
+            { author: "سارة", date: "2023-03-20", text: "المدينة التي لا تنام." },
+            { author: "علي", date: "2023-03-18", text: "الأضواء خلابة." }
+        ]
+    },
+    {
+        id: 8,
+        title: "جسر تاريخي",
+        author: "مصطفى الآثار",
+        image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1980,
+        downloads: 920,
+        views: 14300,
+        description: "جسر حجري قديم يعود للعصور الوسطى، يربط بين ضفتي نهر هادئ. يعكس الجسر تاريخاً عريقاً وهندسة معمارية فريدة.",
+        details: "تصوير في الصباح الباكر مع ضباب خفيف. f/8، 1/160 ثانية، ISO 400.",
+        location: "براغ، التشيك",
+        date: "8 فبراير 2023",
+        equipment: "Nikon D850، عدسة 24-70mm",
+        tags: ["جسر", "تاريخ", "نهر", "معمار", "قديم"],
+        comments: []
+    },
+    {
+        id: 9,
+        title: "مسجد حديث",
+        author: "فهد العمارة",
+        image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2760,
+        downloads: 1430,
+        views: 18700,
+        description: "مسجد بتصميم معماري حديث يجمع بين الأصالة والمعاصرة. القباب والمآذن تزين الأفق بتصميم فريد.",
+        details: "تصوير عند الغروب لالتقاط ألوان السماء. f/11، 1/200 ثانية، ISO 200.",
+        location: "أبوظبي، الإمارات",
+        date: "15 يناير 2023",
+        equipment: "Sony A7R IV، عدسة 70-200mm",
+        tags: ["مسجد", "إسلامي", "عمارة", "قبة", "مئذنة"],
+        comments: [
+            { author: "حسن", date: "2023-01-25", text: "تصميم رائع." }
+        ]
+    },
+    {
+        id: 10,
+        title: "شارع ملون",
+        author: "لينا الألوان",
+        image: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2120,
+        downloads: 1080,
+        views: 15600,
+        description: "شارع في مدينة أوروبية قديمة بواجهات ملونة وزهور تزين النوافذ. جو مفعم بالحياة والألوان.",
+        details: "تصوير نهاري مع ألوان طبيعية. f/8، 1/250 ثانية، ISO 200.",
+        location: "بورتو، البرتغال",
+        date: "20 أبريل 2023",
+        equipment: "Fujifilm X100V",
+        tags: ["شارع", "ألوان", "مدينة", "أوروبا", "زهور"],
+        comments: []
+    },
+
+    // الطعام والشراب
+    {
+        id: 11,
+        title: "وجبة شهية",
+        author: "طارق الشيف",
+        image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3210,
+        downloads: 1560,
+        views: 23400,
+        description: "وجبة طعام شهية تظهر تفاصيل الألوان والمكونات بدقة عالية. الإضاءة الطبيعية تسلط الضوء على تفاصيل الطعام.",
+        details: "إضاءة باستخدام softbox. الكاميرا: Canon EOS R5 مع عدسة 100mm ماكرو.",
+        location: "مطعم في إسطنبول",
+        date: "10 مارس 2023",
+        equipment: "Canon EOS R5، عدسة 100mm f/2.8L ماكرو",
+        tags: ["طعام", "وجبة", "صحة", "طازج", "ألوان"],
+        comments: [
+            { author: "يوسف", date: "2023-04-15", text: "الصورة تجعلني أشعر بالجوع." }
+        ]
+    },
+    {
+        id: 12,
+        title: "كوب قهوة",
+        author: "نادين القهوة",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2870,
+        downloads: 1420,
+        views: 19800,
+        description: "كوب قهوة طازجة مع رغوة الحليب بشكل فني. صورة تبعث على الدفء والاسترخاء.",
+        details: "إضاءة جانبية لإبراز التفاصيل. f/2.8، 1/320 ثانية، ISO 400.",
+        location: "مقهى في باريس",
+        date: "5 مايو 2023",
+        equipment: "Sony A7III، عدسة 50mm f/1.4",
+        tags: ["قهوة", "مشروب", "صباح", "كافيه", "رغوة"],
+        comments: [
+            { author: "ريم", date: "2023-05-12", text: "أشعر برائحة القهوة!" }
+        ]
+    },
+    {
+        id: 13,
+        title: "فواكه طازجة",
+        author: "سلمى الغذاء",
+        image: "https://yavuzceliker.github.io/sample-images/image-1021.jpg",
+        likes: 1980,
+        downloads: 980,
+        views: 13400,
+        description: "تشكيلة من الفواكه الطازجة بألوانها الزاهية. الفراولة، التوت، البرتقال والعنب في تناسق لوني رائع.",
+        details: "تصوير ماكرو لإبراز التفاصيل. f/4، 1/200 ثانية، ISO 200.",
+        location: "سوق خضار",
+        date: "18 يونيو 2023",
+        equipment: "Nikon Z6، عدسة 105mm ماكرو",
+        tags: ["فواكه", "طازج", "صحي", "ألوان", "طعام"],
+        comments: []
+    },
+    {
+        id: 14,
+        title: "بيتزا إيطالية",
+        author: "ماركو الإيطالي",
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3450,
+        downloads: 1870,
+        views: 26700,
+        description: "بيتزا إيطالية أصلية بالجبن الذائب والطماطم والريحان. الجبن يمتد ليشكل منظراً شهياً.",
+        details: "تصوير مقرب مع إضاءة دافئة. f/2.8، 1/160 ثانية، ISO 400.",
+        location: "مطعم في نابولي",
+        date: "22 مارس 2023",
+        equipment: "Canon 6D Mark II، عدسة 50mm",
+        tags: ["بيتزا", "إيطالي", "جبن", "طعام", "مطعم"],
+        comments: [
+            { author: "عمر", date: "2023-03-28", text: "أفضل بيتزا رأيتها!" }
+        ]
+    },
+    {
+        id: 15,
+        title: "حلويات شرقية",
+        author: "هناء الحلو",
+        image: "https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2760,
+        downloads: 1430,
+        views: 18700,
+        description: "تشكيلة من الحلويات الشرقية مثل البقلاوة والكنافة والمعمول. مزينة بالفستق الحلبي والقطر.",
+        details: "تصوير علوي مع إضاءة طبيعية. f/5.6، 1/125 ثانية، ISO 200.",
+        location: "محل حلويات في دمشق",
+        date: "10 أبريل 2023",
+        equipment: "Sony A6400، عدسة 30mm",
+        tags: ["حلويات", "شرقي", "بقلاوة", "فستق", "تحلية"],
+        comments: []
+    },
+
+    // السفر والمغامرات
+    {
+        id: 16,
+        title: "بالونات في كابادوكيا",
+        author: "سامر المغامر",
+        image: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 5120,
+        downloads: 2760,
+        views: 42300,
+        description: "منظر رائع للبالونات الملونة تحلق فوق تشكيلات صخرية فريدة في كابادوكيا عند شروق الشمس.",
+        details: "تصوير جوي من بالون آخر. f/8، 1/500 ثانية، ISO 200.",
+        location: "كابادوكيا، تركيا",
+        date: "15 يوليو 2023",
+        equipment: "DJI Mavic 3",
+        tags: ["بالون", "سفر", "كابادوكيا", "مغامرة", "سماء"],
+        comments: [
+            { author: "نورة", date: "2023-07-20", text: "حلمي أزور هذا المكان." },
+            { author: "خالد", date: "2023-07-18", text: "صورة ساحرة." }
+        ]
+    },
+    {
+        id: 17,
+        title: "معبد في اليابان",
+        author: "يوكي الياباني",
+        image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3670,
+        downloads: 1890,
+        views: 25600,
+        description: "معبد ياباني تقليدي محاط بأشجار الكرز المزهرة. صورة تعكس جمال الثقافة اليابانية.",
+        details: "تصوير في فصل الربيع مع أزهار الكرز. f/5.6، 1/320 ثانية، ISO 200.",
+        location: "كيوتو، اليابان",
+        date: "5 أبريل 2023",
+        equipment: "Fujifilm X-T3، عدسة 16-55mm",
+        tags: ["يابان", "معبد", "كرز", "سفر", "ثقافة"],
+        comments: [
+            { author: "سارة", date: "2023-04-12", text: "اليابان في قمة جمالها." }
+        ]
+    },
+    {
+        id: 18,
+        title: "شاطئ استوائي",
+        author: "نور الريفي",
+        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 4320,
+        downloads: 2340,
+        views: 34500,
+        description: "شاطئ استوائي بمياه فيروزية ورمل أبيض وأشجار نخيل. منظر مثالي للاسترخاء والاستجمام.",
+        details: "تصوير من زاوية عالية. f/11، 1/400 ثانية، ISO 100.",
+        location: "جزر المالديف",
+        date: "20 يناير 2023",
+        equipment: "GoPro Hero 10",
+        tags: ["شاطئ", "بحر", "استوائي", "رمل", "نخيل"],
+        comments: [
+            { author: "أحمد", date: "2023-01-28", text: "الجنة على الأرض." }
+        ]
+    },
+    {
+        id: 19,
+        title: "سوق تقليدي",
+        author: "كريم الأسواق",
+        image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1980,
+        downloads: 920,
+        views: 13400,
+        description: "سوق تقليدي في مدينة عربية قديمة، بهارات وتوابل وفواكه مجففة بألوان زاهية.",
+        details: "تصوير وثائقي مع ألوان غنية. f/4، 1/160 ثانية، ISO 400.",
+        location: "مراكش، المغرب",
+        date: "12 فبراير 2023",
+        equipment: "Leica Q2",
+        tags: ["سوق", "تقليدي", "بهارات", "مراكش", "ألوان"],
+        comments: []
+    },
+    {
+        id: 20,
+        title: "قطار في الجبال",
+        author: "فهد الرحالة",
+        image: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2340,
+        downloads: 1180,
+        views: 16500,
+        description: "قطار سياحي يعبر جبال الألب وسط مناظر طبيعية خلابة. مغامرة لا تنسى.",
+        details: "تصوير من منظر مرتفع. f/8، 1/500 ثانية، ISO 200.",
+        location: "النرويج",
+        date: "8 يونيو 2023",
+        equipment: "Sony RX100 VII",
+        tags: ["قطار", "سفر", "جبال", "مغامرة", "منظر"],
+        comments: []
+    },
+
+    // الحيوانات والطبيعة
+    {
+        id: 21,
+        title: "نمر في البرية",
+        author: "حسان الحياة البرية",
+        image: "https://images.unsplash.com/photo-1549366021-9f761d450615?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 5670,
+        downloads: 2980,
+        views: 45600,
+        description: "نمر بنغالي في بيئته الطبيعية بنظرة ثاقبة وجسد مرصع بالخطوط. ملك الغابة في أبهى صوره.",
+        details: "تصوير بعدسة تليفوتو. f/4، 1/800 ثانية، ISO 800.",
+        location: "الهند",
+        date: "3 مايو 2023",
+        equipment: "Nikon D500، عدسة 200-500mm",
+        tags: ["نمر", "حيوان", "برية", "مفترس", "طبيعة"],
+        comments: [
+            { author: "محمد", date: "2023-05-10", text: "حيوان مهيب." },
+            { author: "لينا", date: "2023-05-08", text: "العيون تخترق الروح." }
+        ]
+    },
+    {
+        id: 22,
+        title: "فيل أفريقي",
+        author: "رحمة الحياة البرية",
+        image: "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3210,
+        downloads: 1650,
+        views: 23400,
+        description: "فيل أفريقي مع صغيره في السافانا عند غروب الشمس. مشهد عائلي مؤثر.",
+        details: "تصوير في الساعة الذهبية. f/5.6، 1/640 ثانية، ISO 400.",
+        location: "كينيا",
+        date: "15 مارس 2023",
+        equipment: "Canon 7D Mark II، عدسة 100-400mm",
+        tags: ["فيل", "أفريقيا", "سافانا", "حيوان", "طبيعة"],
+        comments: [
+            { author: "نورة", date: "2023-03-22", text: "مخلوقات رائعة." }
+        ]
+    },
+    {
+        id: 23,
+        title: "بومة في الليل",
+        author: "ليلى الليل",
+        image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1870,
+        downloads: 890,
+        views: 12300,
+        description: "بومة بعيون صفراء كبيرة في ليلة مقمرة. طائر الليل الحكيم بملامحه المميزة.",
+        details: "تصوير ليلي مع حساسية عالية. f/2.8، 1/200 ثانية، ISO 3200.",
+        location: "غابة في فنلندا",
+        date: "10 يناير 2023",
+        equipment: "Sony A9، عدسة 400mm f/2.8",
+        tags: ["بومة", "طائر", "ليل", "حيوان", "طبيعة"],
+        comments: []
+    },
+    {
+        id: 24,
+        title: "فراشة ملونة",
+        author: "نادين الألوان",
+        image: "https://yavuzceliker.github.io/sample-images/image-1031.jpg",
+        likes: 1560,
+        downloads: 780,
+        views: 10900,
+        description: "فراشة استوائية بألوان زاهية على زهرة برية. جمال الطبيعة في تفاصيل صغيرة.",
+        details: "تصوير ماكرو دقيق. f/8، 1/250 ثانية، ISO 400 مع فلاش ماكرو.",
+        location: "كوستاريكا",
+        date: "18 أبريل 2023",
+        equipment: "Olympus OM-D E-M1 Mark II، عدسة 60mm ماكرو",
+        tags: ["فراشة", "حشرة", "ألوان", "زهرة", "ماكرو"],
+        comments: []
+    },
+    {
+        id: 25,
+        title: "دلافين في البحر",
+        author: "بحر الأزرق",
+        image: "https://images.unsplash.com/photo-1570481662006-a3a1374699e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 4320,
+        downloads: 2210,
+        views: 31200,
+        description: "دلافين تقفز فوق أمواج المحيط بلعب ومرح. مشهد يبعث على البهجة.",
+        details: "تصوير سريع لالتقاط الحركة. f/5.6، 1/2000 ثانية، ISO 400.",
+        location: "المحيط الهادئ",
+        date: "22 فبراير 2023",
+        equipment: "Sony A1، عدسة 70-200mm GM",
+        tags: ["دلفين", "بحر", "محيط", "حيوان", "لعب"],
+        comments: [
+            { author: "سالم", date: "2023-02-28", text: "أجمل كائنات البحر." }
+        ]
+    },
+
+    // الرياضة والحركة
+    {
+        id: 26,
+        title: "متزلج على الجليد",
+        author: "جبل الثلج",
+        image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2760,
+        downloads: 1430,
+        views: 18700,
+        description: "متزلج على الجليد ينطلق على منحدر ثلجي وسط منظر جبلي رائع. رياضة المغامرة والتحدي.",
+        details: "تصوير سريع مع تتبع الحركة. f/4، 1/2000 ثانية، ISO 200.",
+        location: "الألب الفرنسية",
+        date: "5 ديسمبر 2022",
+        equipment: "Canon 1D X Mark III، عدسة 70-200mm",
+        tags: ["تزلج", "رياضة", "ثلج", "مغامرة", "جبال"],
+        comments: []
+    },
+    {
+        id: 27,
+        title: "عداء في السباق",
+        author: "رياضي محترف",
+        image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1980,
+        downloads: 980,
+        views: 13200,
+        description: "عداء محترف في سباق الماراثون بملامح الإصرار والتحدي. الرياضة والصحة.",
+        details: "تصوير بانورامي مع حركة. f/2.8، 1/800 ثانية، ISO 400.",
+        location: "ماراثون لندن",
+        date: "15 أبريل 2023",
+        equipment: "Nikon D6، عدسة 24-70mm",
+        tags: ["رياضة", "جري", "ماراثون", "عداء", "صحة"],
+        comments: [
+            { author: "خالد", date: "2023-04-20", text: "الإصرار يظهر على الوجه." }
+        ]
+    },
+    {
+        id: 28,
+        title: "لاعب كرة قدم",
+        author: "ملعب الأحلام",
+        image: "https://yavuzceliker.github.io/sample-images/image-171.jpg",
+        likes: 3210,
+        downloads: 1760,
+        views: 23400,
+        description: "لاعب كرة قدم محترف أثناء تسديد الكرة في ملعب مزدحم. شغف الجماهير والكرة.",
+        details: "تصوير رياضي بسرعة عالية. f/2.8، 1/2000 ثانية، ISO 800.",
+        location: "ملعب سانتياغو برنابيو",
+        date: "12 مايو 2023",
+        equipment: "Sony A9 II، عدسة 400mm f/2.8",
+        tags: ["كرة قدم", "رياضة", "لاعب", "ملعب", "جمهور"],
+        comments: [
+            { author: "محمد", date: "2023-05-18", text: "أجمل رياضة في العالم." }
+        ]
+    },
+    {
+        id: 29,
+        title: "دراجة جبلية",
+        author: "مغامر الجبال",
+        image: "https://images.unsplash.com/photo-1541625602330-2277a4c46182?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 1870,
+        downloads: 920,
+        views: 12300,
+        description: "دراج جبلي ينحدر في طريق وعرة بين الأشجار والصخور. مغامرة وتحدي.",
+        details: "تصوير سريع مع زاوية منخفضة. f/5.6، 1/1600 ثانية، ISO 400.",
+        location: "كندا",
+        date: "8 أغسطس 2023",
+        equipment: "GoPro Hero 11، كاميرا Sony RX10",
+        tags: ["دراجة", "رياضة", "جبال", "مغامرة", "غابة"],
+        comments: []
+    },
+    {
+        id: 30,
+        title: "يوجا عند الشروق",
+        author: "هدوء النفس",
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2450,
+        downloads: 1320,
+        views: 16700,
+        description: "شخص يمارس اليوجا عند شروق الشمس على شاطئ هادئ. تأمل وسكينة.",
+        details: "تصوير مع الإضاءة الخلفية. f/8، 1/320 ثانية، ISO 200.",
+        location: "بالى، إندونيسيا",
+        date: "20 يوليو 2023",
+        equipment: "Fujifilm GFX 50S II",
+        tags: ["يوجا", "رياضة", "استرخاء", "شاطئ", "تأمل"],
+        comments: [
+            { author: "سارة", date: "2023-07-25", text: "السلام الداخلي يتجسد." }
+        ]
+    },
+    {
+        id: 31,
+        title: "تأمل عند شروق الشمس في الجبال",
+        author: "روح الجبال",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3450,
+        downloads: 1890,
+        views: 27800,
+        description: "شخص يجلس في وضع التأمل على قمة جبل مع شروق الشمس الذهبية في الأفق.",
+        details: "تصوير واسع الزاوية مع إضاءة خلفية. f/11، 1/250 ثانية، ISO 100.",
+        location: "جبال روكي، كولورادو",
+        date: "12 أغسطس 2023",
+        equipment: "Sony A7R III",
+        tags: ["تأمل", "جبال", "شروق", "طبيعة", "سكينة"],
+        comments: [
+            { author: "سلمى", date: "2023-08-15", text: "هذا هو السلام الحقيقي." }
+        ]
+    },
+    {
+        id: 32,
+        title: "غابة خيزران ساحرة",
+        author: "أخضر عميق",
+        image: "https://yavuzceliker.github.io/sample-images/image-1201.jpg",
+        likes: 4120,
+        downloads: 2560,
+        views: 36700,
+        description: "أشعة الشمس تخترق غابة كثيفة من الخيزران، مشكلةً مسارات ضوء ساحرة.",
+        details: "تصوير بعدسة واسعة. f/5.6، 1/200 ثانية، ISO 200.",
+        location: "كيوتو، اليابان",
+        date: "5 سبتمبر 2023",
+        equipment: "Fujifilm GFX 100",
+        tags: ["غابة", "خيزران", "طبيعة", "ضوء", "هادئ"],
+        comments: [
+            { author: "ياسر", date: "2023-09-08", text: "وكأنني أتنفس هواء نقيًا بمجرد النظر!" }
+        ]
+    },
+    {
+        id: 33,
+        title: "يوغا على شاطئ بالي",
+        author: "موجة وسكون",
+        image: "https://yavuzceliker.github.io/sample-images/image-1020.jpg",
+        likes: 5280,
+        downloads: 3120,
+        views: 45600,
+        description: "امرأة تمارس اليوغا على الشاطئ عند الغروب، مع أمواج هادئة في الخلفية.",
+        details: "تصوير بإضاءة طبيعية. f/8، 1/320 ثانية، ISO 200.",
+        location: "بالي، إندونيسيا",
+        date: "20 يوليو 2023",
+        equipment: "Canon EOS R",
+        tags: ["يوغا", "بحر", "غروب", "رياضة", "استرخاء"],
+        comments: [
+            { author: "نور", date: "2023-07-25", text: "أحلم بهذا المكان!" }
+        ]
+    },
+    {
+        id: 34,
+        title: "فنجان قهوة وكتاب في مقهى",
+        author: "صباح هادئ",
+        image: "https://yavuzceliker.github.io/sample-images/image-1301.jpg",
+        likes: 2980,
+        downloads: 1650,
+        views: 23400,
+        description: "فنجان قهوة مثلجة بجانب كتاب مفتوح على طاولة مقهى بإضاءة دافئة.",
+        details: "تصوير مقرب مع ضبابية خلفية. f/2.8، 1/160 ثانية، ISO 400.",
+        location: "باريس، فرنسا",
+        date: "10 أكتوبر 2023",
+        equipment: "Leica M11",
+        tags: ["قهوة", "كتاب", "مقهى", "صباح", "استرخاء"],
+        comments: [
+            { author: "رنا", date: "2023-10-14", text: "روتين الصباح المثالي." }
+        ]
+    },
+    {
+        id: 35,
+        title: "بحيرة جبلية هادئة",
+        author: "مرآة السماء",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 6750,
+        downloads: 4230,
+        views: 58900,
+        description: "بحيرة صافية تعكس قمم الجبال المغطاة بالثلوج والغيوم البيضاء.",
+        details: "تصوير بانورامي مع انعكاس. f/11، 1/125 ثانية، ISO 100.",
+        location: "بحيرة لويس، كندا",
+        date: "15 أغسطس 2023",
+        equipment: "Nikon Z7 II",
+        tags: ["بحيرة", "جبال", "انعكاس", "طبيعة", "ثلج"],
+        comments: [
+            { author: "فهد", date: "2023-08-19", text: "سبحان الخالق!" },
+            { author: "لمى", date: "2023-08-20", text: "مكان يستحق الزيارة." }
+        ]
+    },
+    {
+        id: 36,
+        title: "شموع مضاءة في المساء",
+        author: "دفء الشتاء",
+        image: "https://yavuzceliker.github.io/sample-images/image-1051.jpg",
+        likes: 2340,
+        downloads: 1280,
+        views: 18900,
+        description: "شموع معطرة مضاءة في غرفة معتمة، تخلق جواً دافئاً ورومانسياً.",
+        details: "تصوير بإضاءة خافتة. f/1.8، 1/60 ثانية، ISO 800.",
+        location: "استوكهولم، السويد",
+        date: "5 ديسمبر 2023",
+        equipment: "Sony A7 III",
+        tags: ["شموع", "رومانسي", "شتاء", "دافئ", "استرخاء"],
+        comments: [
+            { author: "أروى", date: "2023-12-09", text: "أجواء جميلة جداً." }
+        ]
+    },
+    {
+        id: 37,
+        title: "مشي في الغابة المطيرة",
+        author: "مستكشف الطبيعة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1131.jpg",
+        likes: 3890,
+        downloads: 2140,
+        views: 31200,
+        description: "شخص يمشي في عمق غابة استوائية كثيفة، مع ضوء الشمس المتسلل عبر الأوراق.",
+        details: "تصوير طبيعي. f/5.6، 1/250 ثانية، ISO 400.",
+        location: "كوستاريكا",
+        date: "18 نوفمبر 2023",
+        equipment: "Canon 5D Mark IV",
+        tags: ["غابة", "مشي", "طبيعة", "مغامرة", "استوائي"],
+        comments: [
+            { author: "ماجد", date: "2023-11-22", text: "أصوات الطبيعة تغني." }
+        ]
+    },
+    {
+        id: 38,
+        title: "غروب على الصخور",
+        author: "ذهبية الأفق",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 4560,
+        downloads: 2870,
+        views: 40100,
+        description: "أشعة الغروب الذهبية تضيء صخوراً ساحلية مع البحر الأزرق في الخلفية.",
+        details: "تصوير بإضاءة ذهبية. f/8، 1/400 ثانية، ISO 200.",
+        location: "جزر فارو",
+        date: "22 سبتمبر 2023",
+        equipment: "Fujifilm X-T4",
+        tags: ["غروب", "بحر", "صخور", "طبيعة", "ذهبي"],
+        comments: [
+            { author: "هتان", date: "2023-09-26", text: "الساعة الذهبية سحر." }
+        ]
+    },
+    {
+        id: 39,
+        title: "قطار في الضباب",
+        author: "رحّال",
+        image: "https://yavuzceliker.github.io/sample-images/image-101.jpg",
+        likes: 5210,
+        downloads: 3360,
+        views: 45800,
+        description: "قطار يسير على جسر حجري وسط وادٍ يغطيه ضباب كثيف في الصباح الباكر.",
+        details: "تصوير بعدسة تليفوتوغرافي. f/5.6، 1/500 ثانية، ISO 400.",
+        location: "المرتفعات الإسكتلندية",
+        date: "3 أكتوبر 2023",
+        equipment: "Nikon D850",
+        tags: ["قطار", "ضباب", "سفر", "شتاء", "جسر"],
+        comments: [
+            { author: "ريما", date: "2023-10-07", text: "مشهد ساحر وغامض." }
+        ]
+    },
+    {
+        id: 40,
+        title: "وردة حمراء مع ندى الصباح",
+        author: "لحظات ماكرو",
+        image: "https://yavuzceliker.github.io/sample-images/image-1451.jpg",
+        likes: 3670,
+        downloads: 2010,
+        views: 28900,
+        description: "صورة مقربة جداً لوردة حمراء متفتحة تغطيها قطرات الندى الصافية.",
+        details: "تصوير ماكرو. f/3.2، 1/320 ثانية، ISO 200.",
+        location: "حديقة النباتات، أمستردام",
+        date: "12 مايو 2023",
+        equipment: "Canon MP-E 65mm",
+        tags: ["ورود", "طبيعة", "ماكرو", "ندى", "أحمر"],
+        comments: [
+            { author: "لميس", date: "2023-05-15", text: "تفاصيل مذهلة وجمال أخاذ!" }
+        ]
+    },
+    {
+        id: 41,
+        title: "تأمل في الشروق على الشاطئ",
+        author: "نور وهدوء",
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 6230,
+        downloads: 3980,
+        views: 51200,
+        description: "شخص يجلس القرفصاء في وضع تأمل على الشاطئ مع شروق الشمس الذهبية.",
+        details: "تصوير سيلويت. f/10، 1/500 ثانية، ISO 100.",
+        location: "جزر المالديف",
+        date: "8 يونيو 2023",
+        equipment: "Sony A1",
+        tags: ["تأمل", "بحر", "شروق", "يوغا", "سلام"],
+        comments: [
+            { author: "باسل", date: "2023-06-12", text: "الصورة تنطق سلاماً." }
+        ]
+    },
+    {
+        id: 42,
+        title: "شلال في عمق الغابة",
+        author: "ماء وروعة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1051.jpg",
+        likes: 7120,
+        downloads: 4670,
+        views: 63400,
+        description: "شلال قوي يتدفق بين صخور مغطاة بالطحالب في غابة كثيفة ورطبة.",
+        details: "تصوير طبيعة. f/8، 1/200 ثانية، ISO 200.",
+        location: "آيسلندا",
+        date: "25 يوليو 2023",
+        equipment: "Nikon Z9",
+        tags: ["شلال", "غابة", "طبيعة", "ماء", "طحالب"],
+        comments: [
+            { author: "عبدالله", date: "2023-07-29", text: "قوة الطبيعة وجمالها." },
+            { author: "شوق", date: "2023-07-30", text: "أصوات المياه تسمع!" }
+        ]
+    },
+    {
+        id: 43,
+        title: "طريق سريع ليلي بأضواء ذهبية",
+        author: "مدينة الأحلام",
+        image: "https://yavuzceliker.github.io/sample-images/image-1111.jpg",
+        likes: 4890,
+        downloads: 3020,
+        views: 42700,
+        description: "منظر علوي لطريق سريع متعرج في الليل مع خطوط ضوء ذهبية للسيارات.",
+        details: "تصوير بتعريض طويل. f/16، 30 ثانية، ISO 100.",
+        location: "طوكيو، اليابان",
+        date: "14 سبتمبر 2023",
+        equipment: "Sony A7R IV",
+        tags: ["مدينة", "ليل", "طريق", "أضواء", "زحام"],
+        comments: [
+            { author: "تركي", date: "2023-09-18", text: "جمال في الزحام." }
+        ]
+    },
+    {
+        id: 44,
+        title: "رياضة صباحية في الحديقة",
+        author: "نشاط وحيوية",
+        image: "https://yavuzceliker.github.io/sample-images/image-1311.jpg",
+        likes: 2780,
+        downloads: 1540,
+        views: 22300,
+        description: "امرأة تمارس تمارين الإطالة في حديقة عامة تحت أشعة الشمس الصباحية.",
+        details: "تصوير حركي. f/4.5، 1/800 ثانية، ISO 200.",
+        location: "لندن، المملكة المتحدة",
+        date: "20 أبريل 2023",
+        equipment: "Canon EOS R6",
+        tags: ["رياضة", "لياقة", "حديقة", "صباح", "صحة"],
+        comments: [
+            { author: "هيا", date: "2023-04-24", text: "تحفيز لبداية يوم نشط!" }
+        ]
+    },
+    {
+        id: 45,
+        title: "جلسة يوغا في الغابة",
+        author: "اتزان",
+        image: "https://yavuzceliker.github.io/sample-images/image-1271.jpg",
+        likes: 5340,
+        downloads: 3410,
+        views: 47800,
+        description: "شخص يمارس وضعية اليوغا على بساط وسط غابة خضراء مع ضوء الشمس النافذ.",
+        details: "تصوير طبيعي. f/5.6، 1/400 ثانية، ISO 200.",
+        location: "غابة سيكويا، كاليفورنيا",
+        date: "30 مايو 2023",
+        equipment: "Fujifilm X-H2",
+        tags: ["يوغا", "غابة", "رياضة", "طبيعة", "استرخاء"],
+        comments: [
+            { author: "دانة", date: "2023-06-03", text: "الانسجام مع الطبيعة." }
+        ]
+    },
+    {
+        id: 46,
+        title: "غروب فوق التلال",
+        author: "ألوان الغروب",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3890,
+        downloads: 2350,
+        views: 34100,
+        description: "تلال متدرجة الخضرة تحت أشعة الغروب الذهبية مع سماء ملونة بالأرجواني والبرتقالي.",
+        details: "تصوير بانورامي. f/11، 1/250 ثانية، ISO 100.",
+        location: "توسكانا، إيطاليا",
+        date: "17 يونيو 2023",
+        equipment: "Nikon D780",
+        tags: ["غروب", "تلال", "طبيعة", "ألوان", "ريف"],
+        comments: [
+            { author: "ربى", date: "2023-06-21", text: "وكأنها لوحة فنية!" }
+        ]
+    },
+    {
+        id: 47,
+        title: "بحيرة في غابة ضبابية",
+        author: "ضباب وسحر",
+        image: "https://yavuzceliker.github.io/sample-images/image-1077.jpg",
+        likes: 4450,
+        downloads: 2780,
+        views: 38900,
+        description: "بحيرة صغيرة محاطة بأشجار كثيفة يغطيها ضباب خفيف في الصباح الباكر.",
+        details: "تصوير جو ضبابي. f/5.6، 1/160 ثانية، ISO 400.",
+        location: "غابة سوداء، ألمانيا",
+        date: "5 نوفمبر 2023",
+        equipment: "Olympus OM-D",
+        tags: ["بحيرة", "ضباب", "غابة", "صباح", "هادئ"],
+        comments: [
+            { author: "جواهر", date: "2023-11-09", text: "مكان ساحر للتفكر." }
+        ]
+    },
+    {
+        id: 48,
+        title: "صفحة كتاب مع كوب شاي",
+        author: "قراءة واسترخاء",
+        image: "https://yavuzceliker.github.io/sample-images/image-1058.jpg",
+        likes: 2670,
+        downloads: 1480,
+        views: 21500,
+        description: "كتاب مفتوح على صفحة مع كوب شاي ساخن ونظارة طبية على الطاولة الخشبية.",
+        details: "تصوير تفاصيل. f/2.2، 1/125 ثانية، ISO 500.",
+        location: "مقهى أدبي، بيروت",
+        date: "12 يناير 2024",
+        equipment: "Leica Q2",
+        tags: ["قراءة", "كتاب", "شاي", "هادئ", "شتاء"],
+        comments: [
+            { author: "أديب", date: "2024-01-16", text: "أجمل لحظات العزلة." }
+        ]
+    },
+    {
+        id: 49,
+        title: "مشي عند الغروب على الشاطئ",
+        author: "أقدام على الرمال",
+        image: "https://yavuzceliker.github.io/sample-images/image-1089.jpg",
+        likes: 3230,
+        downloads: 1870,
+        views: 27900,
+        description: "أقدام تسير على شاطئ رملي ناعم مع أمواج هادئة عند الغروب الذهبي.",
+        details: "تصوير منخفض الزاوية. f/8، 1/640 ثانية، ISO 200.",
+        location: "ساحل الذهب، أستراليا",
+        date: "3 فبراير 2024",
+        equipment: "Sony RX1",
+        tags: ["شاطئ", "مشي", "غروب", "بحر", "استرخاء"],
+        comments: [
+            { author: "مشعل", date: "2024-02-07", text: "لا شيء أجمل من المشي على الشاطئ وقت الغروب." }
+        ]
+    },
+    {
+        id: 50,
+        title: "سوق توابل ملون في مراكش",
+        author: "نكهات وألوان",
+        image: "https://yavuzceliker.github.io/sample-images/image-1631.jpg",
+        likes: 4150,
+        downloads: 2630,
+        views: 36200,
+        description: "أكياس ملونة من التوابل معروضة في سوق تقليدي، بألوان زاهية ورائحة مميزة.",
+        details: "تصوير ألوان. f/4، 1/200 ثانية، ISO 400.",
+        location: "مراكش، المغرب",
+        date: "20 نوفمبر 2023",
+        equipment: "Fujifilm X-Pro3",
+        tags: ["سوق", "توابل", "طعام", "ألوان", "ثقافة"],
+        comments: [
+            { author: "هاجر", date: "2023-11-24", text: "رائحة البهارات تصل إلي!" },
+            { author: "أسامة", date: "2023-11-25", text: "مراكش مدينة الألوان." }
+        ]
+    },
+    {
+        id: 51,
+        title: "تأمل في كهف جبلي",
+        author: "صمت الكهوف",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3560,
+        downloads: 2020,
+        views: 29800,
+        description: "شخص يتأمل داخل كهف مطل على منظر جبلي خلاب مع ضوء الشمس الداخل.",
+        details: "تصوير داخل الكهف. f/8، 1/125 ثانية، ISO 800.",
+        location: "كابادوكيا، تركيا",
+        date: "15 سبتمبر 2023",
+        equipment: "Canon EOS R",
+        tags: ["تأمل", "كهف", "جبال", "صمت", "طبيعة"],
+        comments: [
+            { author: "فراس", date: "2023-09-19", text: "التأمل في مثل هذا المكان تجربة روحية." }
+        ]
+    },
+    {
+        id: 52,
+        title: "غابة خريفية ذهبية",
+        author: "أوراق الخريف",
+        image: "https://yavuzceliker.github.io/sample-images/image-1197.jpg",
+        likes: 5890,
+        downloads: 3670,
+        views: 51200,
+        description: "طريق ضيق في غابة تكتسي بألوان الخريف الذهبية والحمراء مع أوراق متساقطة.",
+        details: "تصوير ألوان خريفية. f/5.6، 1/250 ثانية، ISO 200.",
+        location: "فيرمونت، الولايات المتحدة",
+        date: "25 أكتوبر 2023",
+        equipment: "Nikon Z6",
+        tags: ["خريف", "غابة", "ألوان", "طبيعة", "أوراق"],
+        comments: [
+            { author: "صباح", date: "2023-10-29", text: "أجمل فصول السنة!" }
+        ]
+    },
+    {
+        id: 53,
+        title: "يوغا في حقل خزامى",
+        author: "بنفسجي وسكون",
+        image: "https://yavuzceliker.github.io/sample-images/image-1119.jpg",
+        likes: 6710,
+        downloads: 4350,
+        views: 58900,
+        description: "امرأة تمارس اليوغا في حقل خزامى بنفسجي واسع مع جبال في الخلفية.",
+        details: "تصوير ألوان بنفسجية. f/8، 1/400 ثانية، ISO 200.",
+        location: "بروفانس، فرنسا",
+        date: "10 يوليو 2023",
+        equipment: "Sony A7R IV",
+        tags: ["يوغا", "خزامى", "طبيعة", "أرجواني", "استرخاء"],
+        comments: [
+            { author: "زينب", date: "2023-07-14", text: "مزيج ساحر من الألوان والرياضة!" }
+        ]
+    },
+    {
+        id: 54,
+        title: "جلسة استرخاء مع شموع",
+        author: "مساء هادئ",
+        image: "https://yavuzceliker.github.io/sample-images/image-1399.jpg",
+        likes: 2980,
+        downloads: 1760,
+        views: 24500,
+        description: "شموع معطرة منتشرة في غرفة مع إضاءة خافتة وأريكة مريحة في الزاوية.",
+        details: "تصوير أجواء هادئة. f/2.8، 1/80 ثانية، ISO 1600.",
+        location: "كوبنهاغن، الدنمارك",
+        date: "8 ديسمبر 2023",
+        equipment: "Leica SL2",
+        tags: ["شموع", "استرخاء", "شتاء", "دافئ", "راحة"],
+        comments: [
+            { author: "ياسمين", date: "2023-12-12", text: "أفكار لأمسية هادئة." }
+        ]
+    },
+    {
+        id: 55,
+        title: "بحيرة في جبال الألب",
+        author: "زرقة وثلوج",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 7340,
+        downloads: 4980,
+        views: 67200,
+        description: "بحيرة زرقاء صافية في جبال الألب محاطة بقمم ثلجية وغيوم بيضاء.",
+        details: "تصوير بانورامي واسع. f/11، 1/320 ثانية، ISO 100.",
+        location: "جبال الألب، سويسرا",
+        date: "18 أغسطس 2023",
+        equipment: "Hasselblad X1D II",
+        tags: ["بحيرة", "جبال", "ثلج", "طبيعة", "أزرق"],
+        comments: [
+            { author: "مازن", date: "2023-08-22", text: "سبحان الله، جمال لا يوصف." },
+            { author: "لجين", date: "2023-08-23", text: "أزرق كحلم!" }
+        ]
+    },
+    {
+        id: 56,
+        title: "قراءة بجانب المدفأة",
+        author: "دفء وورق",
+        image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 4120,
+        downloads: 2580,
+        views: 35600,
+        description: "يد تمسك كتابًا مفتوحًا بجانب مدفأة مشتعلة في غرفة معتمة بدفء.",
+        details: "تصوير ضوء دافئ. f/2.8، 1/100 ثانية، ISO 800.",
+        location: "منزل ريفي، النمسا",
+        date: "20 يناير 2024",
+        equipment: "Fujifilm X-T5",
+        tags: ["قراءة", "مدفأة", "شتاء", "دفء", "كتاب"],
+        comments: [
+            { author: "ريان", date: "2024-01-24", text: "مزيج مثالي للشتاء." }
+        ]
+    },
+    {
+        id: 57,
+        title: "شلال في غابة مطيرة",
+        author: "قوة الماء",
+        image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 5120,
+        downloads: 3350,
+        views: 45800,
+        description: "شلال عالي يتدفق بين صخور مغطاة بالطحالب الخضراء في غابة استوائية.",
+        details: "تصوير حركة الماء. f/8، 1/160 ثانية، ISO 200.",
+        location: "كوستاريكا",
+        date: "5 يونيو 2023",
+        equipment: "Canon 5D Mark IV",
+        tags: ["شلال", "غابة", "ماء", "طحالب", "استوائي"],
+        comments: [
+            { author: "أثير", date: "2023-06-09", text: "قوة وجمال في آن." }
+        ]
+    },
+    {
+        id: 58,
+        title: "تأمل مع شروق فوق الصحراء",
+        author: "رمال ذهبية",
+        image: "https://yavuzceliker.github.io/sample-images/image-1239.jpg",
+        likes: 4230,
+        downloads: 2670,
+        views: 37800,
+        description: "شخص يجلس في وضع تأمل على كثيب رملي مع شروق الشمس الذهبي في الصحراء.",
+        details: "تصوير صحراوي. f/10، 1/500 ثانية، ISO 100.",
+        location: "صحراء الربع الخالي، الإمارات",
+        date: "12 مارس 2024",
+        equipment: "Sony A1",
+        tags: ["تأمل", "صحراء", "شروق", "رمال", "سلام"],
+        comments: [
+            { author: "سيف", date: "2024-03-16", text: "صمت الصحراء له رونق خاص." }
+        ]
+    },
+    {
+        id: 59,
+        title: "مقهى صغير في زقاق قديم",
+        author: "أجواء أوروبية",
+        image: "https://yavuzceliker.github.io/sample-images/image-1271.jpg",
+        likes: 3450,
+        downloads: 1980,
+        views: 28700,
+        description: "مقهى صغير بألوان دافئة في زقاق مرصوف بالحصى مع طاولات خارجية.",
+        details: "تصوير معماري. f/5.6، 1/250 ثانية، ISO 400.",
+        location: "براغ، التشيك",
+        date: "15 أكتوبر 2023",
+        equipment: "Nikon Z7",
+        tags: ["مقهى", "أوروبا", "مدينة", "زقاق", "دافئ"],
+        comments: [
+            { author: "نوف", date: "2023-10-19", text: "يجعلني أرغب في السفر." }
+        ]
+    },
+    {
+        id: 60,
+        title: "جلسة يوغا عند الشروق على الجبل",
+        author: "قمم هادئة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1367.jpg",
+        likes: 6780,
+        downloads: 4430,
+        views: 59100,
+        description: "شخص يمارس اليوغا على قمة جبل مع شروق الشمس الذهبي والغيوم أسفله.",
+        details: "تصوير جوي. f/8، 1/800 ثانية، ISO 200.",
+        location: "جبال الأنديز، بيرو",
+        date: "7 سبتمبر 2023",
+        equipment: "Fujifilm GFX 100S",
+        tags: ["يوغا", "جبال", "شروق", "غيوم", "طبيعة"],
+        comments: [
+            { author: "معاذ", date: "2023-09-11", text: "القمة الحقيقية للسلام." }
+        ]
+    },
+    {
+        id: 61,
+        title: "غابة خضراء مع نهر صغير",
+        author: "خرير الماء",
+        image: "https://yavuzceliker.github.io/sample-images/image-1222.jpg",
+        likes: 4670,
+        downloads: 2890,
+        views: 40300,
+        description: "نهر صغير يتدفق بين أشجار خضراء كثيفة مع صخور مغطاة بالطحالب.",
+        details: "تصوير طبيعة. f/8، 1/200 ثانية، ISO 200.",
+        location: "غابة الأمازون، البرازيل",
+        date: "22 مايو 2023",
+        equipment: "Canon EOS R5",
+        tags: ["نهر", "غابة", "طبيعة", "ماء", "أخضر"],
+        comments: [
+            { author: "تالا", date: "2023-05-26", text: "أصوات الماء والأشجار." }
+        ]
+    },
+    {
+        id: 62,
+        title: "غروب على شاطئ استوائي",
+        author: "أمواج ذهبية",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 5890,
+        downloads: 3670,
+        views: 51200,
+        description: "شاطئ استوائي بأشجار النخيل عند الغروب مع أمواج هادئة وسماء برتقالية.",
+        details: "تصوير استوائي. f/8، 1/400 ثانية، ISO 200.",
+        location: "بوكيت، تايلاند",
+        date: "30 نوفمبر 2023",
+        equipment: "Sony A7 III",
+        tags: ["غروب", "شاطئ", "استوائي", "بحر", "نخيل"],
+        comments: [
+            { author: "محمد", date: "2023-12-04", text: "الجنة على الأرض." }
+        ]
+    },
+    {
+        id: 63,
+        title: "فطور صحي مع فواكه طازجة",
+        author: "تغذية سليمة",
+        image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 3120,
+        downloads: 1850,
+        views: 26700,
+        description: "طبق مليء بالفواكه الطازجة الملونة والتوت مع جرانولا وزبادي.",
+        details: "تصوير طعام. f/3.5، 1/160 ثانية، ISO 250.",
+        location: "ملبورن، أستراليا",
+        date: "5 أبريل 2023",
+        equipment: "Nikon D850",
+        tags: ["طعام", "فطور", "صحي", "فواكه", "ألوان"],
+        comments: [
+            { author: "هناء", date: "2023-04-08", text: "يدعوني لتناول طعام صحي!" }
+        ]
+    },
+    {
+        id: 64,
+        title: "بحيرة في جبال ضبابية",
+        author: "ضباب وسكينة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1178.jpg",
+        likes: 4010,
+        downloads: 2470,
+        views: 35600,
+        description: "بحيرة جبلية يغطيها ضباب خفيف مع انعكاسات ضبابية للقمم المحيطة.",
+        details: "تصوير ضبابي. f/8، 1/250 ثانية، ISO 400.",
+        location: "النرويج",
+        date: "18 نوفمبر 2023",
+        equipment: "Olympus OM-D",
+        tags: ["بحيرة", "ضباب", "جبال", "طبيعة", "هادئ"],
+        comments: [
+            { author: "إبراهيم", date: "2023-11-22", text: "غموض وجمال." }
+        ]
+    },
+    {
+        id: 65,
+        title: "ممارسة اليوغا على شاطئ بالي",
+        author: "بحر ويوغا",
+        image: "https://yavuzceliker.github.io/sample-images/image-1249.jpg",
+        likes: 7230,
+        downloads: 4890,
+        views: 63400,
+        description: "امرأة تمارس اليوغا على شاطئ رملي أبيض مع أمواج زرقاء صافية.",
+        details: "تصوير استوائي. f/8، 1/500 ثانية، ISO 200.",
+        location: "بالي، إندونيسيا",
+        date: "14 يونيو 2023",
+        equipment: "Sony A7R IV",
+        tags: ["يوغا", "بحر", "شاطئ", "استوائي", "استرخاء"],
+        comments: [
+            { author: "شهد", date: "2023-06-18", text: "أجمل مكان لليوغا!" },
+            { author: "يزن", date: "2023-06-19", text: "يالها من تجربة!" }
+        ]
+    },
+    {
+        id: 66,
+        title: "غابة مع ضوء الشمس المتسلل",
+        author: "أشعة ناعمة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1297.jpg",
+        likes: 5340,
+        downloads: 3210,
+        views: 46700,
+        description: "أشعة الشمس تتسلل عبر أوراق الأشجار الكثيفة في غابة قديمة، مشكلة مسارات ضوء.",
+        details: "تصوير ضوء طبيعي. f/8، 1/320 ثانية، ISO 200.",
+        location: "غابة أولمبيك، واشنطن",
+        date: "3 أغسطس 2023",
+        equipment: "Canon 5D Mark IV",
+        tags: ["غابة", "ضوء", "طبيعة", "أشعة", "أخضر"],
+        comments: [
+            { author: "ريم", date: "2023-08-07", text: "أشعة الأمل تتسلل." }
+        ]
+    },
+    {
+        id: 67,
+        title: "شموع معطرة على طاولة خشبية",
+        author: "رائحة هادئة",
+        image: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 2780,
+        downloads: 1540,
+        views: 22300,
+        description: "شموع معطرة بأحجام مختلفة على طاولة خشبية بإضاءة دافئة في المساء.",
+        details: "تصوير أجواء. f/2.8، 1/100 ثانية، ISO 800.",
+        location: "ستوكهولم، السويد",
+        date: "10 ديسمبر 2023",
+        equipment: "Leica M10",
+        tags: ["شموع", "ديكور", "مساء", "دافئ", "راحة"],
+        comments: [
+            { author: "حصة", date: "2023-12-14", text: "أجمل إضاءة للمساء." }
+        ]
+    },
+    {
+        id: 68,
+        title: "غروب على تلال توسكانا",
+        author: "ذهب إيطالي",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+        likes: 6450,
+        downloads: 4120,
+        views: 57800,
+        description: "تلال توسكانا الخضراء المتموجة تحت أشعة الغروب الذهبية مع أشجار سرو.",
+        details: "تصوير ريفي. f/11، 1/250 ثانية، ISO 100.",
+        location: "توسكانا، إيطاليا",
+        date: "25 سبتمبر 2023",
+        equipment: "Fujifilm GFX 50S II",
+        tags: ["غروب", "تلال", "إيطاليا", "طبيعة", "ريف"],
+        comments: [
+            { author: "عبدالرحمن", date: "2023-09-29", text: "سحر إيطاليا الخلاب." }
+        ]
+    },
+    {
+        id: 69,
+        title: "قراءة في ضوء النافذة",
+        author: "ضوء ومعرفة",
+        image: "https://yavuzceliker.github.io/sample-images/image-1369.jpg",
+        likes: 3560,
+        downloads: 2010,
+        views: 29800,
+        description: "كتاب مفتوح على حافة نافذة مع ضوء الشمس الطبيعي الدافئ يتسلل عبر الزجاج.",
+        details: "تصوير ضوء طبيعي. f/2.8، 1/320 ثانية، ISO 200.",
+        location: "أكسفورد، المملكة المتحدة",
+        date: "8 فبراير 2024",
+        equipment: "Nikon Z6",
+        tags: ["قراءة", "كتاب", "ضوء", "نافذة", "هادئ"],
+        comments: [
+            { author: "عمر", date: "2024-02-12", text: "أفضل رفيق في يوم مشمس." }
+        ]
+    },
+    {
+        id: 70,
+        title: "بحيرة جليدية في آيسلندا",
+        author: "جليد أزرق",
+        image: "https://yavuzceliker.github.io/sample-images/image-1493.jpg",
+        likes: 8120,
+        downloads: 5670,
+        views: 74500,
+        description: "بحيرة جليدية بها قطع ثلج زرقاء كبيرة تطفو على ماء صافٍ تحت سماء رمادية.",
+        details: "تصوير قطبي. f/8، 1/400 ثانية، ISO 200.",
+        location: "آيسلندا",
+        date: "15 مارس 2024",
+        equipment: "Sony A1",
+        tags: ["بحيرة", "جليد", "آيسلندا", "طبيعة", "أزرق"],
+        comments: [
+            { author: "ناصر", date: "2024-03-19", text: "جليد آيسلندا الساحر!" },
+            { author: "مريم", date: "2024-03-20", text: "وكأنها فيلم خيال علمي." }
+        ]
+    }
+];
+
+const WHATSAPP_NUMBER = "201551839053"; // بدون + أو صفر
+let currentProduct = null;
+let selectedShipping = 10; // السعر الافتراضي للشحن
+let shippingName = "Fast & Safe Shipping";
+
+// توليد معرض الصور عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function () {
+    const gallery = document.getElementById('gallery');
+
+    // إنشاء بطاقات الصور
+    images.forEach(image => {
+        const card = document.createElement('div');
+        card.className = 'image-card';
+        card.dataset.id = image.id;
+
+        card.innerHTML = `
+                    <img src="${image.image}" alt="${image.title}" loading="lazy">
+                    <div class="image-overlay">
+                        <div class="image-title">${image.title}</div>
+                        <div class="image-author">${image.author}</div>
+                    </div>
+                `;
+
+        // إضافة حدث النقر لفتح صفحة المنتج
+        card.addEventListener('click', function () {
+            openProductPage(image.id);
+        });
+
+        gallery.appendChild(card);
+    });
+
+    // التحقق من وجود ID في الرابط عند التحميل
+    const urlParams = new URLSearchParams(window.location.search);
+    const imageId = urlParams.get('id');
+    if (imageId) {
+        const id = parseInt(imageId);
+        const image = images.find(img => img.id === id);
+        if (image) {
+            openProductPage(id);
+        }
+    }
+
+    // إعداد نافذة الطلب
+    setupOrderModal();
+});
+
+// فتح صفحة المنتج
+function openProductPage(imageId) {
+    const image = images.find(img => img.id === imageId);
+    if (!image) return;
+
+    // تحديث الرابط باستخدام History API
+    const url = new URL(window.location);
+    url.searchParams.set('id', imageId);
+    window.history.pushState({ imageId: imageId }, '', url);
+
+    // إنشاء عناصر صفحة المنتج
+    const productPage = document.getElementById('productPage');
+
+    // إنشاء محتوى صفحة المنتج كاملة
+    productPage.innerHTML = `
+                <div class="product-content">
+                    <div class="product-header">
+                        <button class="back-button" id="backButton">
+                            <span>|</span> العودة للمعرض
+                        </button>
+                        <h1 class="product-title">${image.title}</h1>
+                    </div>
+                    
+                    <div class="product-body">
+                        <div class="product-image-container">
+                            <img src="${image.image}" alt="${image.title}" class="product-image">
+                            <div class="tags" style="margin-top: 20px;">
+                                ${image.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+                              <!-- زر الطلب الرئيسي -->
+                            <button class="order-main-button" id="openOrderModal">
+                                <i class="fas fa-shopping-cart"></i>
+                                إتمام الطلب
+                            </button>
+                            
+                            
+                            <div class="comments-section">
+                                <h3 class="info-title">التعليقات (${image.comments.length})</h3>
+                                ${image.comments.length > 0 ? image.comments.map(comment => `
+                                    <div class="comment">
+                                        <div class="comment-header">
+                                            <span class="comment-author">${comment.author}</span>
+                                            <span class="comment-date">${comment.date}</span>
+                                        </div>
+                                        <p class="comment-text">${comment.text}</p>
+                                    </div>
+                                `).join('') : '<p class="comment-text">لا توجد تعليقات بعد</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+    // عرض صفحة المنتج
+    productPage.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
+    // إضافة حدث إغلاق صفحة المنتج
+    document.getElementById('backButton').addEventListener('click', closeProductPage);
+
+    // إغلاق صفحة المنتج عند النقر خارج المحتوى
+    productPage.addEventListener('click', function (e) {
+        if (e.target === productPage) {
+            closeProductPage();
+        }
+    });
+
+    // إضافة حدث فتح نافذة الطلب
+    document.getElementById('openOrderModal').addEventListener('click', function () {
+        openOrderModal(image);
+    });
+}
+
+// إعداد نافذة الطلب
+function setupOrderModal() {
+    const modal = document.getElementById('orderModal');
+    const closeBtn = document.getElementById('closeModal');
+
+    // إغلاق النافذة
+    closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    // إغلاق بالنقر خارج المحتوى
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // خيارات الشحن
+    const shippingOptions = document.querySelectorAll('.shipping-option');
+    shippingOptions.forEach(option => {
+        option.addEventListener('click', function () {
+            // إزالة التحديد من الكل
+            shippingOptions.forEach(opt => opt.classList.remove('selected'));
+
+            // تحديد الخيار الحالي
+            this.classList.add('selected');
+
+            // تحديث سعر الشحن
+            selectedShipping = parseFloat(this.dataset.price);
+            shippingName = this.dataset.name;
+
+            // تحديث الملخص
+            updateOrderSummary();
+        });
+    });
+
+    // زر إرسال الطلب
+    document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
+}
+
+// فتح نافذة الطلب
+function openOrderModal(product) {
+    currentProduct = product;
+
+    // تحديث معلومات المنتج في النافذة
+    const productInfo = document.getElementById('modalProductInfo');
+    productInfo.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" class="modal-product-img">
+                <div class="modal-product-details">
+                    <div class="modal-product-title">${product.title}</div>
+                    <div class="modal-product-price">${product.price} جنيه</div>
+                    <div style="color: #aaa; font-size: 14px;">المصور: ${product.author}</div>
+                </div>
+            `;
+
+    // تحديث الملخص
+    updateOrderSummary();
+
+    // إعادة تعيين خيارات الشحن
+    selectedShipping = 10;
+    shippingName = "Fast & Safe Shipping";
+    document.querySelectorAll('.shipping-option').forEach(opt => opt.classList.remove('selected'));
+    document.querySelector('.shipping-option:first-child').classList.add('selected');
+
+    // إخفاء أي رسائل سابقة
+    document.getElementById('modalSuccessAlert').style.display = 'none';
+    document.getElementById('modalErrorAlert').style.display = 'none';
+
+    // فتح النافذة
+    const modal = document.getElementById('orderModal');
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// تحديث ملخص الطلب
+function updateOrderSummary() {
+    if (!currentProduct) return;
+
+    const subtotal = currentProduct.price;
+    const shipping = selectedShipping;
+    const total = subtotal + shipping;
+
+    document.getElementById('summarySubtotal').textContent = `${subtotal} جنيه`;
+    document.getElementById('summaryShipping').textContent = shipping === 0 ? 'مجاناً' : `${shipping}.00 جنيه`;
+    document.getElementById('summaryTotal').textContent = `${total} جنيه`;
+}
+
+// إرسال الطلب
+function submitOrder() {
+    // جمع البيانات
+    const contact = document.getElementById('modalContact').value.trim();
+    const firstName = document.getElementById('modalFirstName').value.trim();
+    const lastName = document.getElementById('modalLastName').value.trim();
+    const address = document.getElementById('modalAddress').value.trim();
+    const city = document.getElementById('modalCity').value.trim();
+    const phone = document.getElementById('modalPhone').value.trim();
+    const country = document.getElementById('modalCountry').value;
+    const governorate = document.getElementById('modalGovernorate').value;
+    const postalCode = document.getElementById('modalPostalCode').value.trim();
+    const saveInfo = document.getElementById('modalSaveInfo').checked;
+
+    // التحقق من الحقول المطلوبة
+    if (!contact || !firstName || !lastName || !address || !city || !phone) {
+        const errorAlert = document.getElementById('modalErrorAlert');
+        errorAlert.style.display = 'block';
+
+        setTimeout(() => {
+            errorAlert.style.display = 'none';
+        }, 3000);
+
+        return;
+    }
+
+    // التحقق من رقم الهاتف (مصري)
+    const phoneRegex = /^01[0-9]{9}$/;
+    if (!phoneRegex.test(phone)) {
+        const errorAlert = document.getElementById('modalErrorAlert');
+        errorAlert.textContent = 'يرجى إدخال رقم هاتف مصري صحيح (11 رقم)';
+        errorAlert.style.display = 'block';
+
+        setTimeout(() => {
+            errorAlert.style.display = 'none';
+            errorAlert.textContent = 'يرجى ملء جميع الحقول المطلوبة';
+        }, 3000);
+
+        return;
+    }
+
+    // إظهار رسالة النجاح
+    const successAlert = document.getElementById('modalSuccessAlert');
+    successAlert.style.display = 'block';
+
+    // حساب الإجمالي
+    const total = currentProduct.price + selectedShipping;
+
+    // إنشاء نص الرسالة
+    const message = `🛍️ *طلب شراء جديد* 🛍️
+
+━━━━━━━━━━━━━━━━━━━
+📋 *بيانات المنتج*
+━━━━━━━━━━━━━━━━━━━
+🖼️ المنتج: ${currentProduct.title}
+🆔 رقم المنتج: #${currentProduct.id}
+📸 المصور: ${currentProduct.author}
+💰 سعر المنتج: ${currentProduct.price} جنيه
+🚚 تكلفة الشحن: ${selectedShipping === 0 ? 'مجاناً' : selectedShipping + ' جنيه'}
+💵 الإجمالي: ${total} جنيه
+🔗 رابط المنتج: ${window.location.href}
+
+━━━━━━━━━━━━━━━━━━━
+👤 *بيانات العميل*
+━━━━━━━━━━━━━━━━━━━
+👤 الاسم: ${firstName} ${lastName}
+📧 البريد/الهاتف: ${contact}
+📞 رقم الهاتف: ${phone}
+🌍 الدولة: ${country}
+🏙️ المدينة: ${city}
+📍 المحافظة: ${governorate}
+🏠 العنوان: ${address}
+📮 الرمز البريدي: ${postalCode || 'لا يوجد'}
+
+━━━━━━━━━━━━━━━━━━━
+🚚 *معلومات الشحن*
+━━━━━━━━━━━━━━━━━━━
+📦 طريقة الشحن: ${shippingName}
+💰 تكلفة الشحن: ${selectedShipping === 0 ? 'مجاناً' : selectedShipping + ' جنيه'}
+✅ حفظ المعلومات: ${saveInfo ? 'نعم' : 'لا'}
+
+━━━━━━━━━━━━━━━━━━━
+⏰ *تم إرسال الطلب في*: ${new Date().toLocaleString('ar-EG')}`;
+
+    // ترميز النص وإرسال واتساب
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+    setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+
+        setTimeout(() => {
+            successAlert.style.display = 'none';
+        }, 2000);
+    }, 1500);
+}
+
+
+// إغلاق صفحة المنتج
+function closeProductPage() {
+    const productPage = document.getElementById('productPage');
+    productPage.style.display = 'none';
+    document.body.style.overflow = 'auto';
+
+    // العودة إلى الرابط الرئيسي باستخدام History API
+    const url = new URL(window.location);
+    url.searchParams.delete('id');
+    window.history.pushState({}, '', url);
+}
+
+// التعامل مع زر الرجوع في المتصفح
+window.addEventListener('popstate', function (event) {
+    const productPage = document.getElementById('productPage');
+
+    if (event.state && event.state.imageId) {
+        // إذا كان هناك ID في الحالة، افتح الصفحة
+        openProductPage(event.state.imageId);
+    } else {
+        // وإلا أغلق صفحة المنتج إذا كانت مفتوحة
+        if (productPage.style.display === 'block') {
+            productPage.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // تحقق من وجود ID في الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        const imageId = urlParams.get('id');
+        if (imageId) {
+            openProductPage(parseInt(imageId));
+        }
+    }
+});
