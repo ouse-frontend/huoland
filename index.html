@@ -2552,12 +2552,6 @@
         let selectedShipping = 10; // السعر الافتراضي للشحن
         let shippingName = "Fast & Safe Shipping";
 
-
-
-
-
-
-
         // توليد معرض الصور عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', function () {
             const gallery = document.getElementById('gallery');
@@ -2712,17 +2706,6 @@
                 openOrderModal(image);
             });
         }
-
-
-
-
-
-
-
-
-
-
-    
 
 
   // إعداد نافذة الطلب
@@ -2912,29 +2895,6 @@
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // إغلاق صفحة المنتج
         function closeProductPage() {
             const productPage = document.getElementById('productPage');
@@ -2969,36 +2929,6 @@
                 }
             }
         });
-
-
-
-
-
-
-        // تأثير بسيط: الصور تظهر بتأخير متتابع
-        document.querySelectorAll('.image-card').forEach((card, i) => {
-            card.style.animationDelay = `${i * 0.03}s`;
-        });
-
-        // تأثير بسيط: تغيير خفيف للخلفية عند التمرير
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            const opacity = Math.min(scroll / 500, 0.1);
-            document.body.style.backgroundColor = `white`;
-            lastScroll = scroll;
-        });
-
-
-
-
-
-
-
-
-
-
-
 
 
     </script>
