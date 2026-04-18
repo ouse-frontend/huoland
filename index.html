@@ -1013,6 +1013,271 @@
 
 
 
+    <style>
+        /* إعادة تعيين الهوامش ونموذج الصندوق */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 1rem;
+            background: #f0f2f5;
+            font-family: 'Segoe UI', system-ui, 'Cairo', Roboto, sans-serif;
+            direction: ltr; /* اتجاه عادي للشبكة */
+        }
+
+        /* حاوية الشبكة الرئيسية: عمودين ثابتين، مع توزيع المساحات بدقة */
+        .parent {
+            margin-top:5px;
+            display: grid;
+            /* 
+               تم إصلاح قالب المساحات (grid-template-areas) ليصبح متسقاً تماماً:
+               - son2 يمتد على صفين (1-2)
+               - son7 يمتد على صفين (5-6) حسب العد الجديد
+               - son11 يمتد على صفين (8-9)
+               - son14 يأخذ مساحة 2x2 (أربع خلايا)
+               - son15, son16, son17 بعرض كامل (عمودين)
+               - son20 عمود أول فقط، والخانة الثانية فارغة "."
+               - جميع الصفوف تحتوي على خليتين تماماً
+            */
+            grid-template-areas: 
+                "son1  son2"
+                "son3  son2"
+                "son4  son4"
+                "son5  son6"
+                "son7  son8"
+                "son7  son8"
+                "son9  son10"
+                "son11 son12"
+                "son11 son13"
+                "son14 son14"
+                "son14 son14"
+                "son15 son15"
+                "son16 son16"
+                "son17 son17"
+                "son18 son19"
+                "son20 .";
+            gap: 5px;               /* مسافة بين الخلايا للحصول على مظهر مرتب */
+            background: #d9e2ec;    /* لون خلفية الشبكة */
+            padding: 1px;
+            border-radius: 5px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        }
+
+        /* 
+           تنسيق عام لكل عنصر داخل الشبكة: 
+           - إزالة أي نصوص (تم حذف الكلمات نهائياً)
+           - جعل الصورة تأخذ 100% من مساحة العنصر div
+           - استخدام خاصية object-fit: cover لضمان تغطية كامل المساحة دون تشويه
+           - منع أي محتوى نصي إضافي
+        */
+        .parent div {
+            background: #2b2d42;    /* لون احتياطي أثناء تحميل الصور */
+            border-radius: 5px;
+            overflow: hidden;       /* يضمن اقتصاص الصورة داخل الحدود الدائرية */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            position: relative;
+            min-height: 200px;      /* ارتفاع مرن مع الحفاظ على نسب جيدة */
+        }
+
+        /* خاصية hover لتحسين التفاعل البصري */
+        .parent div:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 22px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        /* جعل الصورة تشغل الـ div بالكامل بنسبة 100% من العرض والارتفاع */
+        .parent div img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;      /* تغطية كامل المنطقة مع الحفاظ على الأبعاد، اقتصاص إذا لزم الأمر */
+            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* تكبير خفيف للصورة عند تمرير الماوس لتأثير جمالي */
+        .parent div:hover img {
+            transform: scale(1.03);
+        }
+
+        /* تعيين كل منطقة grid بالاسم المخصص */
+        .son1 { grid-area: son1; }
+        .son2 { grid-area: son2; }
+        .son3 { grid-area: son3; }
+        .son4 { grid-area: son4; }
+        .son5 { grid-area: son5; }
+        .son6 { grid-area: son6; }
+        .son7 { grid-area: son7; }
+        .son8 { grid-area: son8; }
+        .son9 { grid-area: son9; }
+        .son10 { grid-area: son10; }
+        .son11 { grid-area: son11; }
+        .son12 { grid-area: son12; }
+        .son13 { grid-area: son13; }
+        .son14 { grid-area: son14; }
+        .son15 { grid-area: son15; }
+        .son16 { grid-area: son16; }
+        .son17 { grid-area: son17; }
+        .son18 { grid-area: son18; }
+        .son19 { grid-area: son19; }
+        .son20 { grid-area: son20; }
+
+        /* تذييل معلوماتي / ملاحظة بسيطة */
+        .info-bar {
+            text-align: center;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: #334e68;
+            background: #ffffffcc;
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            width: auto;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 0 6px;
+        }
+
+        h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1f2f3e, #2c4c6c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            letter-spacing: -0.2px;
+        }
+
+        /* استجابة للشاشات الصغيرة: تقليل المسافات والحفاظ على تجربة ممتازة */
+        @media (max-width: 680px) {
+            body {
+                padding: 1px;
+            }
+            .parent {
+                gap: 5px;
+                padding: 1px;
+                border-radius: 5px;
+            }
+            .parent div {
+                min-height: 200px;
+                border-radius: 5px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            .info-bar {
+                font-size: 0.7rem;
+                padding: 5px 12px;
+            }
+        }
+
+        /* للشاشات المتوسطة تحسين الارتفاع */
+        @media (min-width: 1024px) {
+            .parent div {
+                min-height: 200px;
+            }
+           
+        }
+
+        /* ضمان أن جميع الخلايا التي تحتوي على son14 تمتد بشكل جميل */
+        .son14 img {
+            object-position: center 30%; /* تعديل بسيط لتركيز أفضل للصور الكبيرة */
+        }
+         .son14 {
+                /* يمكن إعطاء ارتفاع ديناميكي حسب المحتوى، لكن الصورة ستغطي بالكامل */
+                height: 400px;
+            }
+
+        /* خلفية داعمة أثناء تحميل الصور (مؤشر لطيف) */
+        .parent div {
+            background: #1e2a36;
+        }
+
+        /* إزالة أي نص مخفي قد يظهر - تأكيد عدم وجود كلمات داخل divs */
+        .parent div::before,
+        .parent div::after {
+            display: none;
+        }
+
+        /* جعل جميع الصور متجاوبة تمامًا وتغطي div بالكامل بغض النظر عن المحتوى */
+        img {
+            pointer-events: none;   /* يمنع تفاعلات السحب غير المرغوبة ولكن hover يعمل على الأب */
+        }
+    </style>
+
+
+
+
+<div class="parent">
+    <!-- 
+      جميع العناصر الآن لا تحتوي على أي كلمات نصية.
+      بدلاً من ذلك، كل div يحتوي على علامة <img> تشغل كامل مساحة العنصر الأب.
+      الصور المستخدمة هي صور فوتوغرافية عالية الجودة من مصادر مجانية (Picsum) مع أبعاد متنوعة
+      ولكن بفضل object-fit: cover ستملأ المساحة بشكل مثالي.
+      تم تغيير معرفات الصور (random seeds) لتعطي تنوعاً بصرياً جميلاً.
+    -->
+    <div class="son1"><img src="https://picsum.photos/id/1015/600/400" alt="منظر طبيعي" loading="lazy"></div>
+    <div class="son2"><img src="https://picsum.photos/id/104/500/700" alt="منظر جبلي" loading="lazy"></div>
+    <div class="son3"><img src="https://picsum.photos/id/169/600/450" alt="غابة" loading="lazy"></div>
+    <div class="son4"><img src="https://picsum.photos/id/155/1200/500" alt="أفق مدينة" loading="lazy"></div>
+    <div class="son5"><img src="https://picsum.photos/id/29/550/400" alt="عمارة" loading="lazy"></div>
+    <div class="son6"><img src="https://picsum.photos/id/96/550/450" alt="جبال" loading="lazy"></div>
+    <div class="son7"><img src="https://picsum.photos/id/42/600/800" alt="بحر" loading="lazy"></div>
+    <div class="son8"><img src="https://picsum.photos/id/15/550/450" alt="طبيعة" loading="lazy"></div>
+    <div class="son9"><img src="https://picsum.photos/id/20/550/400" alt="قهوة" loading="lazy"></div>
+    <div class="son10"><img src="https://picsum.photos/id/30/550/450" alt="زهور" loading="lazy"></div>
+    <div class="son11"><img src="https://picsum.photos/id/22/600/800" alt="طيور" loading="lazy"></div>
+    <div class="son12"><img src="https://picsum.photos/id/91/550/400" alt="تصوير ضوئي" loading="lazy"></div>
+    <div class="son13"><img src="https://picsum.photos/id/58/550/450" alt="مقهى" loading="lazy"></div>
+    <div class="son14"><img src="https://picsum.photos/id/10/1200/800" alt="مناظر طبيعية بانورامية" loading="lazy"></div>
+    <div class="son15"><img src="https://picsum.photos/id/38/1000/500" alt="سماء وغيم" loading="lazy"></div>
+    <div class="son16"><img src="https://picsum.photos/id/26/1000/500" alt="ممر طبيعي" loading="lazy"></div>
+    <div class="son17"><img src="https://picsum.photos/id/47/1000/500" alt="ميناء" loading="lazy"></div>
+    <div class="son18"><img src="https://picsum.photos/id/76/550/450" alt="كهرباء" loading="lazy"></div>
+    <div class="son19"><img src="https://picsum.photos/id/77/550/450" alt="غروب" loading="lazy"></div>
+    <div class="son20"><img src="https://picsum.photos/id/88/550/600" alt="مدينة ضبابية" loading="lazy"></div>
+</div>
+
+<!-- إضافة ملاحظة توضيحية بسيطة في الأسفل -->
+<div style="text-align: center; margin-top: 1.8rem; font-size: 0.75rem; color: #4a627a; direction: ltr;">
+    ⚡ تصميم شبكة (Grid) ثابتة | جميع الخلايا تحتوي على صور تغطي 100% من المساحة الداخلية | تم إزالة النصوص بالكامل
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
