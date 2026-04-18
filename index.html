@@ -1023,25 +1023,13 @@
 
         body {
             padding: 1rem;
-            background: #f0f2f5;
+            background: white;
             font-family: 'Segoe UI', system-ui, 'Cairo', Roboto, sans-serif;
-            direction: ltr; /* اتجاه عادي للشبكة */
         }
 
-        /* حاوية الشبكة الرئيسية: عمودين ثابتين، مع توزيع المساحات بدقة */
         .parent {
             margin-top:5px;
             display: grid;
-            /* 
-               تم إصلاح قالب المساحات (grid-template-areas) ليصبح متسقاً تماماً:
-               - son2 يمتد على صفين (1-2)
-               - son7 يمتد على صفين (5-6) حسب العد الجديد
-               - son11 يمتد على صفين (8-9)
-               - son14 يأخذ مساحة 2x2 (أربع خلايا)
-               - son15, son16, son17 بعرض كامل (عمودين)
-               - son20 عمود أول فقط، والخانة الثانية فارغة "."
-               - جميع الصفوف تحتوي على خليتين تماماً
-            */
             grid-template-areas: 
                 "son1  son2"
                 "son3  son2"
@@ -1059,20 +1047,14 @@
                 "son17 son17"
                 "son18 son19"
                 "son20 .";
-            gap: 5px;               /* مسافة بين الخلايا للحصول على مظهر مرتب */
-            background: #d9e2ec;    /* لون خلفية الشبكة */
-            padding: 1px;
-            border-radius: 5px;
+            gap: 10px;               /* مسافة بين الخلايا للحصول على مظهر مرتب */
+            background: white;    /* لون خلفية الشبكة */
+            padding: 10px;
+            border-radius: 10px;
             box-shadow: 0 12px 24px rgba(0,0,0,0.08);
         }
 
-        /* 
-           تنسيق عام لكل عنصر داخل الشبكة: 
-           - إزالة أي نصوص (تم حذف الكلمات نهائياً)
-           - جعل الصورة تأخذ 100% من مساحة العنصر div
-           - استخدام خاصية object-fit: cover لضمان تغطية كامل المساحة دون تشويه
-           - منع أي محتوى نصي إضافي
-        */
+      
         .parent div {
             background: #2b2d42;    /* لون احتياطي أثناء تحميل الصور */
             border-radius: 5px;
@@ -1080,7 +1062,7 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.1);
             transition: all 0.2s ease;
             position: relative;
-            min-height: 200px;      /* ارتفاع مرن مع الحفاظ على نسب جيدة */
+            min-height: 300px;      /* ارتفاع مرن مع الحفاظ على نسب جيدة */
         }
 
         /* خاصية hover لتحسين التفاعل البصري */
@@ -1166,16 +1148,16 @@
         /* استجابة للشاشات الصغيرة: تقليل المسافات والحفاظ على تجربة ممتازة */
         @media (max-width: 680px) {
             body {
-                padding: 1px;
+                padding: 10px;
             }
             .parent {
-                gap: 5px;
-                padding: 1px;
+                gap: 10px;
+                padding: 10px;
                 border-radius: 5px;
             }
             .parent div {
-                min-height: 200px;
-                border-radius: 5px;
+                min-height: 300px;
+                border-radius: 10px;
             }
             h1 {
                 font-size: 1.3rem;
@@ -1189,7 +1171,7 @@
         /* للشاشات المتوسطة تحسين الارتفاع */
         @media (min-width: 1024px) {
             .parent div {
-                min-height: 200px;
+                min-height: 300px;
             }
            
         }
@@ -1200,12 +1182,12 @@
         }
          .son14 {
                 /* يمكن إعطاء ارتفاع ديناميكي حسب المحتوى، لكن الصورة ستغطي بالكامل */
-                height: 400px;
+                height: 600px;
             }
 
         /* خلفية داعمة أثناء تحميل الصور (مؤشر لطيف) */
         .parent div {
-            background: #1e2a36;
+            background: white;
         }
 
         /* إزالة أي نص مخفي قد يظهر - تأكيد عدم وجود كلمات داخل divs */
@@ -1224,13 +1206,7 @@
 
 
 <div class="parent">
-    <!-- 
-      جميع العناصر الآن لا تحتوي على أي كلمات نصية.
-      بدلاً من ذلك، كل div يحتوي على علامة <img> تشغل كامل مساحة العنصر الأب.
-      الصور المستخدمة هي صور فوتوغرافية عالية الجودة من مصادر مجانية (Picsum) مع أبعاد متنوعة
-      ولكن بفضل object-fit: cover ستملأ المساحة بشكل مثالي.
-      تم تغيير معرفات الصور (random seeds) لتعطي تنوعاً بصرياً جميلاً.
-    -->
+   
     <div class="son1"><img src="https://picsum.photos/id/1015/600/400" alt="منظر طبيعي" loading="lazy"></div>
     <div class="son2"><img src="https://picsum.photos/id/104/500/700" alt="منظر جبلي" loading="lazy"></div>
     <div class="son3"><img src="https://picsum.photos/id/169/600/450" alt="غابة" loading="lazy"></div>
