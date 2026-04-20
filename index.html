@@ -870,7 +870,7 @@
 
 
     <div
-        style="position: relative; width: 100%; height: 680px; display: flex; align-items: right; justify-content: right;">
+        style="position: relative; width: 100%; height: 600px; display: flex; align-items: right; justify-content: right;">
 
         <!-- الصورة في الخلف (z-index: 1) - في منتصف الحاوية -->
         <img src="https://image2url.com/r2/default/images/1774472307798-5987fa9d-8dd4-4bc0-938d-5d952cae5b58.png"
@@ -921,7 +921,7 @@
 
     <div style="width:100%; padding:2px 0 20px 0; background:white; overflow:hidden;">
         <div id="carouselTrack"
-            style="display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; padding:0 10px; -ms-overflow-style:none; scrollbar-width:none; direction:rtl; text-align:right;">
+            style="display:flex; gap:20px; overflow-x:auto; scroll-behavior:smooth; padding:0 10px 0 0; -ms-overflow-style:none; scrollbar-width:none; direction:rtl; text-align:right;">
 
             <!-- إخفاء الـ scrollbar في كروم وسفاري -->
             <style>
@@ -1056,6 +1056,7 @@
 
       
         .parent div {
+            margin-bottom:7px;
             background: white;    /* لون احتياطي أثناء تحميل الصور */
             border-radius: 5px;
             overflow: hidden;       /* يضمن اقتصاص الصورة داخل الحدود الدائرية */
@@ -1180,7 +1181,7 @@
         .son14 img {
             object-position: center 30%; /* تعديل بسيط لتركيز أفضل للصور الكبيرة */
         }
-         .son14 {
+         .son14 , .son4 {
                 /* يمكن إعطاء ارتفاع ديناميكي حسب المحتوى، لكن الصورة ستغطي بالكامل */
                 height: 600px;
             }
