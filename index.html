@@ -118,7 +118,7 @@
         }
 
         .product-header {
-            display: flex;
+            display: none;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
@@ -2849,12 +2849,12 @@
             // إنشاء محتوى صفحة المنتج كاملة
             productPage.innerHTML = `
                 <div class="product-content">
-                    <!--<div class="product-header">
+                    <div class="product-header">
                         <button class="back-button" id="backButton">
                             <span>|</span> العودة للمعرض
                         </button>
 
-                    </div>-->
+                    </div>
                     
                     <div class="product-body">
                         <div class="product-image-container">
@@ -2866,6 +2866,169 @@
                                                 <h1 class="product-title">${image.title}</h1>
                         
                         <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+ <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+ <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+ <div class="product-details">
+                            <div class="product-meta">
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.likes.toLocaleString()}</div>
+                                    <div class="meta-label">إعجاب</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.downloads.toLocaleString()}</div>
+                                    <div class="meta-label">تحميل</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.views.toLocaleString()}</div>
+                                    <div class="meta-label">مشاهدة</div>
+                                </div>
+                                <div class="meta-item">
+                                    <div class="meta-value">${image.author}</div>
+                                    <div class="meta-label">المصور</div>
+                                </div>
+                            </div>
+                            
+                            <p class="product-description">${image.description}</p>
+                            
+                            <div class="product-info">
+                                <div class="info-section">
+                                    <h3 class="info-title">تفاصيل التصوير</h3>
+                                    <p class="info-content">${image.details}</p>
+                                </div>
+                                
+                                <div class="info-section">
+                                    <h3 class="info-title">معلومات تقنية</h3>
+                                    <ul class="info-list">
+                                        <li><strong>الموقع:</strong> ${image.location}</li>
+                                        <li><strong>التاريخ:</strong> ${image.date}</li>
+                                        <li><strong>المعدات:</strong> ${image.equipment}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+ <div class="product-details">
                             <div class="product-meta">
                                 <div class="meta-item">
                                     <div class="meta-value">${image.likes.toLocaleString()}</div>
